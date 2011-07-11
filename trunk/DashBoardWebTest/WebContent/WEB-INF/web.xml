@@ -3,7 +3,9 @@
   <display-name>DashBoardWebTest</display-name>
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>/WEB-INF/spring/hibernate-config.xml</param-value>
+    <param-value>
+    /WEB-INF/spring/hibernate-balancescorecard-config.xml,
+    /WEB-INF/spring/hibernate-operationdashboard-config.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
