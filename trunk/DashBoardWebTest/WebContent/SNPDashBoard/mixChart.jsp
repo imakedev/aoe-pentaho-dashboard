@@ -332,9 +332,7 @@ window.onload = function(){
 						var lastYearActual =data_KPIChart[i].lastYearActual!=null?data_KPIChart[i].lastYearActual:"";						
 						var actualValue =data_KPIChart[i].actualValue;
 						var targetValue =data_KPIChart[i].targetValue;
-						alert("accumActualValue="+accumActualValue+",kpiName="+kpiName+",monthNo="+monthNo+",monthName="+monthName
-								+",monthName="+monthName+",actualValue="+actualValue+",targetValue="+targetValue+",lastYearActual="+lastYearActual)
-						var accum = {
+					 	var accum = {
 								"text" : accumActualValue,
 								"hook" : "offset-x=10,offset-y=10",
 								"x" : (i+1)*35,
@@ -503,7 +501,7 @@ window.onload = function(){
 						};
 				}
 				
-				alert(data_KPIChart);
+				//alert(data_KPIChart);
 				zingchart.render({
 					id 				: 'showchart',
 					data 		    : accumulatedFlag=='Y'?chartMix:chartMixNoAccum,
