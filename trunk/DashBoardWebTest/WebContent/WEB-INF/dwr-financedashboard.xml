@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
+<dwr>
+ 
+  <allow>
+ 	<!-- FinanceDashboardAjax --> 
+    <create creator="new" javascript="FinanceDashboardAjax">
+      <param name="class" value="com.moogle.lbs.ajax.FinanceDashboardAjax"/>
+    </create>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialIndicationDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialSummaryDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialTabDTO"/> 
+    
+  </allow>
+</dwr>
