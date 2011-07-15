@@ -5,7 +5,7 @@
 *	Version		: Prototype Ver.001						*
 *	Programmer	: Kriengkrai							*
 *********************************************************
--->
+--> 
 <html>
   <head>
     <title>SNP DashBoard</title>  
@@ -14,11 +14,11 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart/zingchart-html5beta-min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart/license.js"></script>
 <script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwr/interface/BalanceScorecardAjax.js"></script>
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/interface/BalanceScorecardAjax.js"></script>
 	<script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwr/engine.js"></script> 
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/engine.js"></script> 
 	<script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwr/util.js"></script>
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/util.js"></script>
   </head>
 <body>
 <%

@@ -42,11 +42,11 @@ Integration Data
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.number_format.js"></script>
 
 <script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwr/interface/BalanceScorecardAjax.js"></script>
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/interface/BalanceScorecardAjax.js"></script>
 	<script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwr/engine.js"></script> 
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/engine.js"></script> 
 	<script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwr/util.js"></script>
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/util.js"></script>
  
 <!-- Use for call JQuery treetable  -->
 <script type="text/javascript">
@@ -351,6 +351,7 @@ function loadmetergraph(ivalue ,iFrameID)
    } 
 </script>
 <!------------------------------------------------------------------------>
+
 
 
 <body>
