@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
 <dwr>
-
+ 
   <allow>
  
 
@@ -41,10 +41,10 @@
 	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.PerspectiveresultthresholdDTO"/>
 	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.OwnerresultDTO"/>
 	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.PerspectiveresultDTO"/> 
-  
+ 
 	<!--  OperationDashboardAjax -->			
 	<create creator="new" javascript="OperationDashboardAjax">
-      <param name="class" value="com.moogle.lbs.ajax.BalanceScorecardAjax"/>
+      <param name="class" value="com.moogle.lbs.ajax.OperationDashboardAjax"/>
     </create>
     <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.AverageCheckDTO"/> 
     <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.AverageSalesPerBillDTO"/> 
@@ -66,8 +66,14 @@
     <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SalesTrendDTO"/> 
     <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SummaryMTDDivisionDTO"/> 
     <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SummaryMTDDivisionSectionDTO"/> 
-    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SummaryMTDDTO"/> 
- 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SummaryMTDDTO"/>  
+    
+    <create creator="new" javascript="FinanceDashboardAjax">
+      <param name="class" value="com.moogle.lbs.ajax.FinanceDashboardAjax"/>
+    </create>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialIndicationDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialSummaryDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialTabDTO"/> 
     <!-- 
     <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.DimVehicle"/>
      -->
