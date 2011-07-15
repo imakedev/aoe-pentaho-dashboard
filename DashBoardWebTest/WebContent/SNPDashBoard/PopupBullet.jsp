@@ -1,7 +1,7 @@
 <html>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-
+ 
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery-1.6.1.min.js"></script>
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart/zingchart-html5beta-min.js"></script>
@@ -24,11 +24,11 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.dateFormat-1.0.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.number_format.js"></script>
 <script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwr/interface/BalanceScorecardAjax.js"></script>
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/interface/BalanceScorecardAjax.js"></script>
 	<script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwr/engine.js"></script> 
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/engine.js"></script> 
 	<script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwr/util.js"></script> 
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/util.js"></script> 
         	
  
 <script type="text/javascript">
