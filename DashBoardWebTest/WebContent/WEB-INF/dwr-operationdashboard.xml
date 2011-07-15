@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
+<dwr>
+ 
+  <allow>
+ 
+
+   
+ 
+	<!--  OperationDashboardAjax -->			
+	<create creator="new" javascript="OperationDashboardAjax">
+      <param name="class" value="com.moogle.lbs.ajax.OperationDashboardAjax"/>
+    </create>
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.AverageCheckDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.AverageSalesPerBillDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.BranchDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.CostDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.CustomerPerDayDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.Dimdate"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.DiscountDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.GoogleMapDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.LossDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.LucreDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.NetSalesByBranchStatusDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.NetSalesByProductGroupDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.NetSalesDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.RegionGrowthDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.Sale_Day_PercentGrowthDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SalesBySalesTypeDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SalesGrowthDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SalesTrendDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SummaryMTDDivisionDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SummaryMTDDivisionSectionDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.operationdashboard.domain.SummaryMTDDTO"/>  
+    
+ 
+     
+  </allow>
+</dwr>
