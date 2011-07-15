@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>DashBoardWebTest</display-name>
+  <display-name>DashBoardWebTest</display-name> 
   <context-param> 
     <param-name>contextConfigLocation</param-name>
     <param-value>
@@ -11,9 +11,14 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <!--  dwr balancescorecard -->
   <servlet>
-    <servlet-name>dwr-invoker</servlet-name>
+    <servlet-name>dwr-balancescorecard-invoker</servlet-name>
     <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+    <init-param>
+    	<param-name>config-balancescorecardr</param-name>
+    	<param-value>WEB-INF/dwr-balancescorecard.xml</param-value>
+  	</init-param>    
     <init-param>
       <param-name>jsonpEnabled</param-name>
       <param-value>true</param-value>
@@ -41,8 +46,86 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
-    <servlet-name>dwr-invoker</servlet-name>
-    <url-pattern>/dwr/*</url-pattern>
+    <servlet-name>dwr-balancescorecard-invoker</servlet-name>
+    <url-pattern>/dwrbalancescorecard/*</url-pattern>
+  </servlet-mapping>
+  
+  <!--  dwr financedashboard -->
+  <servlet>
+    <servlet-name>dwr-financedashboard-invoker</servlet-name>
+    <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+    <init-param>
+    	<param-name>config-financedashboardr</param-name>
+    	<param-value>WEB-INF/dwr-financedashboard.xml</param-value>
+  	</init-param>    
+    <init-param>
+      <param-name>jsonpEnabled</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>activeReverseAjaxEnabled</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>initApplicationScopeCreatorsAtStartup</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>maxWaitAfterWrite</param-name>
+      <param-value>-1</param-value>
+    </init-param>
+    <init-param>
+      <param-name>fileUploadMaxBytes</param-name>
+      <param-value>10000</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dwr-financedashboard-invoker</servlet-name>
+    <url-pattern>/dwrfinancedashboard/*</url-pattern>
+  </servlet-mapping>
+  
+  <!--  dwr operationdashboard -->
+  <servlet>
+    <servlet-name>dwr-operationdashboard-invoker</servlet-name>
+    <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+    <init-param>
+    	<param-name>config-operationdashboardr</param-name>
+    	<param-value>WEB-INF/dwr-operationdashboard.xml</param-value>
+  	</init-param>    
+    <init-param>
+      <param-name>jsonpEnabled</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>activeReverseAjaxEnabled</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>initApplicationScopeCreatorsAtStartup</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>maxWaitAfterWrite</param-name>
+      <param-value>-1</param-value>
+    </init-param>
+    <init-param>
+      <param-name>fileUploadMaxBytes</param-name>
+      <param-value>10000</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dwr-operationdashboard-invoker</servlet-name>
+    <url-pattern>/dwroperationdashboard/*</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
