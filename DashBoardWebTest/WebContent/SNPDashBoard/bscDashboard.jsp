@@ -25,22 +25,22 @@ Integration Data
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart/license.js"></script>
  
 
-<!------------------  My Custom          --------------------------->
+<!-- ----------------  My Custom          ------------------------- -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/kajax.js"></script>
 <link type="text/css" href="<%=request.getContextPath()%>/chartLib/css/customchart.css" rel="stylesheet"/> 
 
-<!-----------------   TreeTable & Sparkline ------------------------->
+<!-- ---------------   TreeTable & Sparkline ----------------------- -->
 <link	type="text/css"	href="<%=request.getContextPath()%>/chartLib/css/jquery.treeTable.css" rel="stylesheet"/>
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.treeTable.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.sparkline.js"></script> 
 
-<!-----------------   Lib for Facebox       ------------------------->
+<!-- ---------------   Lib for Facebox       ----------------------- -->
 <link type="text/css" href="<%=request.getContextPath()%>/chartLib/css/jquery.facebox.css" media="screen" rel="stylesheet"/> 
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/facebox.js"></script>
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.dateFormat-1.0.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.number_format.js"></script>
-
+ 
 <script type="text/javascript"
         	src="<%=request.getContextPath() %>/dwrbalancescorecard/interface/BalanceScorecardAjax.js"></script>
 	<script type="text/javascript"
@@ -50,9 +50,12 @@ Integration Data
  
 <!-- Use for call JQuery treetable  -->
 <script type="text/javascript">
-	 
-
-/* -----------------  Use JQuery to Create Tree ------------------------*/
+jQuery(document).ready(function($) {
+	$.facebox.settings.closeImage=_path+'/chartLib/images/closelabel.png';
+	$("#targetAllSparkline").facebox();
+	listYear();
+});
+/*  -----------------  Use JQuery to Create Tree ------------------------*/
 function getParentLoop(parentID){
 	  if ($("#"+parentID)){
 		  var classValues= $("#"+parentID).attr("class");
@@ -80,7 +83,8 @@ function getParentLoop(parentID){
  var myValuesArray=[{
 		 id:"",
 		 myValues:[],
-		 trendChartValues:[]
+		 trendChartValues:[],
+		 colors:[]
  }];
  var _path='<%=request.getContextPath()%>';
  $.fn.toggleBranch = function() {
@@ -94,14 +98,18 @@ function getParentLoop(parentID){
 		    	for(var i=0;i<myValuesArray.length;i++){
 		    		$("#sparklines"+myValuesArray[i].id).html("");
 		    		$("#trendLine"+myValuesArray[i].id).html("");
+		    	//	alert("fn.toggleBranch="+myValuesArray[i].myValues)
 			    	$("#sparklines"+myValuesArray[i].id).sparkline(myValuesArray[i].myValues,{
 				    	type: 'bullet',
 				    	performanceColor:'blue',
-				    	targetColor:'red',
+				    	//targetColor:'red',
+				    	targetColor:'blue',
 				    	width:"auto" ,
 				    	height:'auto',
 				    	targetWidth:3,
-				    	rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']
+				    	//rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']
+				    	//rangeColors:['green','yellow','red']
+				    	rangeColors:myValuesArray[i].colors
 				    	});
 			    	$("#trendLine"+myValuesArray[i].id).sparkline(myValuesArray[i].trendChartValues, {barColor: 'red'});
 		    	} 
@@ -119,13 +127,15 @@ function loadmetergraph(ivalue ,iFrameID)
 }
   
   function showKPIDetail(kpiKey,dateKey){ 
+	  //alert(kpiKey+","+dateKey)
 	  var pk={ 
 	  	kpiKey:kpiKey,
 	   	dateKey:dateKey
 		}; 
 	BalanceScorecardAjax.getKPIDetail(pk,{
 		callback:function(data_KPIDetail){ 
-		  if(data_KPIDetail!=null){ 
+			//alert(data_KPIDetail)
+		  if(data_KPIDetail!=null){			  
 			  var bscKPIDetail=""+
 			  	" <table width=\"700\" height=\"300\" border=\"0\" align=\"center\" style=\"text-decoration:none; background-color:	#e6e6fa\" class=\"popup\"> "+
 			  	" <tr> "+
@@ -156,7 +166,15 @@ function loadmetergraph(ivalue ,iFrameID)
 			  $("#bscKPIDetail").html(bscKPIDetail);
 			  $.facebox.settings.closeImage=_path+'/chartLib/images/closelabel.png';
 			//  jQuery.facebox({ ajax: _path+"/SNPDashBoard/bscKPIDetail.jsp?kpiKey="+kpiKey+"&dateKey="+dateKey});
+			 
 			jQuery.facebox({ div:'#bscKPIDetail'});
+			 
+			/* 
+			$('#facebox').css({
+				  top:    getPageScroll()[1] + (getPageHeight() / 10),
+				  left:   ($(window).width() - $('#facebox').width()) / 2
+				}).show()
+				*/
 		 } 
 		}
 	});
@@ -165,10 +183,10 @@ function loadmetergraph(ivalue ,iFrameID)
 	 
    }
   function showKPIBarChart(perspectiveKey,kpiKey,dateKey,accumulatedFlag){  
-		var bscOwner=document.getElementById('bscOwner'); 
-	   var year = document.getElementById("bscYear");
-	   var monthName = document.getElementById("bscMonth");	 
-	  loadmetergraph('mixChart.jsp?bscOwner='+bscOwner.value+'&bscYear='+year.value+'&bscMonth='+monthName.value+'&perspectiveKey='+perspectiveKey+'&kpiKey='+kpiKey+'&dateKey='+dateKey+'&accumulatedFlag='+accumulatedFlag,"ifrmgr_"+perspectiveKey);
+		var bscOwnerVal=$('select[id="bscOwner"]').val();//$('#bscOwner'); 
+	   var yearVal =$('select[id="bscYear"]').val();// $("#bscYear");
+	   var monthNameVal =$('select[id="bscMonth"]').val();// $("#bscMonth");	 
+	  loadmetergraph('mixChart.jsp?bscOwner='+bscOwnerVal+'&bscYear='+yearVal+'&bscMonth='+monthNameVal+'&perspectiveKey='+perspectiveKey+'&kpiKey='+kpiKey+'&dateKey='+dateKey+'&accumulatedFlag='+accumulatedFlag,"ifrmgr_"+perspectiveKey);
   }
   
 	 // Ajax function
@@ -184,17 +202,32 @@ function loadmetergraph(ivalue ,iFrameID)
 						} 
 				} 
 				str=str+"</select>";
-				document.getElementById('bscYearElement').innerHTML=str;
+				$('#bscYearElement').html(str);
 			}
-		});		 
+		});	
+	
 	}
+   function clearTargetElement(){
+	   $('.targetAllElement').html("");
+	   clearAllPerspectiveArray();
+   }
+   function clearAllPerspectiveArray(){
+     for(var i =0;i<treePerspectiveArray.length;i++){
+	   		   $("#row_perspective_"+treePerspectiveArray[i]).css("display","none"); 
+	   }
+   }
    function listOwnerResult(){
-	   var year = document.getElementById("bscYear");
-	   var monthName = document.getElementById("bscMonth");
+	   var yearVal =$('select[id="bscYear"]').val();// $("#bscYear").val();
+	   var monthNameVal = $('select[id="bscMonth"]').val() ;//$("#bscMonth").;
+	  // alert(monthNameVal)
+	  //document.getElementById("targetAllSparkline").innerHTML="";
+	   clearTargetElement();
+	   
 	   var str="";
-	   BalanceScorecardAjax.listOwnerResult(year.value,monthName.value,{
+	   BalanceScorecardAjax.listOwnerResult(yearVal,monthNameVal,{
 			callback:function(data_listOwnerResult){
-				str=str+"<select name=\"bscOwner\" id=\"bscOwner\">";
+				//alert(data_listOwnerResult)
+				str=str+"<select name=\"bscOwner\" id=\"bscOwner\" onchange=\"clearTargetElement()\">";
 				str=str+"<option value=\"0\">-- Select Owner --</option>";
 				if(data_listOwnerResult!=null && data_listOwnerResult.length>0){ 
 					for(var i=0;i<data_listOwnerResult.length;i++){
@@ -202,16 +235,16 @@ function loadmetergraph(ivalue ,iFrameID)
 					}
 				} 
 				str=str+"</select>";
-				document.getElementById('bscOwnerElement').innerHTML=str;				
+				$('#bscOwnerElement').html(str);				
 			}
 		});
    }
    function returnTogaugeMeter(rowid){
-	   var bscOwner=document.getElementById('bscOwner'); 
-	   var year = document.getElementById("bscYear");
-	   var monthName = document.getElementById("bscMonth");   
+	   var bscOwnerVal=$('select[id="bscOwner"]').val();//$('#bscOwner'); 
+	   var yearVal =$('select[id="bscYear"]').val();// $("#bscYear");
+	   var monthNameVal = $('select[id="bscMonth"]').val();//$("#bscMonth");   
 	   
-	  BalanceScorecardAjax.getKPIListAndChartLevel0(year.value,monthName.value,bscOwner.value,rowid,{
+	  BalanceScorecardAjax.getKPIListAndChartLevel0(yearVal,monthNameVal,bscOwnerVal,rowid,{
  			callback:function(data_KPIListLevel0){ 
  				for(var i=0;i<data_KPIListLevel0.length;i++){
  				var kpiresultthresholdDTOs = data_KPIListLevel0[i].kpiresultthresholdDTOs;
@@ -228,7 +261,9 @@ function loadmetergraph(ivalue ,iFrameID)
  					weight=$().number_format(kpiresultthresholdDTOs[0].perspectiveWeighting, {precision: 0,decimalSeparator: '.'});
  					freq=kpiresultthresholdDTOs[0].frequency;
  					target=kpiresultthresholdDTOs[0].targetValue;
- 					actual=kpiresultthresholdDTOs[0].percentActualVsTarget;
+ 					//actual=kpiresultthresholdDTOs[0].percentActualVsTarget;
+ 					//actual=kpiresultthresholdDTOs[0].percentActualVsTarget;
+	 					actual=kpiresultthresholdDTOs[0].actualValue;	 	
  					lastUpdated =(kpiresultthresholdDTOs[0].updatedDT!=null)?$.format.date(kpiresultthresholdDTOs[0].updatedDT, "dd/MM/yyyy"):"";
  				}
 				var myValues="";
@@ -242,7 +277,11 @@ function loadmetergraph(ivalue ,iFrameID)
 				var beginthreshold_yellow;
 				var beginthreshold_green;
 				var percentActualVsTarget="";
+				var threshold_color=[];
+				var threshold_value=[];
  				for(var j=0;j<kpiresultthresholdDTOs.length;j++){
+ 					threshold_color[j]=kpiresultthresholdDTOs[j].id.colorCode;
+					threshold_value[j]=$().number_format(kpiresultthresholdDTOs[j].endThreshold, {precision: 0,decimalSeparator: '.'});
 					if(kpiresultthresholdDTOs[j].id.colorCode=='red'){
 						endthreshold_red=$().number_format(kpiresultthresholdDTOs[j].endThreshold, {precision: 0,decimalSeparator: '.'});
 						beginthreshold_red=$().number_format(kpiresultthresholdDTOs[j].beginThreshold, {precision: 0,decimalSeparator: '.'});
@@ -266,19 +305,25 @@ function loadmetergraph(ivalue ,iFrameID)
  	 }
 	});   
 }  
-   function viewKPI(){
-	   var bscOwner=document.getElementById('bscOwner'); 
-	   var year = document.getElementById("bscYear");
-	   var monthName = document.getElementById("bscMonth"); 
-	    BalanceScorecardAjax.getKPIOverall(year.value,monthName.value,bscOwner.value,{
+   function viewKPI(){ 
+	   var bscOwnerVal=$('select[id="bscOwner"]').val();//$('#bscOwner'); 
+	   var yearVal =$('select[id="bscYear"]').val();// $("#bscYear");
+	   var monthNameVal =$('select[id="bscMonth"]').val();// $("#bscMonth"); 
+	   //alert(bscOwnerVal)
+	    BalanceScorecardAjax.getKPIOverall(yearVal,monthNameVal,bscOwnerVal,{
 			callback:function(data_KPIOverall){ 
 				var actualValue;
 				var targetValue;
 				var endthreshold_red;
 				var endthreshold_yellow;
 				var endthreshold_green;
+				var threshold_color=[];
+				var threshold_value=[];
+				var percentActualVsTargettargetValue=0;
 				if(data_KPIOverall!=null && data_KPIOverall.length==3){
 					for(var i=0;i<data_KPIOverall.length;i++){
+						threshold_color[i]=data_KPIOverall[i].colorCode;
+						threshold_value[i]=$().number_format(data_KPIOverall[i].endThreshold, {precision: 0,decimalSeparator: '.'});
 						if(data_KPIOverall[i].colorCode=='red'){
 							endthreshold_red=$().number_format(data_KPIOverall[i].endThreshold, {precision: 0,decimalSeparator: '.'});
 						}else if(data_KPIOverall[i].colorCode=='yellow'){
@@ -286,25 +331,34 @@ function loadmetergraph(ivalue ,iFrameID)
 						}else if(data_KPIOverall[i].colorCode=='green'){
 							endthreshold_green=$().number_format(data_KPIOverall[i].endThreshold, {precision: 0,decimalSeparator: '.'});
 						}
+						percentActualVsTargettargetValue=$().number_format(data_KPIOverall[i].percentActualVsTarget, {precision: 0,decimalSeparator: '.'});
 						actualValue=data_KPIOverall[i].actualValue;
 						targetValue=data_KPIOverall[i].targetValue;						
 					}
-					var myvalues = [targetValue,actualValue,endthreshold_green,endthreshold_yellow,endthreshold_red];
+					//var myvalues = [targetValue,actualValue,endthreshold_green,endthreshold_yellow,endthreshold_red];
+					var myvalues = [targetValue,actualValue,threshold_value[2],threshold_value[1],threshold_value[0]];
+					//alert(myvalues)
 					$('.targetAllElement').sparkline(myvalues, {
 				    	type: 'bullet',
 				    	performanceColor:'blue',
-				    	targetColor:'red',
+				    	//targetColor:'red',
+				    	targetColor:'blue',
 				    	width:"auto" ,
 				    	height:'auto',
 				    	targetWidth:3,
-				    	rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']
+				    	//rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']
+				    	//rangeColors:['green','yellow','red']
+				    	rangeColors:[threshold_color[2],threshold_color[1],threshold_color[0]]				    	
 				    	});
+					 var overAllElementId= document.getElementById('targetAllSparkline');//.innerHTML=str;
+					  overAllElementId.title=percentActualVsTargettargetValue+"%";
+					  overAllElementId.href=_path+"/SNPDashBoard/PopupBullet.jsp?bscOwner="+bscOwnerVal+"&bscYear="+yearVal+"&bscMonth="+monthNameVal;
 				} 
 			}
 		}); 
 	    
-	    var str2="<table width=\"100%\"       border=\"0\">";
-	    BalanceScorecardAjax.getPerspective(bscOwner.value,year.value,monthName.value,{
+	    var str2="<table width=\"100%\"    border=\"0\">";
+	    BalanceScorecardAjax.getPerspective(bscOwnerVal,yearVal,monthNameVal,{
 	 			callback:function(data_Perspective){
 	 				treePerspectiveArray=[]; // clear perspective
 	 				 for(var i=0;i<data_Perspective.length;i++){
@@ -322,7 +376,18 @@ function loadmetergraph(ivalue ,iFrameID)
 	 						"</tr>"+
 	 					    "<tr valign=\"top\" id=\"row_perspective_"+data_Perspective[i].perspectiveKey+"\" style=\"display: none;\">"+
 	 						"	<td align=\"top\"   align=\"left\">"+	
-	 						"<div id=\"tree_perspective_"+data_Perspective[i].perspectiveKey+"\"></div>"+
+	 						// <div id="FinancialTable" style="height:350px;overflow:auto;"></div> 
+	 					    "<div id=\"tree_perspective_"+data_Perspective[i].perspectiveKey+"\" style=\"height:350px;overflow:auto;\">"+
+	 						/*
+	 					    "<iframe  id = \"ifrmgr_tree_perspective_"+data_Perspective[i].perspectiveKey+"\"" +
+ 							" style=\"width:100%;height:350px;overflow:auto;\""+
+ 							"src=\"\"" +
+ 							"marginwidth=\"0\" marginheight=\"0\" "+
+ 							"vspace=\"0\" hspace=\"0\" frameborder=\"0\" "+ 
+ 							"align=\"middle\" scrolling=\"no\">"+
+ 						    "</iframe>" +
+ 						    */
+	 						"</div>"+
 	 						"	</td>"+
 	 						"	<td  align=\"center\" width=\"450\">"+	 		
 	 						//"<div id=\"gaugeDiv_"+data_Perspective[i].perspectiveKey+"\" style=\"width: 50; height: 50\"></div>"+
@@ -333,103 +398,41 @@ function loadmetergraph(ivalue ,iFrameID)
 	 							"marginwidth=\"0\" marginheight=\"0\" "+
 	 							"vspace=\"0\" hspace=\"0\" frameborder=\"0\" "+ 
 	 							"align=\"middle\" scrolling=\"no\">"+
-	 							"</iframe>" +
+	 						"</iframe>" +
 	 						"</div>"+
 	 						"	</td>"+
 	 						"</tr>"; 
 	 					treePerspectiveArray.push(data_Perspective[i].perspectiveKey);
 	 				 }
 	 				 str2=str2+"</table>";
-	 				document.getElementById('perspectiveElement').innerHTML=str2;
+	 				$('#perspectiveElement').html(str2);
 	 				
 	 				
 	 			}
 	 		});
 	     
-	  var overAllElementId= document.getElementById('targetAllSparkline');//.innerHTML=str;
-	  overAllElementId.href=_path+"/SNPDashBoard/PopupBullet.jsp?bscOwner="+bscOwner.value+"&bscYear="+year.value+"&bscMonth="+monthName.value;
+	 
    } 
 </script>
-<!------------------------------------------------------------------------>
-
-
-
-<body>
- 
-<Table width="100%" border="0" height="50" charset="utf-8"> 
-		<tr	id="r4">
-			<td colspan="2" align="left" class="tdmainheader"> 
-				<div align="center"> S&P Balanced Scorecard </div>
-			</td>
-		</tr>
-<!------------------  Condition Combobox ------------------->
-		<tr>
-			<td colspan="2" align="left" class="tdcondition">
-				<form method="post" action="<%=request.getContextPath()%>/SNPDashBoard/bscDashboard.jsp?viewKPI=1">
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Year : <span id="bscYearElement"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Month :
-				<select name="bscMonth" id="bscMonth" onchange="listOwnerResult()" >
-					<option value="0">-- Select Month --</option>
-					<option value="Jan">January</option>
-					<option value="Feb">February</option>
-					<option value="Mar">March</option>
-					<option value="Apr">April</option>
-					<option value="May">May</option>
-					<option value="Jun">June</option>
-					<option value="Jul">July</option>
-					<option value="Aug">August</option>
-					<option value="Sep">September</option>
-					<option value="Oct">October</option>
-					<option value="Nov">November</option>
-					<option value="Dec">December</option>
-				</select> 
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Owner : <span id="bscOwnerElement">
-				<select name="bscOwner" id="bscOwner" >
-					<option value="0">-- Select Owner --</option>
-				</select>
-				</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" View KPI " onclick="viewKPI()"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<a id="targetAllSparkline" rev="iframe|420">
-				 <span class="targetAllElement" style="cursor: pointer;"></span>
-				</a> 
-				</form>
-			  </td>
-		  </tr> 
-		  <tr>
-		  <td colspan="2">
-		 
-		  </td>
-		  </tr>
-		  <tr>
-		    <td colspan="2">
-		    <span id="perspectiveElement"></span>
-		    </td>
-		  </tr>
-		   <tr>
-		    <td colspan="2">
-		    <div id="bscKPIDetail" style="display:none;"></div>
-		    </td>
-		  </tr>
-	</Table> 
-
-<!---------------------------------------Main Function area  -------------------------->
+<!-- Main Function area   -->
 <script language="javascript">
-var _path='<%=request.getContextPath()%>';
 var detailKPI_ID_Array=[];
 function showhidebsc(rowid ){ 
 	var row = document.getElementById("row_perspective_"+rowid); 
-	var treeTable=document.getElementById("tree_perspective_"+rowid); 
-	var mFrame=document.getElementById("gaugeDiv_"+rowid); 
+	var treeTable=$("#tree_perspective_"+rowid); 
+	//var aoe =document.getElementById("ifrmgr_tree_perspective_"+rowid);
+	//var mFrame=$("#gaugeDiv_"+rowid); 
 	if (row.style.display == 'none') 
 	{	 
 		var haveIDPerspective=false;
 		var indexPerspective=0; 
-		   var bscOwner=document.getElementById('bscOwner'); 
-		   var year = document.getElementById("bscYear");
-		   var monthName = document.getElementById("bscMonth"); 
+		   var bscOwnerVal=$('select[id="bscOwner"]').val();//$('#bscOwner'); 
+		   var yearVal = $('select[id="bscYear"]').val();//$("#bscYear");
+		   var monthNameVal =$('select[id="bscMonth"]').val();// $("#bscMonth"); 
 		   // 
-		   for(var i =0;i<treePerspectiveArray.length;i++){
-			  // alert(treePerspectiveArray.length)
+		   for(var i =0;i<treePerspectiveArray.length;i++){ 
 		   	   if(treePerspectiveArray[i]!=rowid){ 
-		   		   $("#row_perspective_"+treePerspectiveArray[i]).css("display","none"); 
+		   		 //  $("#row_perspective_"+treePerspectiveArray[i]).css("display","none"); 
 			   }
 		   }
 		   
@@ -439,7 +442,7 @@ function showhidebsc(rowid ){
 			"		<td width=\"43%\" class=\"tdsubheader\">KPI</td>"+
 			"		<td width=\"20px\" class=\"tdsubheader\"></td>	"+
 			"		<td width=\"6%\" class=\"tdsubheader\">KPI Weight</td>"+
-			"		<td width=\"6%\" class=\"tdsubheader\">Weight</td>"+		
+			"		<td width=\"6%\" class=\"tdsubheader\">P. Weight</td>"+		
 			"		<td width=\"4%\" class=\"tdsubheader\">Freq</td>	"+	
 			"		<td width=\"7%\" class=\"tdsubheader\">Target</td> "+
 			"		<td width=\"7%\" class=\"tdsubheader\">Actual</td>	"+	
@@ -447,7 +450,7 @@ function showhidebsc(rowid ){
 			"		<td width=\"10%\" class=\"tdsubheader\">Trend</td>"+
 			"		<td width=\"12%\"	class=\"tdsubheader\" >Last Updated</td>"+
 			"	</tr></thead><tbody>"; 
-			BalanceScorecardAjax.getKPIListAndChartRecursive(year.value,monthName.value,bscOwner.value,rowid,{
+			BalanceScorecardAjax.getKPIListAndChartRecursive(yearVal,monthNameVal,bscOwnerVal,rowid,{
 	 			callback:function(data_KPIListLevel0){ 
 	 				for(var i=0;i<data_KPIListLevel0.length;i++){
 	 				var kpiresultthresholdDTOs = data_KPIListLevel0[i].kpiresultthresholdDTOs;
@@ -465,7 +468,8 @@ function showhidebsc(rowid ){
 	 					weight=$().number_format(kpiresultthresholdDTOs[0].perspectiveWeighting, {precision: 0,decimalSeparator: '.'});//kpiresultthresholdDTOs[0].perspectiveWeighting;
 	 					freq=kpiresultthresholdDTOs[0].frequency;
 	 					target=kpiresultthresholdDTOs[0].targetValue;
-	 					actual=kpiresultthresholdDTOs[0].percentActualVsTarget;
+	 					//actual=kpiresultthresholdDTOs[0].percentActualVsTarget;
+	 					actual=kpiresultthresholdDTOs[0].actualValue;	 					
 	 					lastUpdated =(kpiresultthresholdDTOs[0].updatedDT!=null)?$.format.date(kpiresultthresholdDTOs[0].updatedDT, "dd/MM/yyyy"):"";
 	 				}
 	 				var actualValue;
@@ -481,7 +485,12 @@ function showhidebsc(rowid ){
 					var kpiKey;
 					var dateKey;
 					var accumulatedFlag;
+					var threshold_color=[];
+					var threshold_value=[];
+					var colors=[];
 	 				for(var j=0;j<kpiresultthresholdDTOs.length;j++){
+	 					threshold_color[j]=kpiresultthresholdDTOs[j].id.colorCode;
+						threshold_value[j]=$().number_format(kpiresultthresholdDTOs[j].endThreshold, {precision: 0,decimalSeparator: '.'});
 						if(kpiresultthresholdDTOs[j].id.colorCode=='red'){
 							endthreshold_red=$().number_format(kpiresultthresholdDTOs[j].endThreshold, {precision: 0,decimalSeparator: '.'});
 							beginthreshold_red=$().number_format(kpiresultthresholdDTOs[j].beginThreshold, {precision: 0,decimalSeparator: '.'});
@@ -502,7 +511,14 @@ function showhidebsc(rowid ){
 						dateKey=kpiresultthresholdDTOs[j].id.dateKey;
 						accumulatedFlag=kpiresultthresholdDTOs[j].accumulatedFlag;
 					}
-					myValues=targetValue+","+actualValue+myValues;
+					//myValues=targetValue+","+actualValue+myValues;
+					myValues = targetValue+","+actualValue+","+threshold_value[2]+","+threshold_value[1]+","+threshold_value[0];
+					//alert(myValues)
+					var color_size=threshold_color.length;
+					for(var k=0;k<color_size;k++){
+						colors[k]=threshold_color[(color_size-1)-k];
+					}
+					//alert(colors)
 					var sparkId="_"+rowid+"_"+data_KPIListLevel0[i].kpiKey;
 					var trendChartValue=""+trendChartLevel0.jan+","+trendChartLevel0.feb+","+
 										""+trendChartLevel0.mar+","+trendChartLevel0.apr+","+
@@ -513,7 +529,7 @@ function showhidebsc(rowid ){
 									//	class=\"parent collapsed\"	
 							str=str+"<tr  height=\"5\" id=\""+rowid+"_node_"+data_KPIListLevel0[i].kpiKey+"\" "+childOf+">"+
 	 							"<td width=\"43%\" style=\"padding-left: 20px;\" >"+ 
-							"<div style=\"cursor: pointer;\" onclick=\"showKPIBarChart('"+rowid+"','"+data_KPIListLevel0[i].kpiKey+"','"+data_KPIListLevel0[i].dateKey+"','"+accumulatedFlag+"')\">"+data_KPIListLevel0[i].kpiName+"</div></td>"+
+							"<a style=\"cursor: pointer;\" onclick=\"showKPIBarChart('"+rowid+"','"+data_KPIListLevel0[i].kpiKey+"','"+data_KPIListLevel0[i].dateKey+"','"+accumulatedFlag+"')\">"+data_KPIListLevel0[i].kpiName+"</a></td>"+
 							"<td width=\"20px\"  align=\"right\">"+  
 							"<a style=\"cursor: pointer;\" id=\"KPIDetail_"+kpiKey+"\" rel=\"facebox\" class=\"KPIDetail\" onclick=\"showKPIDetail('"+data_KPIListLevel0[i].kpiKey+"','"+data_KPIListLevel0[i].dateKey+"')\">"+
 							"<img src=\""+_path+"/chartLib/images/question_shield.ico\" width=\"20px\" BORDER =\"0\"/></a>"+					
@@ -527,39 +543,104 @@ function showhidebsc(rowid ){
 						//	"<td width=\"7%\"  align=\"center\"><div class=\"trendLine\" LineColor=\"red\" >"+trendChartValue+"</div></td>"+
 							"<td width=\"12%\" align=\"center\">"+lastUpdated+"</td>"+
 					 		"</tr>";
-							myValuesArray[i]={id:sparkId,myValues:myValues.split(","),trendChartValues:trendChartValue.split(",")};					 		 
+							myValuesArray[i]={id:sparkId,myValues:myValues.split(","),trendChartValues:trendChartValue.split(","),colors:colors};					 		 
 	 				} 
 	 				str=str+"</tbody></table>"; 
-					treeTable.innerHTML=str;
-					$(".bscTreegrid_"+rowid).treeTable();
+	 				//alert("str")
+					//treeTable.innerHTML=str; 
+	 				treeTable.html(str);
+					//aoe.src="bscProcess.jsp?year="+yearVal+"&month="+monthNameVal+"&bscOwner="+bscOwnerVal+"&rowid="+rowid;
+					///var xx= ajaxdata("bscProcess.jsp?year="+yearVal+"&month="+monthNameVal+"&bscOwner="+bscOwnerVal+"&rowid="+rowid);
+					//alert(xx);
+					//alert("xxxx");
+					//treeTable.innerHTML =xx;
+					//initProcess();
+					//$(".bscTreegrid_"+rowid).treeTable();
 				 	for(var i=0;i<myValuesArray.length;i++){ 
+				 		//alert("valuess=#sparklines"+myValuesArray[i].id);
 				 		 $("#sparklines"+myValuesArray[i].id).sparkline(myValuesArray[i].myValues, {
 				 			type: 'bullet',
 					    	performanceColor:'blue',
-					    	targetColor:'red',
+					    	//targetColor:'red',
+					    	targetColor:'blue',
 					    	width:"auto" ,
 					    	height:'auto',
 					    	targetWidth:3,
-					    	rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']	 
+					    	//rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']
+					    	//rangeColors:['green','yellow','red']
+					    	rangeColors:myValuesArray[i].colors
 				 		 } ); 
 				 		$("#trendLine"+myValuesArray[i].id).sparkline(myValuesArray[i].trendChartValues, {barColor: 'red'}); 
 					} 
+				 	$(".bscTreegrid_"+rowid).treeTable();
 				 loadmetergraph('meterChart.jsp?gvalue='+percentActualVsTargettargetValue,"ifrmgr_"+rowid); 
 	 			} 
 		  });  
 	}
 	else
 	{		row.style.display='none';
-			treeTable.innerHTML="";
+			treeTable.html("");
 	}
 } 
-</script>  
-<script type="text/javascript">  
-jQuery(document).ready(function($) {
-	$.facebox.settings.closeImage=_path+'/chartLib/images/closelabel.png';
-	$("#targetAllSparkline").facebox();
-	listYear();
-});
-</script> 
+</script>
+<!-- -------------------------------------------------------------------- --> 
+
+<body>
+ 
+<Table width="100%" border="0" height="50" charset="utf-8"> 
+		<tr	id="r4">
+			<td colspan="2" align="left" class="tdmainheader"> 
+				<div align="center"> S&P Balanced Scorecard </div>
+			</td>
+		</tr>
+		 <tr>
+		    <td colspan="2">
+		    <div id="bscKPIDetail" style="display:none;"></div>
+		    </td>
+		  </tr>
+<!-- ----------------  Condition Combobox ----------------- -->
+		<tr>
+			<td colspan="2" align="left" class="tdcondition">
+				<form method="post" action="<%=request.getContextPath()%>/SNPDashBoard/bscDashboard.jsp?viewKPI=1">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Year : <span id="bscYearElement"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Month :
+				<select name="bscMonth" id="bscMonth" onchange="listOwnerResult()" >
+					<option value="0">-- Select Month --</option>
+					<option value="1">January</option>
+					<option value="2">February</option>
+					<option value="3">March</option>
+					<option value="4">April</option>
+					<option value="5">May</option>
+					<option value="6">June</option>
+					<option value="7">July</option>
+					<option value="8">August</option>
+					<option value="9">September</option>
+					<option value="10">October</option>
+					<option value="11">November</option>
+					<option value="12">December</option>
+				</select> 
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Owner : <span id="bscOwnerElement">
+				<select name="bscOwner" id="bscOwner" onchange="clearTargetElement()">
+					<option value="0">-- Select Owner --</option>
+				</select>
+				</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" View KPI " onclick="viewKPI()"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a id="targetAllSparkline" rev="iframe|420">
+				 <span class="targetAllElement" style="cursor: pointer;"></span>
+				</a> 
+				</form>
+			  </td>
+		  </tr> 
+		 
+		  <tr>
+		  <td colspan="2">
+		 
+		  </td>
+		  </tr>
+		  <tr>
+		    <td colspan="2">
+		    <span id="perspectiveElement"></span>
+		    </td>
+		  </tr>
+		   
+	</Table> 
 </body>
 </html>
