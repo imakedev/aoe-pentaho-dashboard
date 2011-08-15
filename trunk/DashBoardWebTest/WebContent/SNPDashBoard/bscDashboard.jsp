@@ -50,6 +50,7 @@ Integration Data
  
 <!-- Use for call JQuery treetable  -->
 <script type="text/javascript">
+var _path='<%=request.getContextPath()%>';
 jQuery(document).ready(function($) {
 	$.facebox.settings.closeImage=_path+'/chartLib/images/closelabel.png';
 	$("#targetAllSparkline").facebox();
@@ -86,7 +87,7 @@ function getParentLoop(parentID){
 		 trendChartValues:[],
 		 colors:[]
  }];
- var _path='<%=request.getContextPath()%>';
+ 
  $.fn.toggleBranch = function() {
 		    if($(this).hasClass("collapsed")) {
 		    	var nodeId=$(this).attr("id");
@@ -98,17 +99,13 @@ function getParentLoop(parentID){
 		    	for(var i=0;i<myValuesArray.length;i++){
 		    		$("#sparklines"+myValuesArray[i].id).html("");
 		    		$("#trendLine"+myValuesArray[i].id).html("");
-		    	//	alert("fn.toggleBranch="+myValuesArray[i].myValues)
 			    	$("#sparklines"+myValuesArray[i].id).sparkline(myValuesArray[i].myValues,{
 				    	type: 'bullet',
 				    	performanceColor:'blue',
-				    	//targetColor:'red',
 				    	targetColor:'blue',
 				    	width:"auto" ,
 				    	height:'auto',
-				    	targetWidth:3,
-				    	//rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']
-				    	//rangeColors:['green','yellow','red']
+				    	targetWidth:3, 
 				    	rangeColors:myValuesArray[i].colors
 				    	});
 			    	$("#trendLine"+myValuesArray[i].id).sparkline(myValuesArray[i].trendChartValues, {barColor: 'red'});
@@ -127,14 +124,12 @@ function loadmetergraph(ivalue ,iFrameID)
 }
   
   function showKPIDetail(kpiKey,dateKey){ 
-	  //alert(kpiKey+","+dateKey)
 	  var pk={ 
 	  	kpiKey:kpiKey,
 	   	dateKey:dateKey
 		}; 
 	BalanceScorecardAjax.getKPIDetail(pk,{
 		callback:function(data_KPIDetail){ 
-			//alert(data_KPIDetail)
 		  if(data_KPIDetail!=null){			  
 			  var bscKPIDetail=""+
 			  	" <table width=\"700\" height=\"300\" border=\"0\" align=\"center\" style=\"text-decoration:none; background-color:	#e6e6fa\" class=\"popup\"> "+
@@ -164,32 +159,19 @@ function loadmetergraph(ivalue ,iFrameID)
 			  	" </tr> "+
 			  " </table>"; 	
 			  $("#bscKPIDetail").html(bscKPIDetail);
-			  $.facebox.settings.closeImage=_path+'/chartLib/images/closelabel.png';
-			//  jQuery.facebox({ ajax: _path+"/SNPDashBoard/bscKPIDetail.jsp?kpiKey="+kpiKey+"&dateKey="+dateKey});
-			 
-			jQuery.facebox({ div:'#bscKPIDetail'});
-			 
-			/* 
-			$('#facebox').css({
-				  top:    getPageScroll()[1] + (getPageHeight() / 10),
-				  left:   ($(window).width() - $('#facebox').width()) / 2
-				}).show()
-				*/
+			  $.facebox.settings.closeImage=_path+'/chartLib/images/closelabel.png';	 
+			jQuery.facebox({ div:'#bscKPIDetail'}); 
 		 } 
 		}
-	});
-	 
-	   
-	 
+	}); 
    }
   function showKPIBarChart(perspectiveKey,kpiKey,dateKey,accumulatedFlag){  
-		var bscOwnerVal=$('select[id="bscOwner"]').val();//$('#bscOwner'); 
-	   var yearVal =$('select[id="bscYear"]').val();// $("#bscYear");
+		var bscOwnerVal=$('select[id="bscOwner"]').val(); 
+	   var yearVal =$('select[id="bscYear"]').val();
 	   var monthNameVal =$('select[id="bscMonth"]').val();// $("#bscMonth");	 
 	  loadmetergraph('mixChart.jsp?bscOwner='+bscOwnerVal+'&bscYear='+yearVal+'&bscMonth='+monthNameVal+'&perspectiveKey='+perspectiveKey+'&kpiKey='+kpiKey+'&dateKey='+dateKey+'&accumulatedFlag='+accumulatedFlag,"ifrmgr_"+perspectiveKey);
   }
   
-	 // Ajax function
   function listYear(){
 		var str="";
 		BalanceScorecardAjax.listYear({
@@ -204,8 +186,7 @@ function loadmetergraph(ivalue ,iFrameID)
 				str=str+"</select>";
 				$('#bscYearElement').html(str);
 			}
-		});	
-	
+		});		
 	}
    function clearTargetElement(){
 	   $('.targetAllElement').html("");
@@ -217,16 +198,12 @@ function loadmetergraph(ivalue ,iFrameID)
 	   }
    }
    function listOwnerResult(){
-	   var yearVal =$('select[id="bscYear"]').val();// $("#bscYear").val();
-	   var monthNameVal = $('select[id="bscMonth"]').val() ;//$("#bscMonth").;
-	  // alert(monthNameVal)
-	  //document.getElementById("targetAllSparkline").innerHTML="";
-	   clearTargetElement();
-	   
+	   var yearVal =$('select[id="bscYear"]').val();
+	   var monthNameVal = $('select[id="bscMonth"]').val() ;
+	   clearTargetElement();	   
 	   var str="";
 	   BalanceScorecardAjax.listOwnerResult(yearVal,monthNameVal,{
 			callback:function(data_listOwnerResult){
-				//alert(data_listOwnerResult)
 				str=str+"<select name=\"bscOwner\" id=\"bscOwner\" onchange=\"clearTargetElement()\">";
 				str=str+"<option value=\"0\">-- Select Owner --</option>";
 				if(data_listOwnerResult!=null && data_listOwnerResult.length>0){ 
@@ -240,10 +217,9 @@ function loadmetergraph(ivalue ,iFrameID)
 		});
    }
    function returnTogaugeMeter(rowid){
-	   var bscOwnerVal=$('select[id="bscOwner"]').val();//$('#bscOwner'); 
-	   var yearVal =$('select[id="bscYear"]').val();// $("#bscYear");
-	   var monthNameVal = $('select[id="bscMonth"]').val();//$("#bscMonth");   
-	   
+	   var bscOwnerVal=$('select[id="bscOwner"]').val(); 
+	   var yearVal =$('select[id="bscYear"]').val();
+	   var monthNameVal = $('select[id="bscMonth"]').val();     
 	  BalanceScorecardAjax.getKPIListAndChartLevel0(yearVal,monthNameVal,bscOwnerVal,rowid,{
  			callback:function(data_KPIListLevel0){ 
  				for(var i=0;i<data_KPIListLevel0.length;i++){
@@ -254,16 +230,13 @@ function loadmetergraph(ivalue ,iFrameID)
  				var freq ;
  				var target ;
  				var actual 	;
- 				//Target 	Trend 	
  				var lastUpdated;
  				if(kpiresultthresholdDTOs!=null && kpiresultthresholdDTOs.length>0){ 
  					kpiWeight=$().number_format(kpiresultthresholdDTOs[0].kpiOwnerWeighting, {precision: 0,decimalSeparator: '.'});
  					weight=$().number_format(kpiresultthresholdDTOs[0].perspectiveWeighting, {precision: 0,decimalSeparator: '.'});
  					freq=kpiresultthresholdDTOs[0].frequency;
- 					target=kpiresultthresholdDTOs[0].targetValue;
- 					//actual=kpiresultthresholdDTOs[0].percentActualVsTarget;
- 					//actual=kpiresultthresholdDTOs[0].percentActualVsTarget;
-	 					actual=kpiresultthresholdDTOs[0].actualValue;	 	
+ 					target=kpiresultthresholdDTOs[0].targetValue; 
+	 				actual=kpiresultthresholdDTOs[0].actualValue;	 	
  					lastUpdated =(kpiresultthresholdDTOs[0].updatedDT!=null)?$.format.date(kpiresultthresholdDTOs[0].updatedDT, "dd/MM/yyyy"):"";
  				}
 				var myValues="";
@@ -297,8 +270,7 @@ function loadmetergraph(ivalue ,iFrameID)
 					}
  					actualValue=kpiresultthresholdDTOs[j].actualValue;
 					targetValue=kpiresultthresholdDTOs[j].targetValue;	
-					percentActualVsTargettargetValue=kpiresultthresholdDTOs[j].percentActualVsTarget;
-				
+					percentActualVsTargettargetValue=kpiresultthresholdDTOs[j].percentActualVsTarget;				
 				}
 		} 	 
  	  loadmetergraph('meterChart.jsp?gvalue='+percentActualVsTargettargetValue,"ifrmgr_"+rowid);
@@ -306,10 +278,9 @@ function loadmetergraph(ivalue ,iFrameID)
 	});   
 }  
    function viewKPI(){ 
-	   var bscOwnerVal=$('select[id="bscOwner"]').val();//$('#bscOwner'); 
-	   var yearVal =$('select[id="bscYear"]').val();// $("#bscYear");
-	   var monthNameVal =$('select[id="bscMonth"]').val();// $("#bscMonth"); 
-	   //alert(bscOwnerVal)
+	   var bscOwnerVal=$('select[id="bscOwner"]').val(); 
+	   var yearVal =$('select[id="bscYear"]').val();
+	   var monthNameVal =$('select[id="bscMonth"]').val();
 	    BalanceScorecardAjax.getKPIOverall(yearVal,monthNameVal,bscOwnerVal,{
 			callback:function(data_KPIOverall){ 
 				var actualValue;
@@ -335,22 +306,17 @@ function loadmetergraph(ivalue ,iFrameID)
 						actualValue=data_KPIOverall[i].actualValue;
 						targetValue=data_KPIOverall[i].targetValue;						
 					}
-					//var myvalues = [targetValue,actualValue,endthreshold_green,endthreshold_yellow,endthreshold_red];
 					var myvalues = [targetValue,actualValue,threshold_value[2],threshold_value[1],threshold_value[0]];
-					//alert(myvalues)
 					$('.targetAllElement').sparkline(myvalues, {
 				    	type: 'bullet',
 				    	performanceColor:'blue',
-				    	//targetColor:'red',
 				    	targetColor:'blue',
 				    	width:"auto" ,
 				    	height:'auto',
 				    	targetWidth:3,
-				    	//rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']
-				    	//rangeColors:['green','yellow','red']
 				    	rangeColors:[threshold_color[2],threshold_color[1],threshold_color[0]]				    	
 				    	});
-					 var overAllElementId= document.getElementById('targetAllSparkline');//.innerHTML=str;
+					 var overAllElementId= document.getElementById('targetAllSparkline');
 					  overAllElementId.title=percentActualVsTargettargetValue+"%";
 					  overAllElementId.href=_path+"/SNPDashBoard/PopupBullet.jsp?bscOwner="+bscOwnerVal+"&bscYear="+yearVal+"&bscMonth="+monthNameVal;
 				} 
@@ -367,7 +333,6 @@ function loadmetergraph(ivalue ,iFrameID)
 	 						css_class="tdbscNameCus";
 	 					 str2=str2+"<tr>"+
 	 						"	<td colspan=\"1\"  class=\""+css_class+"\" align=\"left\">"+
-	 						//"		<a href=\"javascript:showhidebsc('"+data_Perspective[i].perspectiveKey+"')\" class=\"bsc\">"+data_Perspective[i].perspectiveName+"</a>"+
 	 						"		<div onclick=\"showhidebsc('"+data_Perspective[i].perspectiveKey+"')\" style=\"cursor: pointer;\" class=\"bsc\">"+data_Perspective[i].perspectiveName+"</div>"+
 	 						"	</td>"+
 	 						"	<td   class=\""+css_class+"\" align=\"center\" width=\"450\">"+ 
@@ -376,21 +341,10 @@ function loadmetergraph(ivalue ,iFrameID)
 	 						"</tr>"+
 	 					    "<tr valign=\"top\" id=\"row_perspective_"+data_Perspective[i].perspectiveKey+"\" style=\"display: none;\">"+
 	 						"	<td align=\"top\"   align=\"left\">"+	
-	 						// <div id="FinancialTable" style="height:350px;overflow:auto;"></div> 
-	 					    "<div id=\"tree_perspective_"+data_Perspective[i].perspectiveKey+"\" style=\"height:350px;overflow:auto;\">"+
-	 						/*
-	 					    "<iframe  id = \"ifrmgr_tree_perspective_"+data_Perspective[i].perspectiveKey+"\"" +
- 							" style=\"width:100%;height:350px;overflow:auto;\""+
- 							"src=\"\"" +
- 							"marginwidth=\"0\" marginheight=\"0\" "+
- 							"vspace=\"0\" hspace=\"0\" frameborder=\"0\" "+ 
- 							"align=\"middle\" scrolling=\"no\">"+
- 						    "</iframe>" +
- 						    */
+	 						"<div id=\"tree_perspective_"+data_Perspective[i].perspectiveKey+"\" style=\"height:350px;overflow:auto;\">"+
 	 						"</div>"+
 	 						"	</td>"+
 	 						"	<td  align=\"center\" width=\"450\">"+	 		
-	 						//"<div id=\"gaugeDiv_"+data_Perspective[i].perspectiveKey+"\" style=\"width: 50; height: 50\"></div>"+
 	 						"<div id=\"gaugeDiv_"+data_Perspective[i].perspectiveKey+"\" style=\"width: 50; height: 50\">"+
 	 						"<iframe  id = \"ifrmgr_"+data_Perspective[i].perspectiveKey+"\"" +
 	 							"width=450 height=350 "+
@@ -405,13 +359,9 @@ function loadmetergraph(ivalue ,iFrameID)
 	 					treePerspectiveArray.push(data_Perspective[i].perspectiveKey);
 	 				 }
 	 				 str2=str2+"</table>";
-	 				$('#perspectiveElement').html(str2);
-	 				
-	 				
+	 				$('#perspectiveElement').html(str2); 
 	 			}
-	 		});
-	     
-	 
+	 		}); 
    } 
 </script>
 <!-- Main Function area   -->
@@ -419,23 +369,19 @@ function loadmetergraph(ivalue ,iFrameID)
 var detailKPI_ID_Array=[];
 function showhidebsc(rowid ){ 
 	var row = document.getElementById("row_perspective_"+rowid); 
-	var treeTable=$("#tree_perspective_"+rowid); 
-	//var aoe =document.getElementById("ifrmgr_tree_perspective_"+rowid);
-	//var mFrame=$("#gaugeDiv_"+rowid); 
+	var treeTable=$("#tree_perspective_"+rowid);  
 	if (row.style.display == 'none') 
 	{	 
 		var haveIDPerspective=false;
 		var indexPerspective=0; 
-		   var bscOwnerVal=$('select[id="bscOwner"]').val();//$('#bscOwner'); 
-		   var yearVal = $('select[id="bscYear"]').val();//$("#bscYear");
-		   var monthNameVal =$('select[id="bscMonth"]').val();// $("#bscMonth"); 
-		   // 
+		   var bscOwnerVal=$('select[id="bscOwner"]').val(); 
+		   var yearVal = $('select[id="bscYear"]').val(); 
+		   var monthNameVal =$('select[id="bscMonth"]').val();
 		   for(var i =0;i<treePerspectiveArray.length;i++){ 
 		   	   if(treePerspectiveArray[i]!=rowid){ 
 		   		 //  $("#row_perspective_"+treePerspectiveArray[i]).css("display","none"); 
 			   }
 		   }
-		   
 		   row.style.display=''; 
 		   var str="<table  width=\"100%\" height=\"20\" class=\"bscTreegrid_"+rowid+"\" border=\"0\"><thead>"+
 		    "	<tr height=\"5\" align=\"center\">"+
@@ -461,14 +407,12 @@ function showhidebsc(rowid ){
 	 				var freq ;
 	 				var target ;
 	 				var actual 	;
-	 				//Target 	Trend 	
 	 				var lastUpdated;
 	 				if(kpiresultthresholdDTOs!=null && kpiresultthresholdDTOs.length>0){	
 	 					kpiWeight=$().number_format(kpiresultthresholdDTOs[0].kpiOwnerWeighting, {precision: 0,decimalSeparator: '.'});//kpiresultthresholdDTOs[0].kpiOwnerWeighting;
 	 					weight=$().number_format(kpiresultthresholdDTOs[0].perspectiveWeighting, {precision: 0,decimalSeparator: '.'});//kpiresultthresholdDTOs[0].perspectiveWeighting;
 	 					freq=kpiresultthresholdDTOs[0].frequency;
 	 					target=kpiresultthresholdDTOs[0].targetValue;
-	 					//actual=kpiresultthresholdDTOs[0].percentActualVsTarget;
 	 					actual=kpiresultthresholdDTOs[0].actualValue;	 					
 	 					lastUpdated =(kpiresultthresholdDTOs[0].updatedDT!=null)?$.format.date(kpiresultthresholdDTOs[0].updatedDT, "dd/MM/yyyy"):"";
 	 				}
@@ -511,14 +455,11 @@ function showhidebsc(rowid ){
 						dateKey=kpiresultthresholdDTOs[j].id.dateKey;
 						accumulatedFlag=kpiresultthresholdDTOs[j].accumulatedFlag;
 					}
-					//myValues=targetValue+","+actualValue+myValues;
 					myValues = targetValue+","+actualValue+","+threshold_value[2]+","+threshold_value[1]+","+threshold_value[0];
-					//alert(myValues)
 					var color_size=threshold_color.length;
 					for(var k=0;k<color_size;k++){
 						colors[k]=threshold_color[(color_size-1)-k];
 					}
-					//alert(colors)
 					var sparkId="_"+rowid+"_"+data_KPIListLevel0[i].kpiKey;
 					var trendChartValue=""+trendChartLevel0.jan+","+trendChartLevel0.feb+","+
 										""+trendChartLevel0.mar+","+trendChartLevel0.apr+","+
@@ -526,7 +467,6 @@ function showhidebsc(rowid ){
 										""+trendChartLevel0.jul+","+trendChartLevel0.aug+","+
 										""+trendChartLevel0.sep+","+trendChartLevel0.oct+","+
 										""+trendChartLevel0.nov+","+trendChartLevel0.dec+"";
-									//	class=\"parent collapsed\"	
 							str=str+"<tr  height=\"5\" id=\""+rowid+"_node_"+data_KPIListLevel0[i].kpiKey+"\" "+childOf+">"+
 	 							"<td width=\"43%\" style=\"padding-left: 20px;\" >"+ 
 							"<a style=\"cursor: pointer;\" onclick=\"showKPIBarChart('"+rowid+"','"+data_KPIListLevel0[i].kpiKey+"','"+data_KPIListLevel0[i].dateKey+"','"+accumulatedFlag+"')\">"+data_KPIListLevel0[i].kpiName+"</a></td>"+
@@ -538,36 +478,21 @@ function showhidebsc(rowid ){
 							"<td width=\"6%\"  align=\"center\">"+weight+"%</td>			<td width=\"4%\" align=\"center\">"+freq+"</td>"+		
 							"<td width=\"7%\"  align=\"center\">"+target+"</td>		<td width=\"7%\" align=\"center\">"+actual+"</td>"+		
 							"<td width=\"7%\"  align=\"center\"><div   id=\"sparklines"+sparkId+"\" title=\""+percentActualVsTargettargetValue+"%\">"+myValues+"</div></td>"+		
-						//	"<td width=\"7%\"  align=\"center\"><div   class=\"sparklines\" title=\""+percentActualVsTargettargetValue+"%\">"+myValues+"</div></td>"+
 							"<td width=\"7%\"  align=\"center\"><div id=\"trendLine"+sparkId+"\" LineColor=\"red\" >"+trendChartValue+"</div></td>"+
-						//	"<td width=\"7%\"  align=\"center\"><div class=\"trendLine\" LineColor=\"red\" >"+trendChartValue+"</div></td>"+
 							"<td width=\"12%\" align=\"center\">"+lastUpdated+"</td>"+
 					 		"</tr>";
 							myValuesArray[i]={id:sparkId,myValues:myValues.split(","),trendChartValues:trendChartValue.split(","),colors:colors};					 		 
 	 				} 
 	 				str=str+"</tbody></table>"; 
-	 				//alert("str")
-					//treeTable.innerHTML=str; 
 	 				treeTable.html(str);
-					//aoe.src="bscProcess.jsp?year="+yearVal+"&month="+monthNameVal+"&bscOwner="+bscOwnerVal+"&rowid="+rowid;
-					///var xx= ajaxdata("bscProcess.jsp?year="+yearVal+"&month="+monthNameVal+"&bscOwner="+bscOwnerVal+"&rowid="+rowid);
-					//alert(xx);
-					//alert("xxxx");
-					//treeTable.innerHTML =xx;
-					//initProcess();
-					//$(".bscTreegrid_"+rowid).treeTable();
-				 	for(var i=0;i<myValuesArray.length;i++){ 
-				 		//alert("valuess=#sparklines"+myValuesArray[i].id);
+					for(var i=0;i<myValuesArray.length;i++){ 
 				 		 $("#sparklines"+myValuesArray[i].id).sparkline(myValuesArray[i].myValues, {
 				 			type: 'bullet',
 					    	performanceColor:'blue',
-					    	//targetColor:'red',
 					    	targetColor:'blue',
 					    	width:"auto" ,
 					    	height:'auto',
 					    	targetWidth:3,
-					    	//rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']
-					    	//rangeColors:['green','yellow','red']
 					    	rangeColors:myValuesArray[i].colors
 				 		 } ); 
 				 		$("#trendLine"+myValuesArray[i].id).sparkline(myValuesArray[i].trendChartValues, {barColor: 'red'}); 
