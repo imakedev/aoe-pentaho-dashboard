@@ -362,10 +362,7 @@ function loadmetergraph(ivalue ,iFrameID)
 	 				$('#perspectiveElement').html(str2); 
 	 			}
 	 		}); 
-   } 
-</script>
-<!-- Main Function area   -->
-<script language="javascript">
+ }
 var detailKPI_ID_Array=[];
 function showhidebsc(rowid ){ 
 	var row = document.getElementById("row_perspective_"+rowid); 
