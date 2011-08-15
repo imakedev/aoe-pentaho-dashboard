@@ -374,11 +374,13 @@ function showhidebsc(rowid ){
 		   var bscOwnerVal=$('select[id="bscOwner"]').val(); 
 		   var yearVal = $('select[id="bscYear"]').val(); 
 		   var monthNameVal =$('select[id="bscMonth"]').val();
+		   /*
 		   for(var i =0;i<treePerspectiveArray.length;i++){ 
 		   	   if(treePerspectiveArray[i]!=rowid){ 
 		   		 //  $("#row_perspective_"+treePerspectiveArray[i]).css("display","none"); 
 			   }
 		   }
+		   */
 		   row.style.display=''; 
 		   var str="<table  width=\"100%\" height=\"20\" class=\"bscTreegrid_"+rowid+"\" border=\"0\"><thead>"+
 		    "	<tr height=\"5\" align=\"center\">"+
