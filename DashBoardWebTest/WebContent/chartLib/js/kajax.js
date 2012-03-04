@@ -27,7 +27,7 @@ var id = "td1";
 xmlhttp = newXmlHttp();
 xmlhttp.open("GET", url, false);
 xmlhttp.send(null);
-
+alert("url="+url)
 return xmlhttp.responseText;
 //document.getElementById("numtxt").innerHTML = xmlhttp.responseText;
 }
