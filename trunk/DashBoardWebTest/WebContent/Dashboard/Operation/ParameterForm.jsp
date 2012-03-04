@@ -28,7 +28,7 @@
 		OperationDashboardAjax
 				.listDivisions({
 					callback : function(data) {
-						alert(555);
+						alert(data);
 						str = str
 								+ "<select name=\"Division\" onChange=\"getDivision(this.value);\">";
 						//str=str+"<option value=\"0\">-- Select Year --</option>";
@@ -167,9 +167,9 @@
 <!--+++++++++++++++++++++++++ End Parameter +++++++++++++++++++++++++-->
 <script type="text/javascript">
 	listDivision();
-	listSection();
-	listArea();
-	listBranch();
+	//listSection();
+	//listArea();
+	//listBranch();
 </script>
 
 </body>
