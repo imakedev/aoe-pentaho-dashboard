@@ -38,27 +38,35 @@ color: #000000;
 td.tdmainheader{
 background-color: #000099; /*#99CCFF;*/
 color:#FFFFFF;
--moz-border-radius: 2em 2em 2em 2em;
+/* -moz-border-radius: 2em 2em 2em 2em; */
 }
 
 td.tdsubheader{
 background-color: #CCCCCC;
 color:#000000;
--moz-border-radius: 15px 15px 0px 0px;
+/* -moz-border-radius: 15px 15px 0px 0px; */ 
 border-color: gray;
 }
 
 td.tdcondition{
--moz-border-radius: 2em 2em 2em 2em;
+/* -moz-border-radius: 2em 2em 2em 2em; */
 }
 
-td.tdbscNameFin{	background-color: #3399FF;	-moz-border-radius: 2em 2em 2em 2em;}
+td.tdbscNameFin{	background-color: #3399FF;
+/*-moz-border-radius: 2em 2em 2em 2em; */
+}
 
-td.tdbscNameCus{	background-color: #CCCCCC;	-moz-border-radius: 2em 2em 2em 2em;}
+td.tdbscNameCus{	background-color: #CCCCCC;
+/*-moz-border-radius: 2em 2em 2em 2em; */
+}
 
-td.tdbscNamePro{	background-color: #3399FF;	-moz-border-radius: 2em 2em 2em 2em;}
+td.tdbscNamePro{	background-color: #3399FF;
+/* -moz-border-radius: 2em 2em 2em 2em; */
+}
 
-td.tdbscNameLearn{	background-color: #CCCCCC;	-moz-border-radius: 2em 2em 2em 2em;}
+td.tdbscNameLearn{	background-color: #CCCCCC;
+/*-moz-border-radius: 2em 2em 2em 2em; */
+}
 
 
 #showGraph {
@@ -86,12 +94,12 @@ z-index: 0;
 
 table.popup{
 background-color:#3399FF;
--moz-border-radius: 50px 50px 50px 50px;
+/* -moz-border-radius: 50px 50px 50px 50px; */
 padding:15px;
 }
 
 
 td.tdpopup{
 color:#000033
--moz-border-radius: 20px 20px 20px 20px;
+/* -moz-border-radius: 20px 20px 20px 20px; */
 }
