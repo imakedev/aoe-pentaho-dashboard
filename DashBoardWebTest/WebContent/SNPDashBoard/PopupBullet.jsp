@@ -29,7 +29,7 @@
         	src="<%=request.getContextPath() %>/dwrbalancescorecard/engine.js"></script> 
 	<script type="text/javascript"
         	src="<%=request.getContextPath() %>/dwrbalancescorecard/util.js"></script> 
-        	
+        	 
  
 <script type="text/javascript">
 //---------------------------------------------
@@ -58,9 +58,13 @@
 							if(data_KPIOverall[i].colorCode=='red'){
 								endthreshold_red=$().number_format(data_KPIOverall[i].endThreshold, {precision: 0,decimalSeparator: '.'});
 								beginthreshold_red=$().number_format(data_KPIOverall[i].beginThreshold, {precision: 0,decimalSeparator: '.'});
+								//endthreshold_red=30;
+								//beginthreshold_red=0;
 							}else if(data_KPIOverall[i].colorCode=='yellow'){
 								endthreshold_yellow=$().number_format(data_KPIOverall[i].endThreshold, {precision: 0,decimalSeparator: '.'});
 								beginthreshold_yellow=$().number_format(data_KPIOverall[i].beginThreshold, {precision: 0,decimalSeparator: '.'});
+								//endthreshold_yellow=65;
+								//beginthreshold_yellow=31;
 							}else if(data_KPIOverall[i].colorCode=='green'){
 								endthreshold_green=$().number_format(data_KPIOverall[i].endThreshold, {precision: 0,decimalSeparator: '.'});
 								beginthreshold_green=$().number_format(data_KPIOverall[i].beginThreshold, {precision: 0,decimalSeparator: '.'});
@@ -68,8 +72,10 @@
 							actualValue=data_KPIOverall[i].actualValue;
 							targetValue=data_KPIOverall[i].targetValue;		
 							percentActualVsTargettargetValue=$().number_format(data_KPIOverall[i].percentActualVsTarget, {precision: 0,decimalSeparator: '.'});
+							//percentActualVsTargettargetValue=65;
 							gaugeDiv_overAll_head=data_KPIOverall[i].kpiOwnerName;
 						}
+						alert(endthreshold_red+","+endthreshold_yellow+","+endthreshold_green+","+actualValue+","+targetValue+","+percentActualVsTargettargetValue)
 						document.getElementById('gaugeDiv_overAll_head').innerHTML=gaugeDiv_overAll_head;
 						var jsonCircle = {
 							      "graphset":[
@@ -83,7 +89,9 @@
 							            "fill-type":"radial",
 							            "scale":{
 							   			"values": [
-							   				"Ratio : Percent(%)"
+							   			//	"Ratio : Percent(%)"
+							   			//	"Percent(%)"
+							   				"Performance"
 							   				],
 							               "item":{
 							                  "font-color":"white",
@@ -98,7 +106,9 @@
 							               }
 							            },
 							   		 "scale-r":{
-							               "values":"0:100:10",
+							             //  "values":"0:120:12",
+							               "values":"0:"+endthreshold_green+":"+(endthreshold_green/10)+"",
+							             
 							   			"size": 150,
 							               "aperture":270, //270
 							   			"offset-start": "15",
@@ -145,22 +155,22 @@
 							                  "border-color":"black",
 							   			   "rules": [
 							   					{
-							   					"rule": "%v <=30",
+							   					"rule": "%v <="+endthreshold_red+"",
 							   					"background-color": "red"
 							   					},
 							   					{
-							   					"rule": "%v >= 30 && %v <= 70",
+							   					"rule": "%v >= "+endthreshold_red+" && %v <= "+endthreshold_yellow+"",
 							   					"background-color": "yellow"
 							   					},
 							   					{
-							   					"rule": "%v >= 70 && %v <= 100",
+							   					"rule": "%v >= "+endthreshold_yellow+" && %v <= "+endthreshold_green+"",
 							   					"background-color": "green"
 							   					},
 							   					{
 							   					"rule": "%v >= 1000",
 							   					"background-color": "0",
 							   					"border-color": "0"
-							   					}
+							   					}							   				
 							   			   ]
 							               }
 							            },
@@ -169,7 +179,8 @@
 							   			"tooltip-text": "%t: %v",
 							   			"border-color": "#f00",
 							   			"border-width": 1
-							            },
+							            }
+							            ,
 							            "tooltip":{
 							   			"border-radius": 10,
 							   			"border-color": "black",
@@ -183,15 +194,15 @@
 							   					"background-color": "lightgreen"
 							   					},
 							   					{
-							   					"rule": "%v >= 0 && %v <= 30",
+							   					"rule": "%v >= 0 && %v <= "+endthreshold_red+"",
 							   					"background-color": "red"
 							   					},
 							   					{
-							   					"rule": "%v >= 30 && %v <= 70",
+							   					"rule": "%v >= "+endthreshold_red+" && %v <= "+endthreshold_yellow+"",
 							   					"background-color": "yellow"
 							   					},
 							   					{
-							   					"rule": "%v >= 70 && %v <= 100",
+							   					"rule": "%v >= "+endthreshold_yellow+" && %v <= "+endthreshold_green+"",
 							   					"background-color": "green"
 							   					}
 							   					,
@@ -205,10 +216,18 @@
 							            },
 							            "series":[
 							               {
-							                  "values":[""+percentActualVsTargettargetValue+""],
+							                  "values":[""+actualValue+""],
 							   			   "size": "120",
 							                  "text":"Value",
 							   			   "background-color": "blue"
+							   				//"alpha": 1,
+							   				//"data-rpm": ["%"]
+							   				},
+							               {
+							                  "values":[""+targetValue+""],
+							   			   "size": "120",
+							                  "text":"Value",
+							   			   "background-color": "green"
 							   				//"alpha": 1,
 							   				//"data-rpm": ["%"]
 							   				}
@@ -238,8 +257,8 @@
 <div align="center">
 <font size="3"><b>Overall :<span id="gaugeDiv_overAll_head"> </span></b></font></div>
 <br>
- --%>
-<table width="700" height="300" border="1" align="center"  style="text-decoration:none; background-color:	#e6e6fa" class="popup">
+ background-color:	#e6e6fa class="popup" --%>
+<table width="700" height="300" border="1" align="center"  style="text-decoration:none;" >
 	<tr><td align="center"><div align="center">
 <font size="3"><b>Overall :<span id="gaugeDiv_overAll_head"> </span></b></font></div>
 </td></tr>

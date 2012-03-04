@@ -7,7 +7,7 @@
 *********************************************************
 --> 
 <html>
-  <head>
+  <head> 
     <title>SNP DashBoard</title>  
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/> 
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery-1.6.1.min.js"></script>
@@ -324,16 +324,45 @@ window.onload = function(){
 					var kpiName="";
 					//var year=parse
 				//	"text":"Actual 10", series
-					for(var i = 0;i<size;i++){
+				//alert(size)
+					var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+					var monthNos=["1","2","3","4","5","6","7","8","9","10","11","12"];
+					var month_size=monthNos.length;
+					
+					for(var j=0;j<month_size;j++){
+						//var haveData=false;
+						var monthName =monthNames[j];//data_KPIChart[i].monthName;
+						var monthNo =monthNos[j];
+						var lastYearActual ="";//data_KPIChart[i].lastYearActual!=null?data_KPIChart[i].lastYearActual:"";						
+						var actualValue ="";//data_KPIChart[i].actualValue;
+						var targetValue ="";//data_KPIChart[i].targetValue;
+					 for(var i = 0;i<size;i++){
 						var accumActualValue = data_KPIChart[i].accumActualValue!=null?data_KPIChart[i].accumActualValue:"";
 						kpiName =data_KPIChart[i].kpiName;
-						var monthNo =data_KPIChart[i].monthNo;
-						var monthName =data_KPIChart[i].monthName;
-						var lastYearActual =data_KPIChart[i].lastYearActual!=null?data_KPIChart[i].lastYearActual:"";						
-						var actualValue =data_KPIChart[i].actualValue;
-						var targetValue =data_KPIChart[i].targetValue;
+						 //monthNo =data_KPIChart[i].monthNo;						
+						if(data_KPIChart[i].monthNo==monthNos[j]){
+						//	haveData=true;
+							lastYearActual =data_KPIChart[i].lastYearActual!=null?data_KPIChart[i].lastYearActual:"";						
+							actualValue =data_KPIChart[i].actualValue;
+							targetValue =data_KPIChart[i].targetValue;
+							break;
+						}else {
+							
+						}
+						
+					 }
+					/* 	if(monthNo=='1')
+							alert("aoe test")
+						if(monthNo==1)
+							alert("aoe test3") */
+					
+					/* 	alert("accumActualValue"+accumActualValue)
+						alert("lastYearActual"+lastYearActual)
+						alert("actualValue"+actualValue)
+						alert("targetValue"+targetValue) */
 					 	var accum = {
 								"text" : accumActualValue,
+								//"text" : 99,
 								"hook" : "offset-x=10,offset-y=10",
 								"x" : (i+1)*35,
 								"y" : 40,
@@ -349,6 +378,7 @@ window.onload = function(){
 						target_line_series.push(targetValue);
 						tooltips.push(109);
 					}
+			//	}
 					var chartElement={"margin":"70 10 75 35"};
 					var titleElement={
 							"text" : kpiName ,
@@ -394,7 +424,7 @@ window.onload = function(){
 							};
 					var scale_yElement={
 							"values":"0:100:20",
-							"labels":["0","20","40","60","80","100"],
+						//	"labels":["0","20","40","60","80","100"],
 							"guide":{
 								"line-width": 1,
 								"alpha": 1
@@ -405,7 +435,7 @@ window.onload = function(){
 							"item":{
 								"font-color":"#42426F",
 								"font-size": 14,
-		  						"font-family": "Verdana",
+		  						"font-family": "Verdana"
 								}
 							};
 					
@@ -490,7 +520,7 @@ window.onload = function(){
 							"legend":legendElement,
 							"scale-x":scale_xElement,
 							"scale-y":scale_yElement,
-							"labels" : accums,  
+							//"labels" : accums,  
 							"series":[
 									actualLastyear_line_Element,
 									actual_bar_Element,

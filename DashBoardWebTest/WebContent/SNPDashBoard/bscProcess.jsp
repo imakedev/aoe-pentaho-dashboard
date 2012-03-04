@@ -9,297 +9,180 @@
 <link type="text/css" href="<%=request.getContextPath()%>/chartLib/css/jquery.treeTable.css" rel="stylesheet"/>
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.treeTable.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.sparkline.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.dateFormat-1.0.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.number_format.js"></script>
+<script type="text/javascript"
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/interface/BalanceScorecardAjax.js"></script>
+	<script type="text/javascript"
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/engine.js"></script> 
+	<script type="text/javascript"
+        	src="<%=request.getContextPath() %>/dwrbalancescorecard/util.js"></script>
+ 
+<script>
+//var xx= ajaxdata("bscProcess.jsp?year="+year.value+"&month="+monthName.value+"&bscOwner="+bscOwner.value+"&rowid="+rowid);
+var _rowId='<%=request.getParameter("rowid")%>';
+var _year='<%=request.getParameter("year")%>';
+var _month='<%=request.getParameter("month")%>';
+var _bscOwner='<%=request.getParameter("bscOwner")%>';
+var _path='<%=request.getContextPath()%>';
+function initProcess(){
+	 
+	//var treeTable=document.getElementById("tree_perspective_"+_rowId);
+	var treeTable=document.getElementById("tree_perspective_");
+    alert(treeTable)
+	var str="<table  width=\"100%\" height=\"20\" class=\"bscTreegrid_"+_rowId+"\" border=\"0\"><thead>"+
+	"	<tr height=\"5\" align=\"center\">"+
+	"		<td width=\"43%\" class=\"tdsubheader\">KPI</td>"+
+	"		<td width=\"20px\" class=\"tdsubheader\"></td>	"+
+	"		<td width=\"6%\" class=\"tdsubheader\">KPI Weight</td>"+
+	"		<td width=\"6%\" class=\"tdsubheader\">P. Weight</td>"+		
+	"		<td width=\"4%\" class=\"tdsubheader\">Freq</td>	"+	
+	"		<td width=\"7%\" class=\"tdsubheader\">Target</td> "+
+	"		<td width=\"7%\" class=\"tdsubheader\">Actual</td>	"+	
+	"		<td width=\"10%\" class=\"tdsubheader\">Target</td>	"+
+	"		<td width=\"10%\" class=\"tdsubheader\">Trend</td>"+
+	"		<td width=\"12%\"	class=\"tdsubheader\" >Last Updated</td>"+
+	"	</tr></thead><tbody>"; 
+	BalanceScorecardAjax.getKPIListAndChartRecursive(_year,_month,_bscOwner,_rowId,{
+			callback:function(data_KPIListLevel0){ 
+				 var myValuesBscProcessArray=[{
+					 id:"",
+					 myValues:[],
+					 trendChartValues:[],
+					 colors:[]
+			     }];
+				for(var i=0;i<data_KPIListLevel0.length;i++){
+				var kpiresultthresholdDTOs = data_KPIListLevel0[i].kpiresultthresholdDTOs;
+				var childOf=data_KPIListLevel0[i].childOf!=null?"class=\"child-of-"+_rowId+"_node_"+data_KPIListLevel0[i].childOf+"\"":"";
+				var trendChartLevel0=data_KPIListLevel0[i].trendChart;
+				var kpiWeight=0;
+				var weight='';
+				var freq ;
+				var target ;
+				var actual 	;
+				//Target 	Trend 	
+				var lastUpdated;
+				if(kpiresultthresholdDTOs!=null && kpiresultthresholdDTOs.length>0){	
+					kpiWeight=$().number_format(kpiresultthresholdDTOs[0].kpiOwnerWeighting, {precision: 0,decimalSeparator: '.'});//kpiresultthresholdDTOs[0].kpiOwnerWeighting;
+					weight=$().number_format(kpiresultthresholdDTOs[0].perspectiveWeighting, {precision: 0,decimalSeparator: '.'});//kpiresultthresholdDTOs[0].perspectiveWeighting;
+					freq=kpiresultthresholdDTOs[0].frequency;
+					target=kpiresultthresholdDTOs[0].targetValue;
+					//actual=kpiresultthresholdDTOs[0].percentActualVsTarget;
+					actual=kpiresultthresholdDTOs[0].actualValue;	 					
+					lastUpdated =(kpiresultthresholdDTOs[0].updatedDT!=null)?$.format.date(kpiresultthresholdDTOs[0].updatedDT, "dd/MM/yyyy"):"";
+				}
+				var actualValue;
+			var targetValue;
+			var endthreshold_red;
+			var endthreshold_yellow;
+			var endthreshold_green;
+			var beginthreshold_red;
+			var beginthreshold_yellow;
+			var beginthreshold_green;
+			var myValues="";
+			var percentActualVsTarget="";
+			var kpiKey;
+			var dateKey;
+			var accumulatedFlag;
+			var threshold_color=[];
+			var threshold_value=[];
+			var colors=[];
+				for(var j=0;j<kpiresultthresholdDTOs.length;j++){
+					threshold_color[j]=kpiresultthresholdDTOs[j].id.colorCode;
+				threshold_value[j]=$().number_format(kpiresultthresholdDTOs[j].endThreshold, {precision: 0,decimalSeparator: '.'});
+				if(kpiresultthresholdDTOs[j].id.colorCode=='red'){
+					endthreshold_red=$().number_format(kpiresultthresholdDTOs[j].endThreshold, {precision: 0,decimalSeparator: '.'});
+					beginthreshold_red=$().number_format(kpiresultthresholdDTOs[j].beginThreshold, {precision: 0,decimalSeparator: '.'});
+					myValues=myValues+","+endthreshold_red; 
+				}else if(kpiresultthresholdDTOs[j].id.colorCode=='yellow'){
+					endthreshold_yellow=$().number_format(kpiresultthresholdDTOs[j].endThreshold, {precision: 0,decimalSeparator: '.'});
+					beginthreshold_yellow=$().number_format(kpiresultthresholdDTOs[j].beginThreshold, {precision: 0,decimalSeparator: '.'});
+					myValues=","+endthreshold_yellow+myValues; 
+				}else if(kpiresultthresholdDTOs[j].id.colorCode=='green'){
+					endthreshold_green=$().number_format(kpiresultthresholdDTOs[j].endThreshold, {precision: 0,decimalSeparator: '.'});
+					beginthreshold_green=$().number_format(kpiresultthresholdDTOs[j].beginThreshold, {precision: 0,decimalSeparator: '.'});
+					myValues=","+endthreshold_green+myValues; 
+				}
+					actualValue=kpiresultthresholdDTOs[j].actualValue;
+				targetValue=kpiresultthresholdDTOs[j].targetValue;	
+				percentActualVsTargettargetValue=kpiresultthresholdDTOs[j].percentActualVsTarget;
+				kpiKey=kpiresultthresholdDTOs[j].id.kpiKey;
+				dateKey=kpiresultthresholdDTOs[j].id.dateKey;
+				accumulatedFlag=kpiresultthresholdDTOs[j].accumulatedFlag;
+			}
+			//myValues=targetValue+","+actualValue+myValues;
+			myValues = targetValue+","+actualValue+","+threshold_value[2]+","+threshold_value[1]+","+threshold_value[0];
+			//alert(myValues)
+			var color_size=threshold_color.length;
+			for(var k=0;k<color_size;k++){
+				colors[k]=threshold_color[(color_size-1)-k];
+			}
+			//alert(colors)
+			var sparkId="_"+_rowId+"_"+data_KPIListLevel0[i].kpiKey;
+			var trendChartValue=""+trendChartLevel0.jan+","+trendChartLevel0.feb+","+
+								""+trendChartLevel0.mar+","+trendChartLevel0.apr+","+
+								""+trendChartLevel0.may+","+trendChartLevel0.jun+","+
+								""+trendChartLevel0.jul+","+trendChartLevel0.aug+","+
+								""+trendChartLevel0.sep+","+trendChartLevel0.oct+","+
+								""+trendChartLevel0.nov+","+trendChartLevel0.dec+"";
+							//	class=\"parent collapsed\"	
+					str=str+"<tr  height=\"5\" id=\""+_rowId+"_node_"+data_KPIListLevel0[i].kpiKey+"\" "+childOf+">"+
+							"<td width=\"43%\" style=\"padding-left: 20px;\" >"+ 
+					"<a style=\"cursor: pointer;\" onclick=\"showKPIBarChart('"+_rowId+"','"+data_KPIListLevel0[i].kpiKey+"','"+data_KPIListLevel0[i].dateKey+"','"+accumulatedFlag+"')\">"+data_KPIListLevel0[i].kpiName+"</a></td>"+
+					"<td width=\"20px\"  align=\"right\">"+  
+					"<a style=\"cursor: pointer;\" id=\"KPIDetail_"+kpiKey+"\" rel=\"facebox\" class=\"KPIDetail\" onclick=\"showKPIDetail('"+data_KPIListLevel0[i].kpiKey+"','"+data_KPIListLevel0[i].dateKey+"')\">"+
+					"<img src=\""+_path+"/chartLib/images/question_shield.ico\" width=\"20px\" BORDER =\"0\"/></a>"+					
+					"	</td>"+
+		    		"<td width=\"6%\"  align=\"center\">"+kpiWeight+"%</td>"+	
+					"<td width=\"6%\"  align=\"center\">"+weight+"%</td>			<td width=\"4%\" align=\"center\">"+freq+"</td>"+		
+					"<td width=\"7%\"  align=\"center\">"+target+"</td>		<td width=\"7%\" align=\"center\">"+actual+"</td>"+		
+					"<td width=\"7%\"  align=\"center\"><div   id=\"sparklines"+sparkId+"\" title=\""+percentActualVsTargettargetValue+"%\">"+myValues+"</div></td>"+		
+				//	"<td width=\"7%\"  align=\"center\"><div   class=\"sparklines\" title=\""+percentActualVsTargettargetValue+"%\">"+myValues+"</div></td>"+
+					"<td width=\"7%\"  align=\"center\"><div id=\"trendLine"+sparkId+"\" LineColor=\"red\" >"+trendChartValue+"</div></td>"+
+				//	"<td width=\"7%\"  align=\"center\"><div class=\"trendLine\" LineColor=\"red\" >"+trendChartValue+"</div></td>"+
+					"<td width=\"12%\" align=\"center\">"+lastUpdated+"</td>"+
+			 		"</tr>";
+			 		myValuesBscProcessArray[i]={id:sparkId,myValues:myValues.split(","),trendChartValues:trendChartValue.split(","),colors:colors};					 		 
+				} 
+				str=str+"</tbody></table>"; 
+	    treeTable.innerHTML=str;
+	    //alert(str)
+		//	aoe.src="bscProcess.jsp?viewKPI=0&bscYear=1&bscMonth=1&bscOwner=1";
+			$(".bscTreegrid_"+_rowId).treeTable();
+		 	for(var i=0;i<myValuesBscProcessArray.length;i++){ 
+		 		//alert("valuess="+myValuesBscProcessArray[i].myValues)
+		 		 $("#sparklines"+myValuesBscProcessArray[i].id).sparkline(myValuesBscProcessArray[i].myValues, {
+		 			type: 'bullet',
+			    	performanceColor:'blue',
+			    	//targetColor:'red',
+			    	targetColor:'blue',
+			    	width:"auto" ,
+			    	height:'auto',
+			    	targetWidth:3,
+			    	//rangeColors:['#D3DAFE','#A8B6FF','#7F94FF']
+			    	//rangeColors:['green','yellow','red']
+			    	rangeColors:myValuesBscProcessArray[i].colors
+		 		 } ); 
+		 		$("#trendLine"+myValuesBscProcessArray[i].id).sparkline(myValuesBscProcessArray[i].trendChartValues, {barColor: 'red'}); 
+			}
+		 } 
+	  });  		
+}
 
-<body>
-
-<%
-String KPIWidth = new String("43%");
-String InfoWidth = new String ("20px");
-String WeightWidth = new String ("6%");
-String FreqWidth = new String ("4%");
-String TargetWidth = new String ("7%");
-String ActualWidth = new String ("7%");
-String PerTargetWidth = new String ("10%");
-String TrendWidth = new String ("10%");
-String ETLWidth = new String ("12%");
-
-String SRC=request.getContextPath()+"/chartLib/images/question_shield.ico";
-String ImgWidth = new String("20px");
-String ImgHeight = new String("20px");
-%>
-
+</script>
+<body> 
 	<table id="ProcessTree" width="100%" height="20"  border="1"  >
-
-			<tr height="5" align="center">
-				<td width="<% out.println(KPIWidth);%>" class="tdsubheader">KPI</td>	
-				<td width="<% out.println(InfoWidth);%>" class="tdsubheader"></td>	
-				<td width="<% out.println(WeightWidth);%>" class="tdsubheader">Weight</td>		
-				<td width="<% out.println(FreqWidth);%>" class="tdsubheader">Freq</td>		
-				<td width="<% out.println(TargetWidth);%>%" class="tdsubheader">Target</td> 
-				<td width="<% out.println(ActualWidth);%>%" class="tdsubheader">Actual</td>		
-				<td width="<% out.println(PerTargetWidth);%>%" class="tdsubheader">% Target</td>	
-				<td width="<% out.println(TrendWidth);%>%" class="tdsubheader">Trend</td>
-				<td width="<% out.println(ETLWidth);%>%"	class="tdsubheader" >Last Updated</td>
-			</tr>
-		
-		
-			<tr id="ProcessNode-P1-1" height="5" >
-				<td width="<% out.println(KPIWidth);%>" style="padding-left: 20px;"><a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Number%20of%20efficiency/effectiveness%20Improvement%20project'" +",'ifrmgr3')"); %> >
-				Number of efficiency/effectiveness Improvement project(#)</a></td>
-
-				<td width="<% out.println(InfoWidth);%>"  align="right">
-				<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-				<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-				</td>
-
-				<td width="<% out.println(WeightWidth);%>%"  align="right">80%</td>			<td width="4%" align="right">Q</td>		
-				<td width="7%"  align="right">14.45</td>		<td width="7%" align="right">10.89</td>		
-				<td width="7%" align="center"><span class="targetProcessNode-1" title="38%">50,38,60,40,20</span></td>		
-				<td width="7%" align="center"><span class="trendProcessNode-1" LineColor="red" ></span></td>
-				<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-			</tr>
-					<tr id="ProcessNode-P1-1-1" class="child-of-ProcessNode-P1-1" > 
-						<td width="<% out.println(KPIWidth);%>">
-						<a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Number%20of%20Improvement%20project%20:%20Factories'" +",'ifrmgr3')"); %> >
-						Number of Improvement project(#) : Factories</a></td>
-
-						<td width="<% out.println(InfoWidth);%>"  align="right">
-						<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-						<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-						</td>
-
-						<td width="<% out.println(WeightWidth);%>"  align="right">50%</td>		<td width="4%" align="right">M</td>		
-						<td width="7%"  align="right">14.5</td>		<td width="7%" align="right">9.50</td>		
-						<td width="7%" align="center"><span class="targetProcessNode-2" title="27%">50,27,60,40,20</span></td>	
-						<td width="7%" align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-						<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-					</tr>
-								<tr id="ProcessNode-P1-1-1-1" class="child-of-ProcessNode-P1-1-1">
-											<td width="<% out.println(KPIWidth);%>">
-											<a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Energy%20Saving(bath)'" +",'ifrmgr3')"); %> >
-											Energy Saving(bath)</a></td>
-
-											<td width="<% out.println(InfoWidth);%>"  align="right">
-											<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-											<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-											</td>
-
-											<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		
-											<td width="4%" align="right">M</td>		
-											<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-											<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-											<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-											<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-								</tr>
-								<tr id="ProcessNode-P1-1-1-2" class="child-of-ProcessNode-P1-1-1">
-											<td width="<% out.println(KPIWidth);%>">
-											<a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Waste/defact%20Redution'" +",'ifrmgr3')"); %> >
-											Waste/defact Redution</a></td>
-
-											<td width="<% out.println(InfoWidth);%>"  align="right">
-											<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-											<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-											</td>
-
-											<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		<td width="4%" align="right">M</td>		
-											<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-											<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-											<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-											<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-								</tr>
-								<tr id="ProcessNode-P1-1-1-3" class="child-of-ProcessNode-P1-1-1">
-											<td width="<% out.println(KPIWidth);%>"><a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "M/C%20utillization%20rate'" +",'ifrmgr3')"); %> >M/C utillization rate</a></td>
-
-											<td width="<% out.println(InfoWidth);%>"  align="right">
-											<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-											<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-											</td>
-
-											<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		
-											<td width="4%" align="right">M</td>		
-											<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-											<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-											<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-											<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-								</tr>
-								<tr id="ProcessNode-P1-1-1-4" class="child-of-ProcessNode-P1-1-1">
-											<td width="<% out.println(KPIWidth);%>"><a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "MFG%20cycle%20time%20reduction'" +",'ifrmgr3')"); %> >MFG cycle time reduction(%)</a></td>
-
-											<td width="<% out.println(InfoWidth);%>"  align="right">
-											<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-											<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-											</td>
-
-											<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		<td width="4%" align="right">M</td>		
-											<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-											<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-											<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-											<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-								</tr>
-
-											<tr id="ProcessNode-P1-1-1-4-1" class="child-of-ProcessNode-P1-1-1-4">
-													<td width="<% out.println(KPIWidth);%>"><a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Inventory%20turnover'" +",'ifrmgr3')"); %> >Inventory turnover</a></td>
-
-													<td width="<% out.println(InfoWidth);%>"  align="right">
-													<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-													<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-													</td>
-
-													<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		<td width="4%" align="right">M</td>		
-													<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-													<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-													<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-													<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-											</tr>
-								<tr id="ProcessNode-P1-1-1-5" class="child-of-ProcessNode-P1-1-1">
-											<td width="<% out.println(KPIWidth);%>"><a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Food%20safety'" +",'ifrmgr3')"); %> >Food safety(#complaint)</a></td>
-
-											<td width="<% out.println(InfoWidth);%>"  align="right">
-											<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-											<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-											</td>
-
-											<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		<td width="4%" align="right">M</td>		
-											<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-											<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-											<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-											<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-								</tr>
-
-				
-					<tr id="ProcessNode-P1-1-2" class="child-of-ProcessNode-P1-1">
-						<td width="<% out.println(KPIWidth);%>">
-						<a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Support%20groups'" +",'ifrmgr3')"); %> > 
-						Number of Improvement project(#) : Support groups</a></td>
-
-						<td width="<% out.println(InfoWidth);%>"  align="right">
-						<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-						<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-						</td>
-
-						<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		<td width="4%" align="right">M</td>		
-						<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-						<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-						<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-						<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-					</tr>
-
-								<tr id="ProcessNode-P1-1-2-1" class="child-of-ProcessNode-P1-1-2">
-											<td width="<% out.println(KPIWidth);%>" style="text-indent:-5px">
-											<a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "SCM%20development(percent%20progress)'" +",'ifrmgr3')"); %> >
-											SCM development(%progress)</a></td>
-
-											<td width="<% out.println(InfoWidth);%>"  align="right">
-											<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-											<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-											</td>
-
-											<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		
-											<td width="4%" align="right">M</td>		
-											<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-											<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-											<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-											<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-								</tr>
-
-											<tr id="ProcessNode-P1-1-2-1-1" class="child-of-ProcessNode-P1-1-2-1">
-														<td width="<% out.println(KPIWidth);%>">
-														<a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Transportation%20cost'" +",'ifrmgr3')"); %> >
-														Transportation cost</a></td>
-
-														<td width="<% out.println(InfoWidth);%>"  align="right">
-														<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-														<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-														</td>
-
-														<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		
-														<td width="4%" align="right">M</td>		
-														<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-														<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-														<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-														<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-											</tr>
-
-								<tr id="ProcessNode-P1-1-2-2" class="child-of-ProcessNode-P1-1-2">
-											<td width="<% out.println(KPIWidth);%>">
-											<a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "RM%20cost%20reduction(percent)'" +",'ifrmgr3')"); %> >
-											RM cost reduction(%)</a></td>
-
-											<td width="<% out.println(InfoWidth);%>"  align="right">
-											<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-											<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-											</td>
-
-											<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		
-											<td width="4%" align="right">M</td>		
-											<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-											<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-											<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-											<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-								</tr>
-
-								<tr id="ProcessNode-P1-1-2-3" class="child-of-ProcessNode-P1-1-2">
-											<td width="<% out.println(KPIWidth);%>">
-											<a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Product%20shelf-life%20Extension(percent%20progress)'" +",'ifrmgr3')"); %> >
-											Product shelf-life Extension(%progress)</a></td>
-
-											<td width="<% out.println(InfoWidth);%>"  align="right">
-											<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-											<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-											</td>
-
-											<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		
-											<td width="4%" align="right">M</td>		
-											<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-											<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-											<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-											<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-								</tr>
-
-								<tr id="ProcessNode-P1-1-2-3" class="child-of-ProcessNode-P1-1-2">
-											<td width="<% out.println(KPIWidth);%>">
-											<a href= <% out.println("javascript:loadmetergraph('mixChart.jsp?head="+ "Cost%20accounting(percent%20progress)'" +",'ifrmgr3')"); %> >
-											Cost accounting(%progress)</a></td>
-
-											<td width="<% out.println(InfoWidth);%>"  align="right">
-											<a href="bscKPIDetail.jsp?head=Number of Improvement project" rel="facebox"> 
-											<img src="<% out.println(SRC); %>" width="<% out.println(ImgWidth); %>" BORDER ="0"/></a>
-											</td>
-
-											<td width="<% out.println(WeightWidth);%>"  align="right">70%</td>		
-											<td width="4%" align="right">M</td>		
-											<td width="7%"  align="right">10.50</td>		<td width="7%" align="right">4.60</td>		
-											<td width="7%" align="center"><span class="targetProcessNode-2" title="21.9%">50,21.9,60,40,20</span></td>	
-											<td width="7%"  align="center"><span class="trendProcessNode-2" LineColor="red" ></span></td>
-											<td width="<% out.println(ETLWidth);%>%" align="right">28/03/2011 00:00:00</td>
-								</tr>
-					
-			
-					
+  		<tr>
+  		<td><div id="tree_perspective_"></div></td>
+  		</tr>					
 	</table>
 
 
 
-
-<script type="text/javascript">
-// have no effect when call by ajax
-// only run for this stand alone page
-/*
-	$(document).ready(function()  {
-
-		$('.targetProcessNode-1').sparkline('html', {type: 'bullet', TargetColor: 'red' , width:"60px"  } );
-		$('.targetProcessNode-2').sparkline('html', {type: 'bullet', TargetColor: 'red' , width:"60px"  } );
-
-		var kvalue = [1,2,3,4,5,6,7,8,9,10,11,12];
-        $('.trendProcessNode-1').sparkline(kvalue , {barColor: 'red' , }); 
-		var kvalue = [5,9,2,9,3,9,4,9,5,9,6,9,7,9];
-		$('.trendProcessNode-2').sparkline(kvalue , {barColor: 'red' , }); 
-
-		$("#tree").treeTable();
-	  //$('#tree').columnTreeTable();
-	});
-*/
-	</script>
-
+ <script type="text/javascript">  
+//jQuery(document).ready(function($) {
+	//initProcess(); 
+//});
+</script> 
 </body>
 </html>

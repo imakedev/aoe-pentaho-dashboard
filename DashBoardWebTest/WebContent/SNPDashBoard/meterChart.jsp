@@ -22,7 +22,7 @@ Integration Data
 ---------------------------------------------------------
 *********************************************************
 --> 
- 
+  
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 <META HTTP-EQUIV="EXPIRES" CONTENT="-1" />
 <%@ page contentType="text/html; charset=UTF-8" %> 
@@ -33,6 +33,12 @@ Integration Data
 <body>
 <%
 String strvalue = new String("0") ;
+Double target = new Double("0") ;
+Double actual = new Double("0") ;
+Double red = new Double("0") ;
+Double yellow = new Double("0") ;
+Double green = new Double("0") ;
+
 if (request.getParameter("gvalue") == null) 
 {	
 		out.println("Please enter the fields.");
@@ -41,6 +47,11 @@ else
 {	
 		//out.println("strvalue: <b>"+request.getParameter("gvalue"));  
 		strvalue = request.getParameter("gvalue") ;
+		target = Double.parseDouble(request.getParameter("target")) ;
+		actual = Double.parseDouble(request.getParameter("actual")) ;
+		red = Double.parseDouble(request.getParameter("red")) ;
+		yellow = Double.parseDouble(request.getParameter("yellow")) ;
+		green = Double.parseDouble(request.getParameter("green")) ;
 }
 %>
 
@@ -58,8 +69,9 @@ var jsonCircle = {
          "fill-type":"radial",
          "scale":{
 			"values": [
-				"Ratio : Percent(%)"
-				],
+				//"Ratio : Percent(%)"
+				//"Percent(%)"
+				"Performance"				],
             "item":{
                "font-color":"white",
                "font-family":"helvetica",
@@ -72,8 +84,9 @@ var jsonCircle = {
                "offset-x":0
             }
          },
-		 "scale-r":{
-            "values":"0:100:10",
+     	 "scale-r":{
+            //"values":"0:100:10",
+            "values":"0:<%=green%>:<%=(green/10)%>",
 			"size": 150,
             "aperture":270, //270
 			"offset-start": "15",
@@ -118,17 +131,17 @@ var jsonCircle = {
                "alpha":-1,
                "border-width":2,
                "border-color":"black",
-			   "rules": [
+			   "rules": [			            
 					{
-					"rule": "%v <=30",
+					"rule": "%v <= <%=red%>",
 					"background-color": "red"
 					},
 					{
-					"rule": "%v >= 30 && %v <= 70",
+					"rule": "%v >= <%=red%> && %v <= <%=yellow%>",
 					"background-color": "yellow"
 					},
 					{
-					"rule": "%v >= 70 && %v <= 100",
+					"rule": "%v >= <%=yellow%> && %v <= <%=green%>",
 					"background-color": "green"
 					},
 					{
@@ -152,21 +165,21 @@ var jsonCircle = {
 			"font-color": "black",
 			"font-weight": "bold",
 			"padding": "10",
-			"rules": [
+			"rules": [			         
 					{
 					"rule": "%v <=100" ,
 					"background-color": "lightgreen"
 					},
 					{
-					"rule": "%v >= 0 && %v <= 30",
+					"rule": "%v >= 0 && %v <= <%=red%>",
 					"background-color": "red"
 					},
 					{
-					"rule": "%v >= 30 && %v <= 70",
+					"rule": "%v >= <%=red%> && %v <= <%=yellow%>",
 					"background-color": "yellow"
 					},
 					{
-					"rule": "%v >= 70 && %v <= 100",
+					"rule": "%v >= <%=yellow%> && %v <= <%=green%>",
 					"background-color": "green"
 					}
 					,
@@ -178,15 +191,24 @@ var jsonCircle = {
 					}
 			   ]
          },
+       
          "series":[
-            {
-               "values":[<% out.print(strvalue); %>],
+              {
+            	  "values":[<%=actual%>],
 			   "size": "120",
                "text":"Value",
-			   "background-color": "blue",
+			   "background-color": "green"
 				//"alpha": 1,
 				//"data-rpm": ["%"]
-				}
+				},
+              {
+				"values":[<%=target%>],
+   			   "size": "120",
+                  "text":"Value",
+   			   "background-color": "blue"
+   				//"alpha": 1,
+   				//"data-rpm": ["%"]
+   				}
 			
          ]
       }
