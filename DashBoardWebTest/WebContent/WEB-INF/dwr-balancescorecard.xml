@@ -3,7 +3,7 @@
 <dwr>
  
   <allow>
- 
+  
 
     <!-- BalanceScorecardAjax -->
     <create creator="new" javascript="BalanceScorecardAjax">
