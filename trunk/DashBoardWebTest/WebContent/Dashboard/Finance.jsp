@@ -2363,13 +2363,17 @@
 
 	<!-- Specialty -->
 	<table id="tabs-t1r3_3" height="360">
-	<tr><td>&nbsp;&nbsp;Drill Down : 
+	<tr>
+	<%--
+	<td>&nbsp;&nbsp;Drill Down : 
 		<select name="speciatly">
 			<option value="1">สินค้า</option>
 			<option value="2">ประเภทร้านค้า</option>
 		</select>&nbsp;&nbsp;
 		<input type="submit" name="ok" value=" OK "/>
-	</td></tr>
+	</td>
+	 --%>
+	 </tr>
 
 	<tr><td>
 	<table bordercolor="#CCCCCC" frame="box" rules="all" style=" position:absolute; top:90px; left:8px;">
@@ -2422,13 +2426,16 @@
 
 	<!-- Trading -->
 	<table id="tabs-t1r3_4" height="360">
-	<tr><td>&nbsp;&nbsp;Drill Down : 
+	<tr>
+	<%--
+	<td>&nbsp;&nbsp;Drill Down : 
 		<select name="speciatly">
 			<option value="1">สินค้า</option>
 			<option value="2">ช่องทางการขาย</option>
 		</select>&nbsp;&nbsp;
 		<input type="submit" name="ok" value=" OK "/><p></p>
-	</td></tr>
+	</td>
+	 --%></tr>
 
 	<tr><td><table bordercolor="#CCCCCC" frame="box" rules="all" style=" position:absolute; top:90px; left:8px;">
 	  <tr>
