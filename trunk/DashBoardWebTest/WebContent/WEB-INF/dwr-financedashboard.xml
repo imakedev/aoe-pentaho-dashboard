@@ -1,15 +1,60 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN"
+    "http://directwebremoting.org/schema/dwr30.dtd">
+
 <dwr>
- 
+  
   <allow>
+     <create creator="new" javascript="BalanceScorecardAjax">
+      <param name="class" value="com.moogle.lbs.ajax.BalanceScorecardAjax"/>
+    </create> 
  	<!-- FinanceDashboardAjax --> 
     <create creator="new" javascript="FinanceDashboardAjax">
       <param name="class" value="com.moogle.lbs.ajax.FinanceDashboardAjax"/>
     </create>
     <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialIndicationDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialIndicationGroupDTO"/> 
     <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialSummaryDTO"/>
     <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialTabDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialMixDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialMixPercentDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPieDTO"/>
+      <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPopup1DTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPopup1GroupDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPopup3DTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPopup3GroupDTO"/>
     
+      <!-- BSC -->
+     <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.Dimdate"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KPIOverall"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiresultPK"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiresultthresholdPK"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.OwnerresultPK"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.OwnerresultthresholdPK"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.PerspectiveresultPK"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.PerspectiveresultthresholdPK"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.Kpiresult"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.Kpiresultthreshold"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.Ownerresult"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.Ownerresultthreshold"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.Perspectiveresult"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.Perspectiveresultthreshold"/>
+    
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.TrendChart"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KPIChartPK"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KPIChart"/> 
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiresultthresholdDTOPK"/> 
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiresultthresholdDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiresultthresholdGroupDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.OwnerresultthresholdDTOPK"/>
+	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.OwnerresultthresholdDTO"/>
+	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.PerspectiveresultthresholdDTOPK"/>
+	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.PerspectiveresultthresholdDTO"/>
+	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.OwnerresultDTO"/>
+	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.PerspectiveresultDTO"/>
+	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.OverAllDTO"/>  
+	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiresultthresholdTreeDTO"/>  
+	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiDetailDTO"/>   
   </allow>
 </dwr>
+
