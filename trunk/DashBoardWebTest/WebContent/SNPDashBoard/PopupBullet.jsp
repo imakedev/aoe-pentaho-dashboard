@@ -38,13 +38,8 @@
 	<script type="text/javascript"
         	src="<%=request.getContextPath() %>/dwrfinancedashboard/engine.js"></script> 
 	<script type="text/javascript"
-<<<<<<< .mine
         	src="<%=request.getContextPath() %>/dwrfinancedashboard/util.js"></script> 
         	 
-=======
-        	src="<%=request.getContextPath() %>/dwrbalancescorecard/util.js"></script> 
-        	 
->>>>>>> .r66
  
 <script type="text/javascript">
 //---------------------------------------------
@@ -92,37 +87,24 @@
 							if(i==0){
 								endthreshold_red=$().number_format(data_KPIOverall[i].endThreshold, {precision: 0,decimalSeparator: '.'});
 								beginthreshold_red=$().number_format(data_KPIOverall[i].beginThreshold, {precision: 0,decimalSeparator: '.'});
-<<<<<<< .mine
 								endthreshold_red_color=data_KPIOverall[i].systemColorCode;
 								//endthreshold_red=30;
 								//beginthreshold_red=0;
 							}
 							//else if(data_KPIOverall[i].systemColorCode=='#FFFF00'){
 							else if(i==1){
-=======
-								//endthreshold_red=30;
-								//beginthreshold_red=0;
-							}else if(data_KPIOverall[i].colorCode=='yellow'){
->>>>>>> .r66
 								endthreshold_yellow=$().number_format(data_KPIOverall[i].endThreshold, {precision: 0,decimalSeparator: '.'});
 								beginthreshold_yellow=$().number_format(data_KPIOverall[i].beginThreshold, {precision: 0,decimalSeparator: '.'});
-<<<<<<< .mine
 								endthreshold_yellow_color=data_KPIOverall[i].systemColorCode;
 								//endthreshold_yellow=65;
 								//beginthreshold_yellow=31;
 							}
 							//else if(data_KPIOverall[i].systemColorCode=='#00FF00'){
 							else if(i==2){ 							
-=======
-								//endthreshold_yellow=65;
-								//beginthreshold_yellow=31;
-							}else if(data_KPIOverall[i].colorCode=='green'){
->>>>>>> .r66
 								endthreshold_green=$().number_format(data_KPIOverall[i].endThreshold, {precision: 0,decimalSeparator: '.'});
 								beginthreshold_green=$().number_format(data_KPIOverall[i].beginThreshold, {precision: 0,decimalSeparator: '.'});
 								endthreshold_green_color=data_KPIOverall[i].systemColorCode;
 							}
-<<<<<<< .mine
 						//	actualValue=data_KPIOverall[i].actualValue;
 						//	targetValue=data_KPIOverall[i].targetValue;		
 						//	percentActualVsTargettargetValue=$().number_format(data_KPIOverall[i].percentActualVsTarget, {precision: 0,decimalSeparator: '.'});
@@ -132,22 +114,10 @@
 					 
 						if(!(endthreshold_green!=null && endthreshold_green!='0.00')){
 							endthreshold_green=100;	
-=======
-							actualValue=data_KPIOverall[i].actualValue;
-							targetValue=data_KPIOverall[i].targetValue;		
-							percentActualVsTargettargetValue=$().number_format(data_KPIOverall[i].percentActualVsTarget, {precision: 0,decimalSeparator: '.'});
-							//percentActualVsTargettargetValue=65;
-							gaugeDiv_overAll_head=data_KPIOverall[i].kpiOwnerName;
->>>>>>> .r66
 						}
-<<<<<<< .mine
 						//alert(bscOwnerText)
 						//alert(endthreshold_red+","+endthreshold_yellow+","+endthreshold_green+","+actualValue+","+percentActualVsTargettargetValue)
 						document.getElementById('gaugeDiv_overAll_head').innerHTML=bscOwnerText;
-=======
-						alert(endthreshold_red+","+endthreshold_yellow+","+endthreshold_green+","+actualValue+","+targetValue+","+percentActualVsTargettargetValue)
-						document.getElementById('gaugeDiv_overAll_head').innerHTML=gaugeDiv_overAll_head;
->>>>>>> .r66
 						var jsonCircle = {
 							      "graphset":[
 							         {
@@ -160,16 +130,10 @@
 							            "fill-type":"radial",
 							            "scale":{
 							   			"values": [
-<<<<<<< .mine
 							   			//	"Ratio : Percent(%)"
 							   			//	"Percent(%)"
 							   			//	"Performance"
 							   			     "% Actual Value vs Target"
-=======
-							   			//	"Ratio : Percent(%)"
-							   			//	"Percent(%)"
-							   				"Performance"
->>>>>>> .r66
 							   				],
 							               "item":{
 							                  "font-color":"white",
@@ -184,17 +148,11 @@
 							               }
 							            },
 							   		 "scale-r":{
-<<<<<<< .mine
 							             //  "values":"0:120:12",
 							             //  "values":"0:"+endthreshold_green+":"+(endthreshold_green/10)+"",
 							               "values":"0:"+endthreshold_green+":"+(10)+"",
 							              // "values":"0:100:10",
 							             
-=======
-							             //  "values":"0:120:12",
-							               "values":"0:"+endthreshold_green+":"+(endthreshold_green/10)+"",
-							             
->>>>>>> .r66
 							   			"size": 150,
 							               "aperture":270, //270
 							   			"offset-start": "15",
@@ -244,15 +202,9 @@
 							                  "border-color":"black",
 							   			   "rules": [
 							   					{
-<<<<<<< .mine
 							   					"rule": "%v <="+endthreshold_red+"",
 							   					"background-color": endthreshold_red_color
-=======
-							   					"rule": "%v <="+endthreshold_red+"",
-							   					"background-color": "red"
->>>>>>> .r66
 							   					},
-<<<<<<< .mine
 							   				 	{
 							   					"rule": "%v >= "+endthreshold_red+" && %v <= "+endthreshold_yellow+"",
 							   					"background-color": endthreshold_yellow_color
@@ -262,16 +214,6 @@
 							   					"rule": "%v >= "+endthreshold_yellow+" && %v <= "+endthreshold_green+"",
 							   					"background-color": endthreshold_green_color
 							   					}, 
-=======
-							   					{
-							   					"rule": "%v >= "+endthreshold_red+" && %v <= "+endthreshold_yellow+"",
-							   					"background-color": "yellow"
-							   					},
-							   					{
-							   					"rule": "%v >= "+endthreshold_yellow+" && %v <= "+endthreshold_green+"",
-							   					"background-color": "green"
-							   					},
->>>>>>> .r66
 							   					{
 							   					"rule": "%v >= 1000",
 							   					"background-color": "0",
@@ -302,32 +244,16 @@
 							   					"background-color": "lightgreen"
 							   					},
 							   					{
-<<<<<<< .mine
 							   					"rule": "%v >= 0 && %v <= "+endthreshold_red+"",
 							   					"background-color": endthreshold_red_color
-=======
-							   					"rule": "%v >= 0 && %v <= "+endthreshold_red+"",
-							   					"background-color": "red"
->>>>>>> .r66
 							   					},
-<<<<<<< .mine
 							   					 {
 							   					"rule": "%v >= "+endthreshold_red+" && %v <= "+endthreshold_yellow+"",
 							   					"background-color": endthreshold_yellow_color
-=======
-							   					{
-							   					"rule": "%v >= "+endthreshold_red+" && %v <= "+endthreshold_yellow+"",
-							   					"background-color": "yellow"
->>>>>>> .r66
 							   					},
 							   					{
-<<<<<<< .mine
 							   					"rule": "%v >= "+endthreshold_yellow+" && %v <= "+endthreshold_green+"",
 							   					"background-color": endthreshold_green_color
-=======
-							   					"rule": "%v >= "+endthreshold_yellow+" && %v <= "+endthreshold_green+"",
-							   					"background-color": "green"
->>>>>>> .r66
 							   					}
 							   					,
 							   					{
@@ -340,7 +266,6 @@
 							            },
 							            "series":[
 							               {
-<<<<<<< .mine
 							                  "values":[""+percentActualVsTargettargetValue+""], 
 							   			   "size": "120",
 							                  "text":"Score",
@@ -350,17 +275,6 @@
 							   				//"data-rpm": ["%"]
 							   				}
 							               /*,
-							               {
-							                  "values":[""+targetValue+""],
-=======
-							                  "values":[""+actualValue+""],
->>>>>>> .r66
-							   			   "size": "120",
-							                  "text":"Value",
-							   			   "background-color": "green"
-							   				//"alpha": 1,
-							   				//"data-rpm": ["%"]
-							   				},
 							               {
 							                  "values":[""+targetValue+""],
 							   			   "size": "120",
