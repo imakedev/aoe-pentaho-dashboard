@@ -332,7 +332,6 @@ window.onload = function(){
 					var kpiName="";
 					//var year=parse
 				//	"text":"Actual 10", series
-<<<<<<< .mine
 				//alert(size)
 					var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 					var monthNos=["1","2","3","4","5","6","7","8","9","10","11","12"];
@@ -347,24 +346,7 @@ window.onload = function(){
 						var targetValue ="";//data_KPIChart[i].targetValue;
 					 for(var i = 0;i<size;i++){
 						//var accumActualValue = data_KPIChart[i].accumActualValue!=null?data_KPIChart[i].accumActualValue:"";
-=======
-				//alert(size)
-					var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-					var monthNos=["1","2","3","4","5","6","7","8","9","10","11","12"];
-					var month_size=monthNos.length;
-					
-					for(var j=0;j<month_size;j++){
-						//var haveData=false;
-						var monthName =monthNames[j];//data_KPIChart[i].monthName;
-						var monthNo =monthNos[j];
-						var lastYearActual ="";//data_KPIChart[i].lastYearActual!=null?data_KPIChart[i].lastYearActual:"";						
-						var actualValue ="";//data_KPIChart[i].actualValue;
-						var targetValue ="";//data_KPIChart[i].targetValue;
-					 for(var i = 0;i<size;i++){
-						var accumActualValue = data_KPIChart[i].accumActualValue!=null?data_KPIChart[i].accumActualValue:"";
->>>>>>> .r66
 						kpiName =data_KPIChart[i].kpiName;
-<<<<<<< .mine
 						
 						 //monthNo =data_KPIChart[i].monthNo;						
 						if(data_KPIChart[i].monthNo==monthNos[j]){
@@ -400,41 +382,6 @@ window.onload = function(){
 					 } 
 					//alert(accumActualValue.length)
 					 	
-=======
-						 //monthNo =data_KPIChart[i].monthNo;						
-						if(data_KPIChart[i].monthNo==monthNos[j]){
-						//	haveData=true;
-							lastYearActual =data_KPIChart[i].lastYearActual!=null?data_KPIChart[i].lastYearActual:"";						
-							actualValue =data_KPIChart[i].actualValue;
-							targetValue =data_KPIChart[i].targetValue;
-							break;
-						}else {
-							
-						}
-						
-					 }
-					/* 	if(monthNo=='1')
-							alert("aoe test")
-						if(monthNo==1)
-							alert("aoe test3") */
-					
-					/* 	alert("accumActualValue"+accumActualValue)
-						alert("lastYearActual"+lastYearActual)
-						alert("actualValue"+actualValue)
-						alert("targetValue"+targetValue) */
-					 	var accum = {
-								"text" : accumActualValue,
-								//"text" : 99,
-								"hook" : "offset-x=10,offset-y=10",
-								"x" : (i+1)*35,
-								"y" : 40,
-								"background-color":"#FFCC00", 
-								"border-width":1, 
-								"border-radius":15,
-								"font-size": 16
-								};
-						accums.push(accum);
->>>>>>> .r66
 						months.push(monthName);
 						actualLastyear_line_series.push(lastYearActual);
 						actual_bar_series.push(actualValue);
@@ -489,13 +436,9 @@ window.onload = function(){
 							};
 					var scale_yElement={
 							"values":"0:100:20",
-<<<<<<< .mine
 							//"values":"0:100:20",
 						//	"labels":["0","20","40","60","80","100"],
 							"decimals":0,
-=======
-						//	"labels":["0","20","40","60","80","100"],
->>>>>>> .r66
 							"guide":{
 								"line-width": 1,
 								"alpha": 1
@@ -591,7 +534,7 @@ window.onload = function(){
 							"legend":legendElement,
 							"scale-x":scale_xElement,
 							"scale-y":scale_yElement,
-							//"labels" : accums,  
+							"labels" : accums,  
 							"series":[
 									actualLastyear_line_Element,
 									actual_bar_Element,

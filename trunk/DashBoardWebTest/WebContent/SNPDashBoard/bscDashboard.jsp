@@ -55,18 +55,15 @@ Integration Data
         	src="<%=request.getContextPath() %>/dwrfinancedashboard/engine.js"></script> 
 	<script type="text/javascript"
         	src="<%=request.getContextPath() %>/dwrfinancedashboard/util.js"></script> 
- <script type="text/javascript"
-        	src="<%=request.getContextPath() %>/chartLib/js/bsc.js"></script>
+ 
 <!-- Use for call JQuery treetable  -->
 <script type="text/javascript">
-
 jQuery(document).ready(function($) {
 	$.facebox.settings.closeImage=_path+'/chartLib/images/closelabel.png';
 	$("#targetAllSparkline").facebox(); 
 	listYear();
 });
 /*  -----------------  Use JQuery to Create Tree ------------------------*/
-<<<<<<< .mine
 function getParentLoop(parentID){
 	  if ($("#"+parentID)){
 		  var classValues= $("#"+parentID).attr("class");
@@ -689,9 +686,6 @@ function showhidebsc(rowid ){
 			treeTable.html("");
 	}
 } 
-=======
-
->>>>>>> .r66
 </script>
 <!-- -------------------------------------------------------------------- --> 
 

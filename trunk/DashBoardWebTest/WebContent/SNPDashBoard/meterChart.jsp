@@ -33,7 +33,6 @@ Integration Data
 <body>
 <%
 String strvalue = new String("0") ;
-<<<<<<< .mine
 Double target = new Double("0") ;
 String actual = new String("0") ;
 Double percent = new Double("0") ;
@@ -45,14 +44,6 @@ String red_color = new String("") ;
 String yellow_color = new String("") ;
 String green_color = new String("") ;
 
-=======
-Double target = new Double("0") ;
-Double actual = new Double("0") ;
-Double red = new Double("0") ;
-Double yellow = new Double("0") ;
-Double green = new Double("0") ;
-
->>>>>>> .r66
 if (request.getParameter("gvalue") == null) 
 {	
 		out.println("Please enter the fields.");
@@ -61,7 +52,6 @@ else
 {	
 		//out.println("strvalue: <b>"+request.getParameter("gvalue"));  
 		strvalue = request.getParameter("gvalue") ;
-<<<<<<< .mine
 		target = Double.parseDouble(request.getParameter("target")) ;
 		actual = request.getParameter("actual") ;
 		//percent = Double.parseDouble(request.getParameter("percent")) ;
@@ -72,13 +62,6 @@ else
 		red_color = request.getParameter("red_color") ;
 		yellow_color = request.getParameter("yellow_color") ;
 		green_color = request.getParameter("green_color") ;
-=======
-		target = Double.parseDouble(request.getParameter("target")) ;
-		actual = Double.parseDouble(request.getParameter("actual")) ;
-		red = Double.parseDouble(request.getParameter("red")) ;
-		yellow = Double.parseDouble(request.getParameter("yellow")) ;
-		green = Double.parseDouble(request.getParameter("green")) ;
->>>>>>> .r66
 }
 %>
 
@@ -97,15 +80,10 @@ var jsonCircle = {
          "fill-type":"radial",
          "scale":{
 			"values": [
-<<<<<<< .mine
 				//"Ratio : Percent(%)"
 				//"Percent(%)"
 			//	"Performance"
-				  "% Actual Value vs Target"=======
-				//"Ratio : Percent(%)"
-				//"Percent(%)"
-				"Performance">>>>>>> .r66
-				],
+				  "% Actual Value vs Target"				],
             "item":{
                "font-color":"white",
                "font-family":"helvetica",
@@ -118,15 +96,9 @@ var jsonCircle = {
                "offset-x":0
             }
          },
-<<<<<<< .mine
      	 "scale-r":{
             //"values":"0:100:10",
             "values":"0:<%=green%>:<%=(10)%>",
-=======
-     	 "scale-r":{
-            //"values":"0:100:10",
-            "values":"0:<%=green%>:<%=(green/10)%>",
->>>>>>> .r66
 			"size": 150,
             "aperture":270, //270
 			"offset-start": "15",
@@ -173,31 +145,16 @@ var jsonCircle = {
                "border-color":"black",
 			   "rules": [			            
 					{
-<<<<<<< .mine
 					"rule": "%v <= <%=red%>",
 					"background-color": "#<%=red_color%>"
-=======
-					"rule": "%v <= <%=red%>",
-					"background-color": "red"
->>>>>>> .r66
 					},
 					{
-<<<<<<< .mine
 					"rule": "%v >= <%=red%> && %v <= <%=yellow%>",
 					"background-color": "#<%=yellow_color%>"
-=======
-					"rule": "%v >= <%=red%> && %v <= <%=yellow%>",
-					"background-color": "yellow"
->>>>>>> .r66
 					},
 					{
-<<<<<<< .mine
 					"rule": "%v >= <%=yellow%> && %v <= <%=green%>",
 					"background-color": "#<%=green_color%>"
-=======
-					"rule": "%v >= <%=yellow%> && %v <= <%=green%>",
-					"background-color": "green"
->>>>>>> .r66
 					},
 					{
 					"rule": "%v >= 1000",
@@ -226,31 +183,16 @@ var jsonCircle = {
 					"background-color": "lightgreen"
 					},
 					{
-<<<<<<< .mine
 					"rule": "%v >= 0 && %v <= <%=red%>",
 					"background-color": "#<%=red_color%>"
-=======
-					"rule": "%v >= 0 && %v <= <%=red%>",
-					"background-color": "red"
->>>>>>> .r66
 					},
 					{
-<<<<<<< .mine
 					"rule": "%v >= <%=red%> && %v <= <%=yellow%>",
 					"background-color": "#<%=yellow_color%>"
-=======
-					"rule": "%v >= <%=red%> && %v <= <%=yellow%>",
-					"background-color": "yellow"
->>>>>>> .r66
 					},
 					{
-<<<<<<< .mine
 					"rule": "%v >= <%=yellow%> && %v <= <%=green%>",
 					"background-color": "#<%=green_color%>"
-=======
-					"rule": "%v >= <%=yellow%> && %v <= <%=green%>",
-					"background-color": "green"
->>>>>>> .r66
 					}
 					,
 					{
@@ -263,28 +205,15 @@ var jsonCircle = {
          },
        
          "series":[
-<<<<<<< .mine
               {
             	  "values":[<%=strvalue%>],
-=======
-              {
-            	  "values":[<%=actual%>],
->>>>>>> .r66
 			   "size": "120",
                "text":"Score",
-			   "background-color": "green"
+			   "background-color": "blue",
 			 "tooltip-text" : "%t: <%=actual%>"  // กำหนดเพื่อให้แสดงค่าเวลาเอาเมาส์ไปชี้ที่ Chart ค่ะ
 				//"alpha": 1,
 				//"data-rpm": ["%"]
-				},
-              {
-				"values":[<%=target%>],
-   			   "size": "120",
-                  "text":"Value",
-   			   "background-color": "blue"
-   				//"alpha": 1,
-   				//"data-rpm": ["%"]
-   				}
+				}
               /* ,
                {
 				"values":[<target%>],
