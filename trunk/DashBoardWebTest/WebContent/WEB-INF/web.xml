@@ -20,7 +20,7 @@
     <servlet-name>dwr-balancescorecard-invoker</servlet-name>
     <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
     <init-param>
-    	<param-name>config-balancescorecardr</param-name>
+    	<param-name>config-balancescorecard</param-name>
     	<param-value>WEB-INF/dwr-balancescorecard.xml</param-value>
   	</init-param>    
     <init-param>
@@ -60,7 +60,7 @@
     <servlet-name>dwr-financedashboard-invoker</servlet-name>
     <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
     <init-param>
-    	<param-name>config-financedashboardr</param-name>
+    	<param-name>config-financedashboard</param-name>
     	<param-value>WEB-INF/dwr-financedashboard.xml</param-value>
   	</init-param>    
     <init-param>
@@ -93,7 +93,10 @@
     <servlet-name>dwr-financedashboard-invoker</servlet-name>
     <url-pattern>/dwrfinancedashboard/*</url-pattern>
   </servlet-mapping>
+<<<<<<< .mine
+=======
   -->
+>>>>>>> .r66
   <!--  dwr operationdashboard -->
   <!-- 
   <servlet>
