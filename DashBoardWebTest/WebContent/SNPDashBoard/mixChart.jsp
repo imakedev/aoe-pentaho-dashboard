@@ -10,15 +10,24 @@
   <head> 
     <title>SNP DashBoard</title>  
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/> 
-<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart/zingchart-html5beta-min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart/license.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.number_format.js"></script>
+<%--
 <script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwrbalancescorecard/interface/BalanceScorecardAjax.js"></script>
+        	src=">/dwrbalancescorecard/interface/BalanceScorecardAjax.js"></script>
 	<script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwrbalancescorecard/engine.js"></script> 
+        	src=">/dwrbalancescorecard/engine.js"></script> 
 	<script type="text/javascript"
-        	src="<%=request.getContextPath() %>/dwrbalancescorecard/util.js"></script>
+        	src=">/dwrbalancescorecard/util.js"></script> 
+        	 --%>
+<script type="text/javascript"
+        	src="<%=request.getContextPath() %>/dwrfinancedashboard/interface/BalanceScorecardAjax.js"></script>
+	<script type="text/javascript"
+        	src="<%=request.getContextPath() %>/dwrfinancedashboard/engine.js"></script> 
+	<script type="text/javascript"
+        	src="<%=request.getContextPath() %>/dwrfinancedashboard/util.js"></script> 
   </head>
 <body>
 <%
@@ -306,12 +315,11 @@ var bscOwner = '<%=request.getParameter("bscOwner")%>';
 var bscYear = '<%=request.getParameter("bscYear")%>';
 var bscMonth = '<%=request.getParameter("bscMonth")%>';
 var perspectiveKey = '<%=request.getParameter("perspectiveKey")%>';
-var kpiKey = '<%=request.getParameter("kpiKey")%>';
-var dateKey = '<%=request.getParameter("dateKey")%>';
+var kpiCode = '<%=request.getParameter("kpiCode")%>'; 
 var accumulatedFlag = '<%=request.getParameter("accumulatedFlag")%>';
   
 window.onload = function(){ 
-	 BalanceScorecardAjax.getKPIChart(bscYear,bscMonth,kpiKey,accumulatedFlag,{
+	 BalanceScorecardAjax.getKPIChart(bscYear,bscMonth,bscOwner,kpiCode,accumulatedFlag,{
 			callback:function(data_KPIChart){
 				if(data_KPIChart!=null && data_KPIChart.length>0){
 					var size=data_KPIChart.length;
@@ -324,6 +332,22 @@ window.onload = function(){
 					var kpiName="";
 					//var year=parse
 				//	"text":"Actual 10", series
+<<<<<<< .mine
+				//alert(size)
+					var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+					var monthNos=["1","2","3","4","5","6","7","8","9","10","11","12"];
+					var month_size=monthNos.length;
+					
+					for(var j=0;j<month_size;j++){
+						//var haveData=false;
+						var monthName =monthNames[j];//data_KPIChart[i].monthName;
+						var monthNo =monthNos[j];
+						var lastYearActual ="";//data_KPIChart[i].lastYearActual!=null?data_KPIChart[i].lastYearActual:"";						
+						var actualValue ="";//data_KPIChart[i].actualValue;
+						var targetValue ="";//data_KPIChart[i].targetValue;
+					 for(var i = 0;i<size;i++){
+						//var accumActualValue = data_KPIChart[i].accumActualValue!=null?data_KPIChart[i].accumActualValue:"";
+=======
 				//alert(size)
 					var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 					var monthNos=["1","2","3","4","5","6","7","8","9","10","11","12"];
@@ -338,7 +362,45 @@ window.onload = function(){
 						var targetValue ="";//data_KPIChart[i].targetValue;
 					 for(var i = 0;i<size;i++){
 						var accumActualValue = data_KPIChart[i].accumActualValue!=null?data_KPIChart[i].accumActualValue:"";
+>>>>>>> .r66
 						kpiName =data_KPIChart[i].kpiName;
+<<<<<<< .mine
+						
+						 //monthNo =data_KPIChart[i].monthNo;						
+						if(data_KPIChart[i].monthNo==monthNos[j]){
+						//	haveData=true;
+							var accumActualValue = data_KPIChart[i].accumActualValue!=null?data_KPIChart[i].accumActualValue:"";
+						//	alert((accumActualValue+"").length)
+							lastYearActual =data_KPIChart[i].lastYearActual!=null?data_KPIChart[i].lastYearActual:"";	
+						//	if((accumActualValue+"").length)
+							accumActualValue=$().number_format(accumActualValue, {precision: 0,decimalSeparator: '.'});
+						//alert(test)
+							actualValue =data_KPIChart[i].actualValue;
+							targetValue =data_KPIChart[i].targetValue;
+							var accum = {
+									"text" : accumActualValue,
+									//"text" : 99,
+									"hook" : "offset-x=10,offset-y=10",
+									"x" : (i+1)*34,
+									//"x" : (i+1)*35,
+									//"x" : (i+1)*30,
+									"y" : 40,
+									"background-color":"#FFCC00", 
+									"border-width":1, 
+									"border-radius":15,
+									//"font-size": 16
+									"font-size": 10
+									};
+							accums.push(accum);
+							break;
+						}else {
+							
+						}
+						
+					 } 
+					//alert(accumActualValue.length)
+					 	
+=======
 						 //monthNo =data_KPIChart[i].monthNo;						
 						if(data_KPIChart[i].monthNo==monthNos[j]){
 						//	haveData=true;
@@ -372,6 +434,7 @@ window.onload = function(){
 								"font-size": 16
 								};
 						accums.push(accum);
+>>>>>>> .r66
 						months.push(monthName);
 						actualLastyear_line_series.push(lastYearActual);
 						actual_bar_series.push(actualValue);
@@ -380,6 +443,7 @@ window.onload = function(){
 					}
 			//	}
 					var chartElement={"margin":"70 10 75 35"};
+				//	var chartElement={"margin":"50 10 75 35"};
 					var titleElement={
 							"text" : kpiName ,
 							"background-color":"#3399FF #3366FF",
@@ -400,7 +464,8 @@ window.onload = function(){
 							"x": 5,
 							"y": 315,
 							"layout":"1x",
-							"width": 440,
+						//	"width": 440,
+							"width": 450,
 							"item":{
 								"font-color":"#000000",
 								"font-size": 14,
@@ -424,7 +489,13 @@ window.onload = function(){
 							};
 					var scale_yElement={
 							"values":"0:100:20",
+<<<<<<< .mine
+							//"values":"0:100:20",
 						//	"labels":["0","20","40","60","80","100"],
+							"decimals":0,
+=======
+						//	"labels":["0","20","40","60","80","100"],
+>>>>>>> .r66
 							"guide":{
 								"line-width": 1,
 								"alpha": 1
@@ -536,6 +607,7 @@ window.onload = function(){
 					id 				: 'showchart',
 					data 		    : accumulatedFlag=='Y'?chartMix:chartMixNoAccum,
 					width	 		: 450,
+					//width	 		: 500,
 					height 			: 350
 					
 				});
@@ -560,7 +632,7 @@ window.onload = function(){
 
 
 
-<div id="showchart" >
+<div id="showchart" align="center">
 </div>
 
 </body>
