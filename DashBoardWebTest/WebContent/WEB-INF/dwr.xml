@@ -1,20 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
-<dwr>
- 
-  <allow>
-  
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN"
+    "http://directwebremoting.org/schema/dwr30.dtd">
 
-    <!-- BalanceScorecardAjax -->
-    <create creator="new" javascript="BalanceScorecardAjax">
+<dwr>
+  
+  <allow>
+ 	<!-- FinanceDashboardAjax --> 
+    <create creator="new" javascript="FinanceDashboardAjax">
+      <param name="class" value="com.moogle.lbs.ajax.FinanceDashboardAjax"/>
+    </create>
+        <create creator="new" javascript="BalanceScorecardAjax">
       <param name="class" value="com.moogle.lbs.ajax.BalanceScorecardAjax"/>
     </create> 
-    <convert converter="exception" match="java.lang.Exception"/>
-    <convert converter="bean" match="java.lang.StackTraceElement"/>
-    <convert converter="collection" match="java.util.Collection"/>
-    <convert converter="collection" match="java.util.List"/>
-    <convert converter="collection" match="java.util.arraylist"/>
-    <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.Dimdate"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialIndicationDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialIndicationGroupDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialSummaryDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialTabDTO"/> 
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialMixDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialMixPercentDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPieDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPopup1DTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPopup1GroupDTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPopup3DTO"/>
+    <convert converter="bean" match="com.moogle.lbs.financedashboard.domain.FinancialPopup3GroupDTO"/>  
+    
+    <!-- BSC -->
+     <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.Dimdate"/>
     <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KPIOverall"/>
     <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiresultPK"/>
     <convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiresultthresholdPK"/>
@@ -44,7 +55,8 @@
 	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.OverAllDTO"/>  
 	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiresultthresholdTreeDTO"/>  
 	<convert converter="bean" match="com.moogle.lbs.balancescorecard.domain.KpiDetailDTO"/>   
- 
- 
+	
+    
   </allow>
 </dwr>
+
