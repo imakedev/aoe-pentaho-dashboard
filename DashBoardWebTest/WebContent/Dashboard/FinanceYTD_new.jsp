@@ -35,31 +35,34 @@
 	var yearG='<%=request.getParameter("y")%>';
 	var monthG='<%=request.getParameter("m")%>';
 	var sumByG='<%=request.getParameter("sb")%>';
+	var initG='<%=request.getParameter("init")%>';
 	var urlG="Finance_new";
 	var monthKeyG=["1","2","3","4","5","6","7","8","9","10","11","12"];
 	var monthNameG=["January","February","March","April","May","June","July","August","September","October","November","December"];
+	var shortmonthNameG=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 	var tabsG=["Restaurant","Bakery","Specialty","Trading","Caterman","Other"];
+	var loadedG=[];
    $(document).ready(function() {
 			// Tabs
-			$("#tabs").tabs();
-			/* $("#tabs-ratio").tabs();
-			$("#tabs-ratio1").tabs(); */
 			$("#tabs-table2").tabs();
-			$("#tabs-table3").tabs();
-			$("#tabs-table4").tabs();
-			$("#tabs-table5").tabs();
-
-			$("#tabs-t1r3").tabs();
-			$("#tabs-t2r3").tabs();
-			
 			//hover states on the static widgets
 			$('#dialog_link, ul#icons li').hover(
 				function() { $(this).addClass('ui-state-hover'); }, 
 				function() { $(this).removeClass('ui-state-hover'); }
 			);
 			initChart();
-			//render_zingchart('g1',chart01);
+			 
 		});
+   function checkLoaded(int_check){
+		var haveIndex=false;
+		for(var i=0;i<loadedG.length;i++){
+			if(loadedG[i]==int_check){
+				haveIndex=true;
+				break;
+			} 
+		}
+		return haveIndex;
+	}
    function initChart(){
 		var now = new Date();
 		var now_year=now.getFullYear();
@@ -82,271 +85,103 @@
 		{ 
 		var sumby=$("#SumBy").val();
 		var year=$("#financeYear").val();
-		var month=$("#financeMonth").val();
-		
-		var g1_data = 
-		{
-		"graphset":[
-			{
-				"type":"mixed", 
-				"background-color":"#FFFFFF",
-				"stacked":"1",
-				"chart":{
-					"margin":"30 60 30 80"
-				},
-				"labels" : [
-					{
-						"text":"พันบาท",
-						"bold":true,
-						"font-size":12,
-						"x": "60",
-						"y": "0"
-					}
-				],
-				"legend":{
-					"background-color": "#FFFFFF",
-					"border-width": "2px",
-					"border-color": "#4C77B6",
-					"margin":"70 0 0 885",
-					"layout":"x1",
-					"item":{
-						"font-color":"#000000"
-					}
-				},
-				"guide":{
-					"shared":true
-				},
-				"tooltip":{
-					"visible": false
-				},
-				"plot":{
-					"format":"%v",
-					"decimals":2,
-					"decimals-separator":".",
-					"thousands-separator":","
-				},
-				"scale-x":{
-					"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], 
-					"guide":{
-						"line-width": 1,
-						"alpha": 1
-					},
-					"tick":{
-						"line-width": 3
-					},
-					"item":{
-						"font-color":"#000000"
-					}
-				},
-				//"max-labels": 2,
-				"scale-y":{
-					"format":"%v",
-					"decimals":0,
-					"decimals-separator":".",
-					"thousands-separator":",",
-					"guide":{
-						"line-width": 1,
-						"alpha": 1
-					},
-					"tick":{
-						"line-width": 3
-					}
-				},
-				"scale-y-2":{
-					"format" : "%v%",
-					"decimals":0,
-					"decimals-separator":".",
-					"thousands-separator":",",
-					"guide":{
-						"line-width": 0,
-						"alpha": 0
-					},
-					"tick":{
-						"line-width": 3
-					}
-				}, 
-				"series":[
-					{
-						"type":"bar",
-						"values":[],
-						"text":"ActualYTD 09",
-						"background-color":"#66CC00",
-						"stacked":0
-					},
-					{
-						"type":"bar",
-						"values":[],
-						"text":"ActualYTD 10",
-						"background-color":"#EEEE00",
-						"stacked":0
-					},
-					{
-						"type":"bar",
-						"values":[],
-						"text":"Budget",
-						"background-color":"#696969",
-						"stacked":0
-					},
-					{
-						"type":"line",
-						"values":[],
-						"text":"%Variance YTD",
-						"scales":"scale-x,scale-y-2",
-						"stacked":0,
-						"line-color": "#E46C0A",
-						"aspect" : "spline",
-						"marker":{
-							"visible":false
-						}
-					},
-					{
-						"type":"line",
-						"values":[],
-						"text":"%GrowthYTD",
-						"scales":"scale-x,scale-y-2",
-						"line-color": "#4F81BD",
-						"stacked":0,
-						"aspect" : "spline",
-						"marker":{
-							"visible":false
-						}
-					}]			
-				}]
-			};
-		//Restaurant
-		var tab_data = 
-		{
-		"graphset":[
-			{
-				"type":"mixed",
-				"background-color":"#FFFFFF",
-				"stacked":"1",
-				"chart":{
-					"margin":"30 60 30 80"
-				},
-				"labels" : [
-					{
-						"text":"พันบาท",
-						"bold":true,
-						"font-size":12,
-						"x": "60",
-						"y": "0"
-					}
-				],
-				"legend":{
-					"background-color": "#FFFFFF",
-					"border-width": "2px",
-					"border-color": "#4C77B6",
-					"margin":"70 0 0 885",
-					"layout":"x1",
-					"item":{
-						"font-color":"#000000"
-					}
-				},
-				"guide":{
-					"shared":true
-				},
-				"tooltip":{
-					"visible": false
-				},
-				"plot":{
-					"format":"%v",
-					"decimals":2,
-					"decimals-separator":".",
-					"thousands-separator":","
-				},
-				"scale-x":{
-					"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-					"guide":{
-						"line-width": 1,
-						"alpha": 1
-					},
-					"tick":{
-						"line-width": 3
-					},
-					"item":{
-						"font-color":"#000000"
-					}
-				},
-				"scale-y":{
-					"format":"%v",
-					"decimals":0,
-					"decimals-separator":".",
-					"thousands-separator":",",
-					"guide":{
-						"line-width": 1,
-						"alpha": 1
-					},
-					"tick":{
-						"line-width": 3
-					}
-				},
-				"scale-y-2":{
-					"format" : "%v%",
-					"decimals":0,
-					"decimals-separator":".",
-					"thousands-separator":",",
-					"guide":{
-						"line-width": 0,
-						"alpha": 0
-					},
-					"tick":{
-						"line-width": 3
-					},
-					"item":{
-						"font-color":"#000000"
-					}
-				},
-				"series":[
-					{
-						"type":"bar",
-						"values":[],
-						"text":"ActualYTD 09",
-						"background-color":"#66CC00",
-						"stacked":0
-					},
-					{
-						"type":"bar",
-						"values":[],
-						"text":"ActualYTD 10",
-						"background-color":"#EEEE00",
-						"stacked":0
-					},
-					{
-						"type":"bar",
-						"values":[],
-						"text":"Budget",
-						"background-color":"#696969",
-						"stacked":0
-					},
-					{
-						"type":"line",
-						"values":[],
-						"text":"%Variance YTD",
-						"scales":"scale-x,scale-y-2",
-						"stacked":0,
-						"line-color": "#E46C0A",
-						"aspect" : "spline",
-						"marker":{
-							"visible":false
-						}
-					},
-					{
-						"type":"line",
-						"values":[],
-						"text":"%GrowthYTD",
-						"scales":"scale-x,scale-y-2",
-						"line-color": "#4F81BD",
-						"stacked":0,
-						"aspect" : "spline",
-						"marker":{
-							"visible":false
-						}
-					}]
-				}]
-			};
+		var month=$("#financeMonth").val(); 
 		
 		if(sumby=='6' || sumby=='7'){
+			loadedG=[0];
+			 $("#snp_element").html("<table id=tabs-table2 style=\"position:absolute; left:242px; top:45px;\" bordercolor=\"#000000\" frame=\"box\" rules=\"all\">"+
+			  "<tr><td align=center>"+
+				"	<table width=1074>"+
+				"		<tr bgcolor=\"#8B4513\">"+
+				"			<td colspan=\"2\"><div align=center><font color=\"#FFE742\" size=\"3\"><b>บริษัท เอส แอนด์ พี ซินดิเคท จำกัด (มหาชน)</b></font></div></td>"+
+				"		</tr>"+
+				"		<tr>"+
+				"			<td colspan=\"2\"><div align=center><font size=\"3\">ยอดขาย</font></div></td>"+
+				"		</tr>"+
+				"		<tr>"+
+				"			<td align=\"center\"><div id=\"g1\"></div></td>"+
+				"			<td align=left width=\"150\"><div id=\"g1_legend\"></div></td>"+
+				"		</tr>"+
+				"	</table>"+
+			  "</td></tr>"+
+			  "</table>");
+			 $("#snp_element2").html("<table id=\"tabs-t1r3\"> "+
+					 " <tr height=300><td valign=\"top\" width=1065> "+
+					"	<ul>"+
+					"		<li><a href=\"#tabs-t1r3_1\">Restaurant</a></li>"+
+					"		<li><a href=\"#tabs-t1r3_2\">Bakery</a></li>"+
+					"		<li><a href=\"#tabs-t1r3_3\">Specialty</a></li>"+
+					"		<li><a href=\"#tabs-t1r3_4\">Trading</a></li>"+
+					"		<li><a href=\"#tabs-t1r3_5\">Caterman</a></li>"+
+					"		<li><a href=\"#tabs-t1r3_6\">Other</a></li>"+
+					"	</ul>"+
+					"	<table id=\"tabs-t1r3_1\">"+
+					"		<tr>"+
+					"			<td colspan=\"2\"><div align=center><font size=\"3\">ยอดขาย</font></div></td>"+
+					"		</tr>"+
+					"		<tr>"+
+					"			<td align=\"center\"><div id=\"Restaurant_tab\"></div></td>"+
+					"			<td align=left width=\"150\"><div id=\"Restaurant_legend\"></div></td>"+
+					"		</tr>"+
+					"	</table>"+
+					"	<table id=\"tabs-t1r3_2\">"+
+					"		<tr>"+
+					"			<td colspan=\"2\"><div align=center><font size=\"3\">ยอดขาย</font></div></td>"+
+					"		</tr>"+
+					"		<tr>"+
+					"			<td align=center><div id=\"Bakery_tab\"></div></td>"+
+					"			<td align=left width=\"150\"><div id=\"Bakery_legend\"></div></td>"+
+					"		</tr>"+
+					"	</table>"+
+					"	<table id=\"tabs-t1r3_3\">"+
+					"		<tr>"+
+					"			<td colspan=\"2\"><div align=center><font size=\"3\">ยอดขาย</font></div></td>"+
+					"		</tr>"+
+					"		<tr>"+
+					"			<td align=center><div id=\"Specialty_tab\"></div></td>"+
+					"			<td align=left width=\"150\"><div id=\"Specialty_legend\"></div></td>"+
+					"		</tr>"+
+					"	</table>"+
+					"	<table id=\"tabs-t1r3_4\">"+
+					"		<tr>"+
+					"			<td colspan=\"2\"><div align=center><font size=\"3\">ยอดขาย</font></div></td>"+
+					"		</tr>"+
+					"		<tr>"+
+					"			<td align=center><div id=\"Trading_tab\"></div></td>"+
+					"			<td align=left width=\"150\"><div id=\"Trading_legend\"></div></td>"+
+					"		</tr>"+
+					"	</table>"+
+					"	<table id=\"tabs-t1r3_5\">"+
+					"		<tr>"+
+					"			<td colspan=\"2\"><div align=center><font size=\"3\">ยอดขาย</font></div></td>"+
+					"		</tr>"+
+					"		<tr>"+
+					"			<td align=center><div id=\"Caterman_tab\"></div></td>"+
+					"			<td align=left width=\"150\"><div id=\"Caterman_legend\"></div></td>"+
+					"		</tr>"+
+					"	</table>"+
+					"	<table id=\"tabs-t1r3_6\">"+
+					"		<tr>"+
+					"			<td colspan=\"2\"><div align=center><font size=\"3\">ยอดขาย</font></div></td>"+
+					"		</tr>"+
+					"		<tr>"+
+					"			<td align=center><div id=\"Other_tab\"></div></td>"+
+					"			<td align=left width=\"150\"><div id=\"Other_legend\"></div></td>"+
+					"		</tr>"+
+					"	</table>"+
+					 " </td></tr>"+
+					  "</table>");
+			 $("a[href^=#tabs-t1r3_]").click(function() {
+				    //alert(index + ': ' + $(this).text());
+				    var index=$(this).attr("href").split("_")[1];
+				   // alert($(this)+",index="+index); 
+				    var _int_index=(parseInt(index)-1);
+				    if(!checkLoaded(_int_index)){
+				    	clickBytab(_int_index);
+					    loadedG.push(_int_index);
+					  }
+				}); 
+			 $("#tabs-t1r3").tabs();
 			var LastAct= [];// sumLastYearActualMONTHLY "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22,3138353.13,3527905.41,3889966.29,4397887.58";
 			var ThisAct = [];// sumThisYearActualMonthly "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40,3979020.08,4399473.14,4967272.82";
 			var Target =[];// sumThisYearBudgetMONTHLY  "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29,3571298.86,3955662.91,4354784.30,4953878.04";
@@ -354,15 +189,184 @@
 			var perGrowth = [];// percentGrowthMONTHLY "12.79,30.48,41.68,48.14,58.97,73.68,86.36,105.75,123.33,127.28,143.40,155.19";
 			$("#g1").html("<img src=\""+_path+"/Dashboard/images/loading.gif\"/>");
 			$("#g1_legend").html(""); 
+			render_financialIndication(year,month,'00100');
 			BalanceScorecardAjax.getFinancial_YTD_Monthly_Summary(year,month,sumby,{
 					callback:function(data){
 						if(data!=null && data.length>0){
+							var g1_data = 
+							{
+							"graphset":[
+								{
+									"type":"mixed", 
+									"background-color":"#FFFFFF",
+									"stacked":"1",
+									"chart":{
+										"margin":"30 60 30 80"
+									},
+									"labels" : [
+										{
+											"text":"พันบาท",
+											"bold":true,
+											"font-size":12,
+											"x": "60",
+											"y": "0"
+										}
+									],
+									"legend":{
+										"background-color": "#FFFFFF",
+										"border-width": "2px",
+										"border-color": "#4C77B6",
+										"margin":"70 0 0 885",
+										"layout":"x1",
+										"item":{
+											"font-color":"#000000"
+										}
+									},
+									"guide":{
+										"shared":true
+									},
+									"tooltip":{
+										"visible": false
+									},
+									"plot":{
+										"format":"%v",
+										"decimals":2,
+										"decimals-separator":".",
+										"thousands-separator":","
+									},
+									"scale-x":{
+										"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], 
+										"guide":{
+											"line-width": 1,
+											"alpha": 1
+										},
+										"tick":{
+											"line-width": 3
+										},
+										"item":{
+											"font-color":"#000000"
+										}
+									},
+									//"max-labels": 2,
+									"scale-y":{
+										"format":"%v",
+										"decimals":0,
+										"decimals-separator":".",
+										"thousands-separator":",",
+										"guide":{
+											"line-width": 1,
+											"alpha": 1
+										},
+										"tick":{
+											"line-width": 3
+										}
+									},
+									"scale-y-2":{
+										"format" : "%v%",
+										"decimals":0,
+										"decimals-separator":".",
+										"thousands-separator":",",
+										"guide":{
+											"line-width": 0,
+											"alpha": 0
+										},
+										"tick":{
+											"line-width": 3
+										}
+									}, 
+									"series":[
+										{
+											"type":"bar",
+											"values":[],
+											"text":"ActualYTD 09",
+											"background-color":"#66CC00",
+											"stacked":0
+										},
+										{
+											"type":"bar",
+											"values":[],
+											"text":"ActualYTD 10",
+											"background-color":"#EEEE00",
+											"stacked":0
+										},
+										{
+											"type":"bar",
+											"values":[],
+											"text":"Budget",
+											"background-color":"#696969",
+											"stacked":0
+										},
+										{
+											"type":"line",
+											"values":[],
+											"text":"%Variance YTD",
+											"scales":"scale-x,scale-y-2",
+											"stacked":0,
+											"line-color": "#E46C0A",
+											"aspect" : "spline",
+											"marker":{
+												"visible":false
+											}
+										},
+										{
+											"type":"line",
+											"values":[],
+											"text":"%GrowthYTD",
+											"scales":"scale-x,scale-y-2",
+											"line-color": "#4F81BD",
+											"stacked":0,
+											"aspect" : "spline",
+											"marker":{
+												"visible":false
+											}
+										}]			
+									}]
+								};
+							var sumLastAct=0;
+							var sumThisAct=0; 
+							var sumTarget=0;
+							var sumperVariance=0;
+							var sumperperGrowth=0;
 							for(var i=0;i<data.length;i++){
-								LastAct.push((data[i].sumLastYearActualMONTHLY!=null && data[i].sumLastYearActualMONTHLY.length>0)?data[i].sumLastYearActualMONTHLY:"0.00");
-								ThisAct.push((data[i].sumThisYearActualMonthly!=null && data[i].sumThisYearActualMonthly.length>0)?data[i].sumThisYearActualMonthly:"0.00");
+								if(sumby=='6'){
+								   if(data[i].sumLastYearActualMONTHLY!=null && data[i].sumLastYearActualMONTHLY.length>0)
+										sumLastAct=sumLastAct+Number(data[i].sumLastYearActualMONTHLY);
+								   if(data[i].sumThisYearActualMonthly!=null && data[i].sumThisYearActualMonthly.length>0)
+									   sumThisAct=sumThisAct+Number(data[i].sumThisYearActualMonthly);
+								   if(data[i].sumThisYearBudgetMONTHLY!=null && data[i].sumThisYearBudgetMONTHLY.length>0)
+									   sumTarget=sumTarget+Number(data[i].sumThisYearBudgetMONTHLY);
+								   if(data[i].percentVarianceMONTHLY!=null && data[i].percentVarianceMONTHLY.length>0)
+									   sumperVariance=sumperVariance+Number(data[i].percentVarianceMONTHLY);
+								   if(data[i].percentGrowthMONTHLY!=null && data[i].percentGrowthMONTHLY.length>0)
+									   sumperperGrowth=sumperperGrowth+Number(data[i].percentGrowthMONTHLY);
+								}else{
+									sumLastAct=0;
+									sumThisAct=0; 
+									sumTarget=0;
+									sumperVariance=0;
+									sumperperGrowth=0;
+									if(data[i].sumLastYearActualMONTHLY!=null && data[i].sumLastYearActualMONTHLY.length>0)
+										sumLastAct=Number(data[i].sumLastYearActualMONTHLY);
+									if(data[i].sumThisYearActualMonthly!=null && data[i].sumThisYearActualMonthly.length>0)
+										sumThisAct=Number(data[i].sumThisYearActualMonthly);
+									if(data[i].sumThisYearBudgetMONTHLY!=null && data[i].sumThisYearBudgetMONTHLY.length>0)
+									    sumTarget=Number(data[i].sumThisYearBudgetMONTHLY);
+									if(data[i].percentVarianceMONTHLY!=null && data[i].percentVarianceMONTHLY.length>0)
+									   sumperVariance=Number(data[i].percentVarianceMONTHLY);
+									if(data[i].percentGrowthMONTHLY!=null && data[i].percentGrowthMONTHLY.length>0)
+									   sumperperGrowth=Number(data[i].percentGrowthMONTHLY);
+								}
+								//alert(data[i].sumLastYearActualMONTHLY+",sum="+sumLastAct)
+							//	LastAct.push((data[i].sumLastYearActualMONTHLY!=null && data[i].sumLastYearActualMONTHLY.length>0)?data[i].sumLastYearActualMONTHLY:"0.00");
+								/* ThisAct.push((data[i].sumThisYearActualMonthly!=null && data[i].sumThisYearActualMonthly.length>0)?data[i].sumThisYearActualMonthly:"0.00");
 								Target.push((data[i].sumThisYearBudgetMONTHLY!=null && data[i].sumThisYearBudgetMONTHLY.length>0)?data[i].sumThisYearBudgetMONTHLY:"0.00");
 								perVariance.push((data[i].percentVarianceMONTHLY!=null && data[i].percentVarianceMONTHLY.length>0)?data[i].percentVarianceMONTHLY:"0.00");
-								perGrowth.push((data[i].percentGrowthMONTHLY!=null && data[i].percentGrowthMONTHLY.length>0)?data[i].percentGrowthMONTHLY:"0.00");
+								perGrowth.push((data[i].percentGrowthMONTHLY!=null && data[i].percentGrowthMONTHLY.length>0)?data[i].percentGrowthMONTHLY:"0.00"); */
+								LastAct.push(sumLastAct);
+								ThisAct.push(sumThisAct);
+								Target.push(sumTarget);
+								perVariance.push(sumperVariance);
+								perGrowth.push(sumperperGrowth);
 							}
 							//alert(perVariance)
 							g1_data.graphset[0].series[0].values=LastAct;
@@ -373,60 +377,6 @@
 							$("#g1").html("");
 							$("#g1_legend").html("<img src=\""+_path+"/Dashboard/images/legend_Y-M.jpg\"/>"); 
 							render_zingchart('g1',g1_data);
-							//g1_data
-							//zingchart.exec("yourChartId", "modifyplot", '{"graphid":0, "plotindex": 0, "plotdata": ' + plotdata + '}');
-						//	data2 = '{"scale-x":{"values":"Massachusetts","New Hampshire","Connecticut","Maine","Vermont","New Jersey","New York","Rhode Island","Washington","Minnesota"}}';
-							var data2= ' { "series":[ { '+
-							' 	"type":"bar", '+
-							' 			"values":[], '+
-							' 			"text":"ActualYTD 09",'+
-							' 			"background-color":"#66CC00", '+
-							' 			"stacked":0 '+ 
-							' 		}, '+
-							' 		{  '+
-							' 			"type":"bar", '+
-							' 			"values":[],'+
-							' 			"text":"ActualYTD 10",'+
-							' 			"background-color":"#EEEE00",'+
-							' 			"stacked":0'+
-							' 		},'+
-							' 		{'+
-							' 			"type":"bar",'+
-							' 			"values":[],'+
-							' 			"text":"Budget",'+
-							' 			"background-color":"#696969",'+
-							' 			"stacked":0'+
-							' 		},'+
-							' 		{'+
-							' 			"type":"line",'+
-							' 			"values":[],'+
-							' 			"text":"%Variance YTD",'+
-							' 			"scales":"scale-x,scale-y-2",'+
-							' 			"stacked":0,'+
-							' 			"line-color": "#E46C0A",'+
-							' 			"aspect" : "spline",'+
-							' 			"marker":{'+
-							' 				"visible":false'+
-							' 			}'+
-							' 		},'+
-							' 		{'+
-							' 			"type":"line",'+
-							' 			"values":[],'+
-							' 			"text":"%GrowthYTD",'+
-							' 			"scales":"scale-x,scale-y-2",'+
-							' 			"line-color": "#4F81BD",'+
-							' 			"stacked":0,'+
-							' 			"aspect" : "spline",'+
-							' 			"marker":{'+
-							' 				"visible":false'+
-							' 				  	} '+
-							' 		 }]}';
-							//zingchart.exec("g1", "modify", '{"data":' + data2 + '}'); 
-							//var data = '{ "graphset" : [ { "plot" : {},"scale-x" : {"values": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]},"scale-y" : {},"type" : "line","legend" : {"position" : "100% 0%","margin-top" : 10,"margin-right" : 10,"margin-left" : 10,"margin-bottom" : 10,"fixed" : true,"minimize" : false},"title" : {"text" : "Loaded from API","position" : "0% 0%","margin-top" : 10,"margin-right" : 0,"margin-left" : 0,"margin-bottom" : 10},"series" : [ {"values" : [57,46,74,30,29,89,8,28,54], "text" : "Item 0"},{"values" : [29,88,16,78,46,10,13,0,67], "text" : "Item 1"} ] } ] }';
-							 
-							//alert(myString)
-							
-							//zingchart.exec("g1", "setdata", '{"data":' + myString + '}'); 
 						}else{
 							$("#g1").html("");
 							$("#g1_legend").html(""); 
@@ -434,20 +384,24 @@
 						//alert(data.length);
 					}
 			});
-			 render_financialIndication(year,month,'00100');
-			 for(var j=0;j<tabsG.length;j++){ 
-				 reder_tab_data(year,month,tabsG[j],sumby,tab_data);  
-			 } 
+			// render tab
+			/*  for(var j=0;j<tabsG.length;j++){ 
+				 reder_tab_data(year,month,tabsG[j],sumby);  
+			 }  */
+			 reder_tab_data(year,month,tabsG[0],sumby);
 		}else {
 			//alert("goTo URL")  
 			location.href = _path+"/Dashboard/"+urlG+".jsp?y="+year+"&m="+month+"&sb="+sumby
 		}
-		
-		 
-		 
-			//location.href = urlP+'?y='+y+'&months='+months+'&sb='+sb+'&country=1&bar1=0&bar2=0&bar2F=0&bar3=0&bar3F=0&t1=0&t2=0';
 	} 
-	function reder_tab_data(year,month,tab_id,sumby,tab_data){
+	 
+	  function clickBytab(index){
+		  var sumby=$("#SumBy").val();
+		var year=$("#financeYear").val();
+		var month=$("#financeMonth").val(); 
+   	  reder_tab_data(year,month,tabsG[index],sumby);  
+   }
+	function reder_tab_data(year,month,tab_id,sumby){
 		 var LastAct_tab= [];
 		 var ThisAct_tab = [];
 		 var Target_tab =[];
@@ -458,13 +412,182 @@
 		 BalanceScorecardAjax.getFinancial_YTD_Monthly_Tab(year,month,tab_id,sumby,{
 				callback:function(data){ 
 					//alert(data)
-					if(data!=null && data.length>0){ 
+					if(data!=null && data.length>0){
+						var tab_data = 
+						{
+						"graphset":[
+							{
+								"type":"mixed",
+								"background-color":"#FFFFFF",
+								"stacked":"1",
+								"chart":{
+									"margin":"30 60 30 80"
+								},
+								"labels" : [
+									{
+										"text":"พันบาท",
+										"bold":true,
+										"font-size":12,
+										"x": "60",
+										"y": "0"
+									}
+								],
+								"legend":{
+									"background-color": "#FFFFFF",
+									"border-width": "2px",
+									"border-color": "#4C77B6",
+									"margin":"70 0 0 885",
+									"layout":"x1",
+									"item":{
+										"font-color":"#000000"
+									}
+								},
+								"guide":{
+									"shared":true
+								},
+								"tooltip":{
+									"visible": false
+								},
+								"plot":{
+									"format":"%v",
+									"decimals":2,
+									"decimals-separator":".",
+									"thousands-separator":","
+								},
+								"scale-x":{
+									"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+									"guide":{
+										"line-width": 1,
+										"alpha": 1
+									},
+									"tick":{
+										"line-width": 3
+									},
+									"item":{
+										"font-color":"#000000"
+									}
+								},
+								"scale-y":{
+									"format":"%v",
+									"decimals":0,
+									"decimals-separator":".",
+									"thousands-separator":",",
+									"guide":{
+										"line-width": 1,
+										"alpha": 1
+									},
+									"tick":{
+										"line-width": 3
+									}
+								},
+								"scale-y-2":{
+									"format" : "%v%",
+									"decimals":0,
+									"decimals-separator":".",
+									"thousands-separator":",",
+									"guide":{
+										"line-width": 0,
+										"alpha": 0
+									},
+									"tick":{
+										"line-width": 3
+									},
+									"item":{
+										"font-color":"#000000"
+									}
+								},
+								"series":[
+									{
+										"type":"bar",
+										"values":[],
+										"text":"ActualYTD 09",
+										"background-color":"#66CC00",
+										"stacked":0
+									},
+									{
+										"type":"bar",
+										"values":[],
+										"text":"ActualYTD 10",
+										"background-color":"#EEEE00",
+										"stacked":0
+									},
+									{
+										"type":"bar",
+										"values":[],
+										"text":"Budget",
+										"background-color":"#696969",
+										"stacked":0
+									},
+									{
+										"type":"line",
+										"values":[],
+										"text":"%Variance YTD",
+										"scales":"scale-x,scale-y-2",
+										"stacked":0,
+										"line-color": "#E46C0A",
+										"aspect" : "spline",
+										"marker":{
+											"visible":false
+										}
+									},
+									{
+										"type":"line",
+										"values":[],
+										"text":"%GrowthYTD",
+										"scales":"scale-x,scale-y-2",
+										"line-color": "#4F81BD",
+										"stacked":0,
+										"aspect" : "spline",
+										"marker":{
+											"visible":false
+										}
+									}]
+								}]
+							};
+						var sumLastAct_tab=0;
+						var sumThisAct_tab=0; 
+						var sumTarget_tab=0;
+						var sumperVariance_tab=0;
+						var sumperperGrowth_tab=0;
 						for(var i=0;i<data.length;i++){
-							LastAct_tab.push((data[i].sumLastYearActualMONTHLY!=null && data[i].sumLastYearActualMONTHLY.length>0)?data[i].sumLastYearActualMONTHLY:"0.00");
+							if(sumby=='6'){
+							   if(data[i].sumLastYearActualMONTHLY!=null && data[i].sumLastYearActualMONTHLY.length>0)
+								   sumLastAct_tab=sumLastAct_tab+Number(data[i].sumLastYearActualMONTHLY);
+							   if(data[i].sumThisYearActualMonthly!=null && data[i].sumThisYearActualMonthly.length>0)
+								   sumThisAct_tab=sumThisAct_tab+Number(data[i].sumThisYearActualMonthly);
+							   if(data[i].sumThisYearBudgetMONTHLY!=null && data[i].sumThisYearBudgetMONTHLY.length>0)
+								   sumTarget_tab=sumTarget_tab+Number(data[i].sumThisYearBudgetMONTHLY);
+							   if(data[i].percentVarianceMONTHLY!=null && data[i].percentVarianceMONTHLY.length>0)
+								   sumperVariance_tab=sumperVariance_tab+Number(data[i].percentVarianceMONTHLY);
+							   if(data[i].percentGrowthMONTHLY!=null && data[i].percentGrowthMONTHLY.length>0)
+								   sumperperGrowth_tab=sumperperGrowth_tab+Number(data[i].percentGrowthMONTHLY);
+							}else{
+								var sumLastAct_tab=0;
+								var sumThisAct_tab=0; 
+								var sumTarget_tab=0;
+								var sumperVariance_tab=0;
+								var sumperperGrowth_tab=0;
+								if(data[i].sumLastYearActualMONTHLY!=null && data[i].sumLastYearActualMONTHLY.length>0)
+								   sumLastAct_tab=Number(data[i].sumLastYearActualMONTHLY);
+							    if(data[i].sumThisYearActualMonthly!=null && data[i].sumThisYearActualMonthly.length>0)
+								   sumThisAct_tab=Number(data[i].sumThisYearActualMonthly);
+								if(data[i].sumThisYearBudgetMONTHLY!=null && data[i].sumThisYearBudgetMONTHLY.length>0)
+								   sumTarget_tab=Number(data[i].sumThisYearBudgetMONTHLY);
+								if(data[i].percentVarianceMONTHLY!=null && data[i].percentVarianceMONTHLY.length>0)
+								   sumperVariance_tab=Number(data[i].percentVarianceMONTHLY);
+								if(data[i].percentGrowthMONTHLY!=null && data[i].percentGrowthMONTHLY.length>0)
+								   sumperperGrowth_tab=Number(data[i].percentGrowthMONTHLY);
+							}
+							/* LastAct_tab.push((data[i].sumLastYearActualMONTHLY!=null && data[i].sumLastYearActualMONTHLY.length>0)?data[i].sumLastYearActualMONTHLY:"0.00");
 							ThisAct_tab.push((data[i].sumThisYearActualMonthly!=null && data[i].sumThisYearActualMonthly.length>0)?data[i].sumThisYearActualMonthly:"0.00");
 							Target_tab.push((data[i].sumThisYearBudgetMONTHLY!=null && data[i].sumThisYearBudgetMONTHLY.length>0)?data[i].sumThisYearBudgetMONTHLY:"0.00");
 							perVariance_tab.push((data[i].percentVarianceMONTHLY!=null && data[i].percentVarianceMONTHLY.length>0)?data[i].percentVarianceMONTHLY:"0.00");
-							perGrowth_tab.push((data[i].percentGrowthMONTHLY!=null && data[i].percentGrowthMONTHLY.length>0)?data[i].percentGrowthMONTHLY:"0.00");
+							perGrowth_tab.push((data[i].percentGrowthMONTHLY!=null && data[i].percentGrowthMONTHLY.length>0)?data[i].percentGrowthMONTHLY:"0.00"); */
+							LastAct_tab.push(sumLastAct_tab);
+							ThisAct_tab.push(sumThisAct_tab);
+							Target_tab.push(sumTarget_tab);
+							perVariance_tab.push(sumperVariance_tab);
+							perGrowth_tab.push(sumperperGrowth_tab);
 						}
 						tab_data.graphset[0].series[0].values=LastAct_tab;
 						tab_data.graphset[0].series[1].values=ThisAct_tab;
@@ -473,15 +596,8 @@
 						tab_data.graphset[0].series[4].values=perGrowth_tab;
 						$("#"+tab_id+"_tab").html("");
 						$("#"+tab_id+"_legend").html("<img src=\""+_path+"/Dashboard/images/legend_Y-M.jpg\"/>"); 
-						/* alert("xx="+tab_id)
-						if("Specialty"==tab_id)
-							alert("ok")
-					    if("Bakery"==tab_id)
-					    	alert("ok2") */
 						render_zingchart(tab_id+"_tab",tab_data);
 					}else{
-						/* if("Specialty"==tab_id)
-							alert("ok") */
 						$("#"+tab_id+"_tab").html("");
 						$("#"+tab_id+"_legend").html(""); 
 					}
@@ -489,16 +605,17 @@
 		 }); 
 	}
 	function render_financialIndication(year,month,company){  
-		/* var str="<ul class=ui-state-default ui-corner-top ui-tabs-selected ui-state-active>"+
-		        "    <li><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Financial Indicator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</a></li>"+
-		        "</ul>"+ */
 		 var str="<table id=table-data1 width=100%>"+
 		        "     <tr><th class=\"ui-state-default ui-corner-top ui-tabs-selected ui-state-active\" style=\"height:35px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Financial Indicator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</th></tr>"+
 		        "</table>"+		         
 		        "<table id=table-data width=100%>"+
 		        "    <tr>"+
-			    "        <th bgcolor=#CD853F colspan=3><font color=\"#FFFFFF\">"+monthNameG[parseInt(month)-1]+" "+year+"</font></th>"+
+			    "        <th bgcolor=#CD853F colspan=3><font color=\"#FFFFFF\">"+shortmonthNameG[parseInt(month)-1]+" "+year+" vs "+shortmonthNameG[parseInt(month)-1]+" "+(parseInt(year)-1)+"</font></th>"+
 		        "    </tr>";
+		  var str_loading=str+"<tr>"+
+			    "        <th colspan=3><img src=\""+_path+"/Dashboard/images/loading.gif\"/></th>"+
+		        "    </tr></table";
+		    	$('#fnancial_indicator_Display').html(str_loading);
 		 var financialIndicationDTO;
 		 var trend;
 		 BalanceScorecardAjax.getFinancialIndication(year,month,company,{
@@ -511,17 +628,19 @@
 						//	alert(financialIndicationDTO)
 							if(financialIndicationDTO!=null && financialIndicationDTO.length>0){								
 								for(var j=0;j<financialIndicationDTO.length;j++){ 
-									trend="";
+									trend=financialIndicationDTO[j].trendFlag;
 									if(financialIndicationDTO[j].trendFlag!=null){
 										if(financialIndicationDTO[j].trendFlag=='I'){
 											trend="<img src=images/up1.png>";
-										}if(financialIndicationDTO[j].trendFlag=='D'){
+										}else if(financialIndicationDTO[j].trendFlag=='D'){
 											trend="<img src=images/down1.png>";
-										}
+										}else if(financialIndicationDTO[j].trendFlag=='S'){
+										    trend="<img src=images/same.png>";
+									    }
 									} 
 									str=str+"<tr><td>"+financialIndicationDTO[j].ratioName+"</td>"+
 									        "<td>"+trend+"</td>"+
-									        "<td>"+financialIndicationDTO[j].thisPeriodValue+"</td></tr>";
+									        "<td align=\"right\">"+financialIndicationDTO[j].thisPeriodValue+"</td></tr>";
 								}
 							}
 							
@@ -534,13 +653,10 @@
 					//$("#tabs-ratio1").tabs();
 				}
 			});
-		 
-		
 	}
 	function render_zingchart(id,data){
 		zingchart.render({
 			id : id,
-			//output	: 'svg',
 			width 	: 850,
 			height 	: 270,
 			data : data
@@ -548,12 +664,7 @@
 	}
 	function listYears(){
 		 var str="<font size=\"3\"> ปี: </font>";		
-		 /*str=str+"<select name=\"financeYear\" id=\"financeYear\" >";
-		str=str+"<option value=\"2011\"   selected=\"selected\">2011</option>";
-		str=str+"</select>";
-		$('#financeYearElement').html(str);
-		goUrl(); */
-		
+		//alert(yearG+","+monthG+","+sumByG);
 		BalanceScorecardAjax.listYears({
 			callback:function(data){
 				str=str+"<select name=\"financeYear\" id=\"financeYear\" >";
@@ -564,7 +675,9 @@
 				} 
 				str=str+"</select>";
 				$('#financeYearElement').html(str);
-				goUrl();
+				  if((initG!=null && initG!='null'))
+					  goUrl();
+				//goUrl();
 			}
 		});
 		
@@ -577,7 +690,13 @@
 						for(var i=0;i<monthKeyG.length;i++){
 							str=str+"<option value=\""+monthKeyG[i]+"\" "+((monthG==monthKeyG[i])?" selected=\"selected\"":"")+">"+monthNameG[i]+"</option>";
 						} 
-				} 
+				}
+				/*
+				if(shortmonthNameG!=null && shortmonthNameG.length>0){					
+					for(var i=0;i<shortmonthNameG.length;i++){
+						str=str+"<option value=\""+shortmonthNameG[i]+"\" "+((monthG==monthKeyG[i])?" selected=\"selected\"":"")+">"+monthNameG[i]+"</option>";
+					} 
+			    }*/
 				str=str+"</select>";
 				$('#financeMonthElement').html(str);
 	}
@@ -594,418 +713,6 @@
 		#tabs-ratio { position:absolute; left:3px; top:45px; }
 		#tabs-ratio1 { position:absolute; left:3px; top:45px; }
 	</style>	
-<%--
-	String y = request.getParameter("y"); // Value of Year Parameter.
-	String months = request.getParameter("months"); // Value of Month Parameter.
-	String sb = request.getParameter("sb"); // Value of Summary By Parameter.
-	String country = request.getParameter("country"); // Value of Country Parameter.
-	String month = ""; // Name of month (Jan -> Dec)
-
-	String LastActV1 = ""; // Value of Last Actual in chart01
-	String ThisActV1 = ""; // Value of This Actual in chart01
-	String TargetV1 = ""; // Value of Target in chart01
-	String perVarianceV1 = ""; // Value of %Variance in chart01
-	String perGrowthV1 = ""; // Value of %Growth in chart01
-
-	String LastActV2 = ""; // Value of Last Actual in chart02
-	String ThisActV2 = ""; // Value of This Actual in chart02
-	String TargetV2 = ""; // Value of Target in chart02
-	String perVarianceV2 = ""; // Value of %Variance in chart02
-	String perGrowthV2 = ""; // Value of %Growth in chart02
-
-	String LastActV3 = ""; // Value of Last Actual in chart03
-	String ThisActV3 = ""; // Value of This Actual in chart03
-	String TargetV3 = ""; // Value of Target in chart03
-	String perVarianceV3 = ""; // Value of %Variance in chart03
-	String perGrowthV3 = ""; // Value of %Growth in chart03
-
-	String LastActV4 = ""; // Value of Last Actual in chart04
-	String ThisActV4 = ""; // Value of This Actual in chart04
-	String TargetV4 = ""; // Value of Target in chart04
-	String perVarianceV4 = ""; // Value of %Variance in chart04
-	String perGrowthV4 = ""; // Value of %Growth in chart04
-
-	switch(Integer.parseInt(months))
-	{
-		case 1 : month = "Jan";
-			LastActV1 = "349290.69";
-			ThisActV1 = "393970.68";
-			TargetV1 = "403274.18";
-			perVarianceV1 = "-2.31";
-			perGrowthV1 = "12.79";
-
-			LastActV2 = "184168.87";
-			ThisActV2 = "195305.89";
-			TargetV2 = "203258.65";
-			perVarianceV2 = "-3.91";
-			perGrowthV2 = "6.05";
-
-			LastActV3 = "121112.31";
-			ThisActV3 = "150401.66";
-			TargetV3 = "150191.20";
-			perVarianceV3 = "0.14";
-			perGrowthV3 = "24.18";
-
-			LastActV4 = "1048726";
-			ThisActV4 = "1148726";
-			TargetV4 = "1000000";
-			perVarianceV4 = "30";
-			perGrowthV4 = "50";
-
-			break;
-
-		case 2 : month = "Feb";
-			LastActV1 = "349290.69,638730.14";
-			ThisActV1 = "393970.68,734613.19";
-			TargetV1 = "403274.18,747775.45";
-			perVarianceV1 = "-2.31,-3.43";
-			perGrowthV1 = "12.79,30.48";
-
-			LastActV2 = "184168.87,340425.87";
-			ThisActV2 = "195305.89,364209.77";
-			TargetV2 = "203258.65,377935.95";
-			perVarianceV2 = "-3.91,-7.22";
-			perGrowthV2 = "6.05,14.14";
-
-			LastActV3 = "121112.31,216337.97";
-			ThisActV3 = "150401.66,276422.67";
-			TargetV3 = "150191.20,271056.92";
-			perVarianceV3 = "0.14,4.41";
-			perGrowthV3 = "24.18,56.52";
-
-			LastActV4 = "1048726,1488546";
-			ThisActV4 = "1148726,1517776";
-			TargetV4 = "1000000,1200000";
-			perVarianceV4 = "30,39";
-			perGrowthV4 = "50,52";
-
-			break;
-
-		case 3 : month = "Mar";
-			LastActV1 = "349290.69,638730.14,973470.87";
-			ThisActV1 = "393970.68,734613.19,1106822.22";
-			TargetV1 = "403274.18,747775.45,1109148.72";
-			perVarianceV1 = "-2.31,-3.43,-0.43";
-			perGrowthV1 = "12.79,30.48,41.68";
-
-			LastActV2 = "184168.87,340425.87,516548.10";
-			ThisActV2 = "195305.89,364209.77,547249.90";
-			TargetV2 = "203258.65,377935.95,566720.63";
-			perVarianceV2 = "-3.91,-7.22,-10.26";
-			perGrowthV2 = "6.05,14.14,18.07";
-
-			LastActV3 = "121112.31,216337.97,328145.18";
-			ThisActV3 = "150401.66,276422.67,412797.39";
-			TargetV3 = "150191.20,271056.92,393073.96";
-			perVarianceV3 = "0.14,4.41,16.17";
-			perGrowthV3 = "24.18,56.52,78.50";
-
-			LastActV4 = "1048726,1488546,1518290";
-			ThisActV4 = "1148726,1517776,1633675";
-			TargetV4 = "1000000,1200000,1400000";
-			perVarianceV4 = "30,39,48";
-			perGrowthV4 = "50,52,56";
-
-			break;
-
-		case 4 : month = "Apr";
-			LastActV1 = "349290.69,638730.14,973470.87,1298524.74";
-			ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23";
-			TargetV1 = "403274.18,747775.45,1109148.72,1457124.09";
-			perVarianceV1 = "-2.31,-3.43,-0.43,-0.98";
-			perGrowthV1 = "12.79,30.48,41.68,48.14";
-
-			LastActV2 = "184168.87,340425.87,516548.10,681959.35";
-			ThisActV2 = "195305.89,364209.77,547249.90,722805.76";
-			TargetV2 = "203258.65,377935.95,566720.63,745216.25";
-			perVarianceV2 = "-3.91,-7.22,-10.26,-11.91";
-			perGrowthV2 = "6.05,14.14,18.07,24.20";
-
-			LastActV3 = "121112.31,216337.97,328145.18,443303.53";
-			ThisActV3 = "150401.66,276422.67,412797.39,537961.46";
-			TargetV3 = "150191.20,271056.92,393073.96,512924.79";
-			perVarianceV3 = "0.14,4.41,16.17,20.61";
-			perGrowthV3 = "24.18,56.52,78.50,87.18";
-
-			LastActV4 = "1048726,1488546,1518290,1653161";
-			ThisActV4 = "1148726,1517776,1633675,1762904";
-			TargetV4 = "1000000,1200000,1400000,1600000";
-			perVarianceV4 = "30,39,48,49";
-			perGrowthV4 = "50,52,56,57";
-
-			break;
-
-		case 5 : month = "May";
-			LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90";
-			ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37";
-			TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54";
-			perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43";
-			perGrowthV1 = "12.79,30.48,41.68,48.14,58.97";
-
-			LastActV2 = "184168.87,340425.87,516548.10,681959.35,848119.19";
-			ThisActV2 = "195305.89,364209.77,547249.90,722805.76,897071.85";
-			TargetV2 = "203258.65,377935.95,566720.63,745216.25,923418.89";
-			perVarianceV2 = "-3.91,-7.22,-10.26,-11.91,-14.12";
-			perGrowthV2 = "6.05,14.14,18.07,24.20,29.08";
-
-			LastActV3 = "121112.31,216337.97,328145.18,443303.53,554989.21";
-			ThisActV3 = "150401.66,276422.67,412797.39,537961.46,673730.27";
-			TargetV3 = "150191.20,271056.92,393073.96,512924.79,644697.92";
-			perVarianceV3 = "0.14,4.41,16.17,20.61,23.64";
-			perGrowthV3 = "24.18,56.52,78.50,87.18,108.75";
-
-			LastActV4 = "1048726,1488546,1518290,1653161,1718290";
-			ThisActV4 = "1148726,1517776,1633675,1762904,1843418";
-			TargetV4 = "1000000,1200000,1400000,1600000,1800000";
-			perVarianceV4 = "30,39,48,49,52";
-			perGrowthV4 = "50,52,56,57,57";
-
-			break;
-
-		case 6 : month = "Jun";
-			LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44";
-			ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55";
-			TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28";
-			perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43,0.24";
-			perGrowthV1 = "12.79,30.48,41.68,48.14,58.97,73.68";
-
-			LastActV2 = "184168.87,340425.87,516548.10,681959.35,848119.19,1011811.52";
-			ThisActV2 = "195305.89,364209.77,547249.90,722805.76,897071.85,1077438.67";
-			TargetV2 = "203258.65,377935.95,566720.63,745216.25,923418.89,1100649.73";
-			perVarianceV2 = "-3.91,-7.22,-10.26,-11.91,-14.12,-12.35";
-			perGrowthV2 = "6.05,14.14,18.07,24.20,29.08,39.27";
-
-			LastActV3 = "121112.31,216337.97,328145.18,443303.53,554989.21,669946.36";
-			ThisActV3 = "150401.66,276422.67,412797.39,537961.46,673730.27,816867.81";
-			TargetV3 = "150191.20,271056.92,393073.96,512924.79,644697.92,780734.83";
-			perVarianceV3 = "0.14,4.41,16.17,20.61,23.64,28.86";
-			perGrowthV3 = "24.18,56.52,78.50,87.18,108.75,133.26";
-
-			LastActV4 = "1048726,1488546,1518290,1653161,1718290,1917776,1978803";
-			ThisActV4 = "1148726,1517776,1633675,1762904,1843418,1962904,2008033";
-			TargetV4 = "1000000,1200000,1400000,1600000,1800000,2000000,2200000";
-			perVarianceV4 = "30,39,48,49,52,50,51";
-			perGrowthV4 = "50,52,56,57,57,58,58";
-
-			break;
-
-		case 7 : month = "Jul";
-			LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78";
-			ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53";
-			TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58";
-			perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43,0.24,-0.60";
-			perGrowthV1 = "12.79,30.48,41.68,48.14,58.97,73.68,86.36";
-
-			LastActV2 = "184168.87,340425.87,516548.10,681959.35,848119.19,1011811.52,1193350.11";
-			ThisActV2 = "195305.89,364209.77,547249.90,722805.76,897071.85,1077438.67,1281070.71";
-			TargetV2 = "203258.65,377935.95,566720.63,745216.25,923418.89,1100649.73,1291836.71";
-			perVarianceV2 = "-3.91,-7.22,-10.26,-11.91,-14.12,-12.35,-5.84";
-			perGrowthV2 = "6.05,14.14,18.07,24.20,29.08,39.27,51.44";
-
-			LastActV3 = "121112.31,216337.97,328145.18,443303.53,554989.21,669946.36,800007.35";
-			ThisActV3 = "150401.66,276422.67,412797.39,537961.46,673730.27,816867.81,971162.07";
-			TargetV3 = "150191.20,271056.92,393073.96,512924.79,644697.92,780734.83,948680.77";
-			perVarianceV3 = "0.14,4.41,16.17,20.61,23.64,28.86,20.73";
-			perGrowthV3 = "24.18,56.52,78.50,87.18,108.75,133.26,151.89";
-
-			LastActV4 = "1048726,1488546,1518290,1653161,1718290,1917776,1978803,2053161,2188546,2278803,2323932,2469060";
-			ThisActV4 = "1148726,1517776,1633675,1762904,1843418,1962904,2008033,2143418,2323932,2438033,2533675,2669060";
-			TargetV4 = "1000000,1200000,1400000,1600000,1800000,2000000,2200000,2400000,2600000,2800000,3000000,3200000";
-			perVarianceV4 = "30,39,48,49,52,50,51,54,54,55,56,58";
-			perGrowthV4 = "50,52,56,57,57,58,58,60,62,62,64,65";
-
-			break;
-
-		case 8 : month = "Aug";
-			LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22";
-			ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54";
-			TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29";
-			perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43,0.24,-0.60,-1.95";
-			perGrowthV1 = "12.79,30.48,41.68,48.14,58.97,73.68,86.36,105.75";
-
-			LastActV2 = "184168.87,340425.87,516548.10,681959.35,848119.19,1011811.52,1193350.11,1384068.77";
-			ThisActV2 = "195305.89,364209.77,547249.90,722805.76,897071.85,1077438.67,1281070.71,1495152.41";
-			TargetV2 = "203258.65,377935.95,566720.63,745216.25,923418.89,1100649.73,1291836.71,1495627.61";
-			perVarianceV2 = "-3.91,-7.22,-10.26,-11.91,-14.12,-12.35,-5.84,-0.79";
-			perGrowthV2 = "6.05,14.14,18.07,24.20,29.08,39.27,51.44,63.69";
-
-			LastActV3 = "121112.31,216337.97,328145.18,443303.53,554989.21,669946.36,800007.35,930295.55";
-			ThisActV3 = "150401.66,276422.67,412797.39,537961.46,673730.27,816867.81,971162.07,1132500.77";
-			TargetV3 = "150191.20,271056.92,393073.96,512924.79,644697.92,780734.83,948680.77,1116985.90";
-			perVarianceV3 = "0.14,4.41,16.17,20.61,23.64,28.86,20.73,16.59";
-			perGrowthV3 = "24.18,56.52,78.50,87.18,108.75,133.26,151.89,175.73";
-
-			LastActV4 = "1048726,1488546,1518290,1653161,1718290,1917776,1978803,2053161";
-			ThisActV4 = "1148726,1517776,1633675,1762904,1843418,1962904,2008033,2143418";
-			TargetV4 = "1000000,1200000,1400000,1600000,1800000,2000000,2200000,2400000";
-			perVarianceV4 = "30,39,48,49,52,50,51,54";
-			perGrowthV4 = "50,52,56,57,57,58,58,60";
-
-			break;
-
-		case 9 : month = "Sep";
-			LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22,3138353.13";
-			ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40";
-			TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29,3571298.86";
-			perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43,0.24";
-			perGrowthV1 = "12.79,30.48,41.68,48.14,58.97,73.68";
-
-			LastActV2 = "184168.87,340425.87,516548.10,681959.35,848119.19,1011811.52,1193350.11,1384068.77,1639735.64";
-			ThisActV2 = "195305.89,364209.77,547249.90,722805.76,897071.85,1077438.67,1281070.71,1495152.41,1765041.61";
-			TargetV2 = "203258.65,377935.95,566720.63,745216.25,923418.89,1100649.73,1291836.71,1495627.61,1760014.14";
-			perVarianceV2 = "-3.91,-7.22,-10.26,-11.91,-14.12,-12.35,-5.84,-0.79,1.29";
-			perGrowthV2 = "6.05,14.14,18.07,24.20,29.08,39.27,51.44,63.69,69.25";
-
-			LastActV3 = "121112.31,216337.97,328145.18,443303.53,554989.21,669946.36,800007.35,930295.55,1090851.02";
-			ThisActV3 = "150401.66,276422.67,412797.39,537961.46,673730.27,816867.81,971162.07,1132500.77,1329007.02";
-			TargetV3 = "150191.20,271056.92,393073.96,512924.79,644697.92,780734.83,948680.77,1116985.90,1318893.91";
-			perVarianceV3 = "0.14,4.41,16.17,20.61,23.64,28.86,20.73,16.59,13.91";
-			perGrowthV3 = "24.18,56.52,78.50,87.18,108.75,133.26,151.89,175.73,198.12";
-
-			LastActV4 = "1048726,1488546,1518290,1653161,1718290,1917776,1978803,2053161,2188546";
-			ThisActV4 = "1148726,1517776,1633675,1762904,1843418,1962904,2008033,2143418,2323932";
-			TargetV4 = "1000000,1200000,1400000,1600000,1800000,2000000,2200000,2400000,2600000";
-			perVarianceV4 = "30,39,48,49,52,50,51,54,54";
-			perGrowthV4 = "50,52,56,57,57,58,58,60,62";
-
-			break;
-
-		case 10 : month = "Oct";
-			LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22,3138353.13,3527905.41";
-			ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40,3979020.08";
-			TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29,3571298.86,3955662.91";
-			perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43,0.24,-0.60,-1.95,0.30,5.65";
-			perGrowthV1 = "12.79,30.48,41.68,48.14,58.97,73.68,86.36,105.75,123.33,127.28";
-
-			LastActV2 = "184168.87,340425.87,516548.10,681959.35,848119.19,1011811.52,1193350.11,1384068.77,1639735.64,1841064.76";
-			ThisActV2 = "195305.89,364209.77,547249.90,722805.76,897071.85,1077438.67,1281070.71,1495152.41,1765041.61,1970321.45";
-			TargetV2 = "203258.65,377935.95,566720.63,745216.25,923418.89,1100649.73,1291836.71,1495627.61,1760014.14,1948599.98";
-			perVarianceV2 = "-3.91,-7.22,-10.26,-11.91,-14.12,-12.35,-5.84,-0.79,1.29,10.15";
-			perGrowthV2 = "6.05,14.14,18.07,24.20,29.08,39.27,51.44,63.69,69.25,71.21";
-
-			LastActV3 = "121112.31,216337.97,328145.18,443303.53,554989.21,669946.36,800007.35,930295.55,1090851.02,1231543.54";
-			ThisActV3 = "150401.66,276422.67,412797.39,537961.46,673730.27,816867.81,971162.07,1132500.77,1329007.02,1476720.16";
-			TargetV3 = "150191.20,271056.92,393073.96,512924.79,644697.92,780734.83,948680.77,1116985.90,1318893.91,1458129.95";
-			perVarianceV3 = "0.14,4.41,16.17,20.61,23.64,28.86,20.73,16.59,13.91,20.00";
-			perGrowthV3 = "24.18,56.52,78.50,87.18,108.75,133.26,151.89,175.73,198.12,203.11";
-
-			LastActV4 = "1048726,1488546,1518290,1653161,1718290,1917776,1978803,2053161,2188546,2278803";
-			ThisActV4 = "1148726,1517776,1633675,1762904,1843418,1962904,2008033,2143418,2323932,2438033";
-			TargetV4 = "1000000,1200000,1400000,1600000,1800000,2000000,2200000,2400000,2600000,2800000";
-			perVarianceV4 = "30,39,48,49,52,50,51,54,54,558";
-			perGrowthV4 = "50,52,56,57,57,58,58,60,62,62";
-
-			break;
-
-		case 11 : month = "Nov";
-			LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22,3138353.13,3527905.41,3889966.29";
-			ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40,3979020.08,4399473.14";
-			TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29,3571298.86,3955662.91,4354784.30";
-			perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43,0.24,-0.60,-1.95,0.30,5.65,10.99";
-			perGrowthV1 = "12.79,30.48,41.68,48.14,58.97,73.68,86.36,105.75,123.33,127.28,143.40";
-
-			LastActV2 = "184168.87,340425.87,516548.10,681959.35,848119.19,1011811.52,1193350.11,1384068.77,1639735.64,1841064.76,2016831.54";
-			ThisActV2 = "195305.89,364209.77,547249.90,722805.76,897071.85,1077438.67,1281070.71,1495152.41,1765041.61,1970321.45,2160301.31";
-			TargetV2 = "203258.65,377935.95,566720.63,745216.25,923418.89,1100649.73,1291836.71,1495627.61,1760014.14,1948599.98,2139211.26";
-			perVarianceV2 = "-3.91,-7.22,-10.26,-11.91,-14.12,-12.35,-5.84,-0.79,1.29,10.15,9.81";
-			perGrowthV2 = "6.05,14.14,18.07,24.20,29.08,39.27,51.44,63.69,69.25,71.21,79.30";
-
-			LastActV3 = "121112.31,216337.97,328145.18,443303.53,554989.21,669946.36,800007.35,930295.55,1090851.02,1231543.54,1354135.91";
-			ThisActV3 = "150401.66,276422.67,412797.39,537961.46,673730.27,816867.81,971162.07,1132500.77,1329007.02,1476720.16,1621790.48";
-			TargetV3 = "150191.20,271056.92,393073.96,512924.79,644697.92,780734.83,948680.77,1116985.90,1318893.91,1458129.95,1593961.48";
-			perVarianceV3 = "0.14,4.41,16.17,20.61,23.64,28.86,20.73,16.59,13.91,20.00,26.80";
-			perGrowthV3 = "24.18,56.52,78.50,87.18,108.75,133.26,151.89,175.73,198.12,203.11,221.44";
-
-			LastActV4 = "1048726,1488546,1518290,1653161,1718290,1917776,1978803,2053161,2188546,2278803,2323932";
-			ThisActV4 = "1148726,1517776,1633675,1762904,1843418,1962904,2008033,2143418,2323932,2438033,2533675";
-			TargetV4 = "1000000,1200000,1400000,1600000,1800000,2000000,2200000,2400000,2600000,2800000,3000000";
-			perVarianceV4 = "30,39,48,49,52,50,51,54,54,55,56";
-			perGrowthV4 = "50,52,56,57,57,58,58,60,62,62,64";
-
-			break;
-
-		case 12 : month = "Dec";
-			LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22,3138353.13,3527905.41,3889966.29,4397887.58";
-			ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40,3979020.08,4399473.14,4967272.82";
-			TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29,3571298.86,3955662.91,4354784.30,4953878.04";
-			perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43,0.24,-0.60,-1.95,0.30,5.65,10.99,5.77";
-			perGrowthV1 = "12.79,30.48,41.68,48.14,58.97,73.68,86.36,105.75,123.33,127.28,143.40,155.19";
-
-			LastActV2 = "184168.87,340425.87,516548.10,681959.35,848119.19,1011811.52,1193350.11,1384068.77,1639735.64,1841064.76,2016831.54,2260720.53";
-			ThisActV2 = "195305.89,364209.77,547249.90,722805.76,897071.85,1077438.67,1281070.71,1495152.41,1765041.61,1970321.45,2160301.31,2429048.80";
-			TargetV2 = "203258.65,377935.95,566720.63,745216.25,923418.89,1100649.73,1291836.71,1495627.61,1760014.14,1948599.98,2139211.26,2434727.19";
-			perVarianceV2 = "-3.91,-7.22,-10.26,-11.91,-14.12,-12.35,-5.84,-0.79,1.29,10.15,9.81,0.76";
-			perGrowthV2 = "6.05,14.14,18.07,24.20,29.08,39.27,51.44,63.69,69.25,71.21,79.30,89.49";
-
-			LastActV3 = "121112.31,216337.97,328145.18,443303.53,554989.21,669946.36,800007.35,930295.55,1090851.02,1231543.54,1354135.91,1543788.11";
-			ThisActV3 = "150401.66,276422.67,412797.39,537961.46,673730.27,816867.81,971162.07,1132500.77,1329007.02,1476720.16,1621790.48,1843136.92";
-			TargetV3 = "150191.20,271056.92,393073.96,512924.79,644697.92,780734.83,948680.77,1116985.90,1318893.91,1458129.95,1593961.48,1819620.21";
-			perVarianceV3 = "0.14,4.41,16.17,20.61,23.64,28.86,20.73,16.59,13.91,20.00,26.80,24.89";
-			perGrowthV3 = "24.18,56.52,78.50,87.18,108.75,133.26,151.89,175.73,198.12,203.11,221.44,238.16";
-
-			LastActV4 = "1048726,1488546,1518290,1653161,1718290,1917776,1978803,2053161,2188546,2278803,2323932,2469060";
-			ThisActV4 = "1148726,1517776,1633675,1762904,1843418,1962904,2008033,2143418,2323932,2438033,2533675,2669060";
-			TargetV4 = "1000000,1200000,1400000,1600000,1800000,2000000,2200000,2400000,2600000,2800000,3000000,3200000";
-			perVarianceV4 = "30,39,48,49,52,50,51,54,54,55,56,58";
-			perGrowthV4 = "50,52,56,57,57,58,58,60,62,62,64,65";
-
-			break;
-	}
---%>
-
-	<script type="text/javascript">
-		<%-- 
-		var y = <%=y%>; // Value of Year(Default 1)
-		function getYear(value)
-		{
-			y = value;
-		}
-
-		var months = <%=months%>; // Value of Month(Default 1)
-		function getMonth(value)
-		{
-			months = value;
-		}
-
-		var urlP = ''; // URL Page.
-		var sb = <%=sb%>;
-		function getSumBy(value)
-		{
-			sb = value;
-			switch(sb){
-				case '1' :
-				case '2' :
-				case '3' :
-				case '4' :
-				case '5' : urlP = '<%=request.getContextPath()%>/Dashboard/Finance.jsp';
-					break;
-				case '6' : urlP = '<%=request.getContextPath()%>/Dashboard/FinanceYTD.jsp';
-					break;
-				case '7' : urlP = '<%=request.getContextPath()%>/Dashboard/FinanceMTD.jsp';
-					break;
-			}
-		}
-
-		var country = <%=country%>; // Value of Country(Default 1)
-		function getCountry(value)
-		{
-			country = value;
-		}
-
-		function goUrl()
-		{
-			location.href = urlP+'?y='+y+'&months='+months+'&sb='+sb+'&country=1&bar1=0&bar2=0&bar2F=0&bar3=0&bar3F=0&t1=0&t2=0';
-		}
-
-		function goPage()
-		{
-			location.href = '<%=request.getContextPath()%>/Dashboard/FinanceYTD.jsp?y='+y+'&months='+months+'&country='+country+'#tabs-2';
-		}
-  --%>
- 
-  
-	</script>
-
 	<script type="text/javascript">
 	var LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22,3138353.13,3527905.41,3889966.29,4397887.58";
 	ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40,3979020.08,4399473.14,4967272.82";
@@ -1138,1098 +845,6 @@
 				}]			
 			}]
 		};
-	<%--
-	var chart02 = 
-	{
-	"graphset":[
-		{
-			"type":"mixed",
-			"background-color":"#FFFFFF",
-			"stacked":"1",
-			"chart":{
-				"margin":"30 60 30 80"
-			},
-			"labels" : [
-				{
-					"text":"พันบาท",
-					"bold":true,
-					"font-size":12,
-					"x": "60",
-					"y": "0"
-				}
-			],
-			"legend":{
-				"background-color": "#FFFFFF",
-				"border-width": "2px",
-				"border-color": "#4C77B6",
-				"margin":"70 0 0 885",
-				"layout":"x1",
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"guide":{
-				"shared":true
-			},
-			"tooltip":{
-				"visible": false
-			},
-			"scale-x":{
-				"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"scale-y":{
-				"format":"%v",
-				"decimals":0,
-				"decimals-separator":".",
-				"thousands-separator":",",
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-			},
-			"scale-y-2":{
-				"format" : "%v%",
-				"guide":{
-					"line-width": 0,
-					"alpha": 0
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"series":[
-				{
-					"type":"bar",
-					"values":[<%=LastActV2%>],
-					"text":"ActualYTD 09",
-					"background-color":"#66CC00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=ThisActV2%>],
-					"text":"ActualYTD 10",
-					"background-color":"#EEEE00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=TargetV2%>],
-					"text":"Budget",
-					"background-color":"#696969",
-					"stacked":0
-				},
-				{
-					"type":"line",
-					"values":[<%=perVarianceV2%>],
-					"text":"%Variance YTD",
-					"scales":"scale-x,scale-y-2",
-					"stacked":0,
-					"line-color": "#E46C0A",
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				},
-				{
-					"type":"line",
-					"values":[<%=perGrowthV2%>],
-					"text":"%GrowthYTD",
-					"scales":"scale-x,scale-y-2",
-					"line-color": "#4F81BD",
-					"stacked":0,
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				}]
-			}]
-		};
-
-	var chart03 = 
-	{
-	"graphset":[
-		{
-			"type":"mixed",
-			"background-color":"#FFFFFF",
-			"stacked":"1",
-			"chart":{
-				"margin":"30 60 30 80"
-			},
-			"labels" : [
-				{
-					"text":"พันบาท",
-					"bold":true,
-					"font-size":12,
-					"x": "60",
-					"y": "0"
-				}
-			],
-			"legend":{
-				"background-color": "#FFFFFF",
-				"border-width": "2px",
-				"border-color": "#4C77B6",
-				"margin":"70 0 0 885",
-				"layout":"x1",
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"guide":{
-				"shared":true
-			},
-			"tooltip":{
-				"visible": false
-			},
-			"scale-x":{
-				"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"scale-y":{
-				"format":"%v",
-				"decimals":0,
-				"decimals-separator":".",
-				"thousands-separator":",",
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-			},
-			"scale-y-2":{
-				"format" : "%v%",
-				"guide":{
-					"line-width": 0,
-					"alpha": 0
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"series":[
-				{
-					"type":"bar",
-					"values":[<%=LastActV3%>],
-					"text":"ActualYTD 09",
-					"background-color":"#66CC00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=ThisActV3%>],
-					"text":"ActualYTD 10",
-					"background-color":"#EEEE00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=TargetV3%>],
-					"text":"Budget",
-					"background-color":"#696969",
-					"stacked":0
-				},
-				{
-					"type":"line",
-					"values":[<%=perVarianceV3%>],
-					"text":"%Variance YTD",
-					"scales":"scale-x,scale-y-2",
-					"stacked":0,
-					"line-color": "#E46C0A",
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				},
-				{
-					"type":"line",
-					"values":[<%=perGrowthV3%>],
-					"text":"%GrowthYTD",
-					"scales":"scale-x,scale-y-2",
-					"line-color": "#4F81BD",
-					"stacked":0,
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				}]
-			}]
-		};
-
-
-	var chart04 = 
-	{
-	"graphset":[
-		{
-			"type":"mixed",
-			"background-color":"#FFFFFF",
-			"stacked":"1",
-			"chart":{
-				"margin":"30 60 30 80"
-			},
-			"labels" : [
-				{
-					"text":"พันบาท",
-					"bold":true,
-					"font-size":12,
-					"x": "60",
-					"y": "0"
-				}
-			],
-			"legend":{
-				"background-color": "#FFFFFF",
-				"border-width": "2px",
-				"border-color": "#4C77B6",
-				"margin":"70 0 0 885",
-				"layout":"x1",
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"guide":{
-				"shared":true
-			},
-			"tooltip":{
-				"visible": false
-			},
-			"scale-x":{
-				"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"scale-y":{
-				"format":"%v",
-				"decimals":0,
-				"decimals-separator":".",
-				"thousands-separator":",",
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-			},
-			"scale-y-2":{
-				"format" : "%v%",
-				"guide":{
-					"line-width": 0,
-					"alpha": 0
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"series":[
-				{
-					"type":"bar",
-					"values":[<%=LastActV4%>],
-					"text":"ActualYTD 09",
-					"background-color":"#66CC00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=ThisActV4%>],
-					"text":"ActualYTD 10",
-					"background-color":"#EEEE00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=TargetV4%>],
-					"text":"Budget",
-					"background-color":"#696969",
-					"stacked":0
-				},
-				{
-					"type":"line",
-					"values":[<%=perVarianceV4%>],
-					"text":"%Variance YTD",
-					"scales":"scale-x,scale-y-2",
-					"stacked":0,
-					"line-color": "#E46C0A",
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				},
-				{
-					"type":"line",
-					"values":[<%=perGrowthV4%>],
-					"text":"%GrowthYTD",
-					"scales":"scale-x,scale-y-2",
-					"line-color": "#4F81BD",
-					"stacked":0,
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				}]
-			}]
-		};
-
-	var chart05 = 
-	{
-	"graphset":[
-		{
-			"type":"mixed",
-			"background-color":"#FFFFFF",
-			"stacked":"1",
-			"chart":{
-				"margin":"30 60 30 80"
-			},
-			"labels" : [
-				{
-					"text":"พันบาท",
-					"bold":true,
-					"font-size":12,
-					"x": "60",
-					"y": "0"
-				}
-			],
-			"legend":{
-				"background-color": "#FFFFFF",
-				"border-width": "2px",
-				"border-color": "#4C77B6",
-				"margin":"70 0 0 885",
-				"layout":"x1",
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"guide":{
-				"shared":true
-			},
-			"tooltip":{
-				"visible": false
-			},
-			"scale-x":{
-				"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"scale-y":{
-				"format":"%v",
-				"decimals":0,
-				"decimals-separator":".",
-				"thousands-separator":",",
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-			},
-			"scale-y-2":{
-				"format" : "%v%",
-				"guide":{
-					"line-width": 0,
-					"alpha": 0
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"series":[
-				{
-					"type":"bar",
-					"values":[<%=LastActV4%>],
-					"text":"ActualYTD 09",
-					"background-color":"#66CC00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=ThisActV4%>],
-					"text":"ActualYTD 10",
-					"background-color":"#EEEE00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=TargetV4%>],
-					"text":"Budget",
-					"background-color":"#696969",
-					"stacked":0
-				},
-				{
-					"type":"line",
-					"values":[<%=perVarianceV4%>],
-					"text":"%Variance YTD",
-					"scales":"scale-x,scale-y-2",
-					"stacked":0,
-					"line-color": "#E46C0A",
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				},
-				{
-					"type":"line",
-					"values":[<%=perGrowthV4%>],
-					"text":"%GrowthYTD",
-					"scales":"scale-x,scale-y-2",
-					"line-color": "#4F81BD",
-					"stacked":0,
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				}]
-			}]
-		};
-
-
-	var chart06 = 
-	{
-	"graphset":[
-		{
-			"type":"mixed",
-			"background-color":"#FFFFFF",
-			"stacked":"1",
-			"chart":{
-				"margin":"30 60 30 80"
-			},
-			"labels" : [
-				{
-					"text":"พันบาท",
-					"bold":true,
-					"font-size":12,
-					"x": "60",
-					"y": "0"
-				}
-			],
-			"legend":{
-				"background-color": "#FFFFFF",
-				"border-width": "2px",
-				"border-color": "#4C77B6",
-				"margin":"70 0 0 885",
-				"layout":"x1",
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"guide":{
-				"shared":true
-			},
-			"tooltip":{
-				"visible": false
-			},
-			"scale-x":{
-				"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"scale-y":{
-				"format":"%v",
-				"decimals":0,
-				"decimals-separator":".",
-				"thousands-separator":",",
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-			},
-			"scale-y-2":{
-				"format" : "%v%",
-				"guide":{
-					"line-width": 0,
-					"alpha": 0
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"series":[
-				{
-					"type":"bar",
-					"values":[<%=LastActV4%>],
-					"text":"ActualYTD 09",
-					"background-color":"#66CC00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=ThisActV4%>],
-					"text":"ActualYTD 10",
-					"background-color":"#EEEE00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=TargetV4%>],
-					"text":"Budget",
-					"background-color":"#696969",
-					"stacked":0
-				},
-				{
-					"type":"line",
-					"values":[<%=perVarianceV4%>],
-					"text":"%Variance YTD",
-					"scales":"scale-x,scale-y-2",
-					"stacked":0,
-					"line-color": "#E46C0A",
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				},
-				{
-					"type":"line",
-					"values":[<%=perGrowthV4%>],
-					"text":"%GrowthYTD",
-					"scales":"scale-x,scale-y-2",
-					"line-color": "#4F81BD",
-					"stacked":0,
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				}]
-			}]
-		};
-
-
-	var chart07 = 
-	{
-	"graphset":[
-		{
-			"type":"mixed",
-			"background-color":"#FFFFFF",
-			"stacked":"1",
-			"chart":{
-				"margin":"30 60 30 80"
-			},
-			"labels" : [
-				{
-					"text":"พันบาท",
-					"bold":true,
-					"font-size":12,
-					"x": "60",
-					"y": "0"
-				}
-			],
-			"legend":{
-				"background-color": "#FFFFFF",
-				"border-width": "2px",
-				"border-color": "#4C77B6",
-				"margin":"70 0 0 885",
-				"layout":"x1",
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"guide":{
-				"shared":true
-			},
-			"tooltip":{
-				"visible": false
-			},
-			"scale-x":{
-				"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"scale-y":{
-				"format":"%v",
-				"decimals":0,
-				"decimals-separator":".",
-				"thousands-separator":",",
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-			},
-			"scale-y-2":{
-				"format" : "%v%",
-				"guide":{
-					"line-width": 0,
-					"alpha": 0
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"series":[
-				{
-					"type":"bar",
-					"values":[<%=LastActV4%>],
-					"text":"ActualYTD 09",
-					"background-color":"#66CC00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=ThisActV4%>],
-					"text":"ActualYTD 10",
-					"background-color":"#EEEE00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=TargetV4%>],
-					"text":"Budget",
-					"background-color":"#696969",
-					"stacked":0
-				},
-				{
-					"type":"line",
-					"values":[<%=perVarianceV4%>],
-					"text":"%Variance YTD",
-					"scales":"scale-x,scale-y-2",
-					"stacked":0,
-					"line-color": "#E46C0A",
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				},
-				{
-					"type":"line",
-					"values":[<%=perGrowthV4%>],
-					"text":"%GrowthYTD",
-					"scales":"scale-x,scale-y-2",
-					"line-color": "#4F81BD",
-					"stacked":0,
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				}]
-			}]
-		};
-
-
-	var chart08 = 
-	{
-	"graphset":[
-		{
-			"type":"mixed",
-			"background-color":"#FFFFFF",
-			"stacked":"1",
-			"chart":{
-				"margin":"30 60 30 80"
-			},
-			"labels" : [
-				{
-					"text":"พันบาท",
-					"bold":true,
-					"font-size":12,
-					"x": "60",
-					"y": "0"
-				}
-			],
-			"legend":{
-				"background-color": "#FFFFFF",
-				"border-width": "2px",
-				"border-color": "#4C77B6",
-				"margin":"70 0 0 885",
-				"layout":"x1",
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"guide":{
-				"shared":true
-			},
-			"tooltip":{
-				"visible": false
-			},
-			"scale-x":{
-				"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"scale-y":{
-				"format":"%v",
-				"decimals":0,
-				"decimals-separator":".",
-				"thousands-separator":",",
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-			},
-			"scale-y-2":{
-				"format" : "%v%",
-				"guide":{
-					"line-width": 0,
-					"alpha": 0
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"series":[
-				{
-					"type":"bar",
-					"values":[<%=LastActV4%>],
-					"text":"ActualYTD 09",
-					"background-color":"#66CC00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=ThisActV4%>],
-					"text":"ActualYTD 10",
-					"background-color":"#EEEE00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=TargetV4%>],
-					"text":"Budget",
-					"background-color":"#696969",
-					"stacked":0
-				},
-				{
-					"type":"line",
-					"values":[<%=perVarianceV4%>],
-					"text":"%Variance YTD",
-					"scales":"scale-x,scale-y-2",
-					"stacked":0,
-					"line-color": "#E46C0A",
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				},
-				{
-					"type":"line",
-					"values":[<%=perGrowthV4%>],
-					"text":"%GrowthYTD",
-					"scales":"scale-x,scale-y-2",
-					"line-color": "#4F81BD",
-					"stacked":0,
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				}]
-			}]
-		};
-
-
-	var chart09 = 
-	{
-	"graphset":[
-		{
-			"type":"mixed",
-			"background-color":"#FFFFFF",
-			"stacked":"1",
-			"chart":{
-				"margin":"30 60 30 80"
-			},
-			"labels" : [
-				{
-					"text":"พันบาท",
-					"bold":true,
-					"font-size":12,
-					"x": "60",
-					"y": "0"
-				}
-			],
-			"legend":{
-				"background-color": "#FFFFFF",
-				"border-width": "2px",
-				"border-color": "#4C77B6",
-				"margin":"70 0 0 885",
-				"layout":"x1",
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"guide":{
-				"shared":true
-			},
-			"tooltip":{
-				"visible": false
-			},
-			"scale-x":{
-				"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"scale-y":{
-				"format":"%v",
-				"decimals":0,
-				"decimals-separator":".",
-				"thousands-separator":",",
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-			},
-			"scale-y-2":{
-				"format" : "%v%",
-				"guide":{
-					"line-width": 0,
-					"alpha": 0
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"series":[
-				{
-					"type":"bar",
-					"values":[<%=LastActV4%>],
-					"text":"ActualYTD 09",
-					"background-color":"#66CC00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=ThisActV4%>],
-					"text":"ActualYTD 10",
-					"background-color":"#EEEE00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-					"values":[<%=TargetV4%>],
-					"text":"Budget",
-					"background-color":"#696969",
-					"stacked":0
-				},
-				{
-					"type":"line",
-					"values":[<%=perVarianceV4%>],
-					"text":"%Variance YTD",
-					"scales":"scale-x,scale-y-2",
-					"stacked":0,
-					"line-color": "#E46C0A",
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				},
-				{
-					"type":"line",
-					"values":[<%=perGrowthV4%>],
-					"text":"%GrowthYTD",
-					"scales":"scale-x,scale-y-2",
-					"line-color": "#4F81BD",
-					"stacked":0,
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				}]
-			}]
-		};
-
-
-		$(document).ready(function() {
-			zingchart.render({
-				id : 'g1',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart01
-			});
-			zingchart.render({
-				id : 'g2',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart02
-			});
-			zingchart.render({
-				id : 'g3',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart03
-			});
-			zingchart.render({
-				id : 'g4',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart04
-			});
-			zingchart.render({
-				id : 'g5',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart05
-			});
-			zingchart.render({
-				id : 'g6',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart06
-			});
-			zingchart.render({
-				id : 'g7',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart07
-			});
-			zingchart.render({
-				id : 'g8',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart08
-			});
-			zingchart.render({
-				id : 'g9',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart09
-			});
-			zingchart.render({
-				id : 'g10',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart09
-			});
-			zingchart.render({
-				id : 'g11',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart09
-			});
-			zingchart.render({
-				id : 'g12',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart09
-			});
-			zingchart.render({
-				id : 'g13',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart09
-			});
-			zingchart.render({
-				id : 'g14',
-				//output	: 'svg',
-				width 	: 850,
-				height 	: 270,
-				data : chart09
-			});
-		});
-		--%>
 		
 	</script>
     
@@ -2238,13 +853,13 @@
 <body bgcolor="#FFFFFF">
 <!-- Parameter -->
 	<!--          Drop Down List YEAR              -->
-	<span id="financeYearElement" style="position:absolute; left:15px; top:20px;">
+	<span id="financeYearElement" style="position:absolute; left:15px; top:10px;">
 	</span> 
 	<!--          Drop Down List MONTH              -->
-	<span id="financeMonthElement" style="position:absolute; left:125px; top:20px;">
+	<span id="financeMonthElement" style="position:absolute; left:125px; top:10px;">
 	</span>
 	<!--          Drop Down List             -->
-	<span style="position:absolute; left:300px; top:20px;"><font size="3"> สรุปตาม: </font>
+	<span style="position:absolute; left:300px; top:10px;"><font size="3"> สรุปตาม: </font>
 		<select name="SumBy" id="SumBy">
 			<option value="6">YTD</option>
 			<option value="7">Monthly</option>
@@ -2255,20 +870,9 @@
 			<option value="5">Monthly vs Last Year same Monthly</option>
 		</select> 
 	</span>
-	<span style="position:absolute; left:650px; top:21px;">
+	<span style="position:absolute; left:650px; top:11px;">
 		<input type="button" value=" OK " onClick="goUrl()"/></span>
-		<%--
-	</div>
-	 --%>
 <!-- End Parameter -->
-
-<div id="tabs">
-	<ul>
-		<li><a href="#tabs-1">ในประเทศ</a></li>
-		<%--
-		<li><a href="#tabs-2">ต่างประเทศ</a></li>
-		 --%>
-	</ul>
 <div id="tabs-1">
 <table>
 <tr>
@@ -2277,247 +881,19 @@
 	<tr>
 	  <td><span id="fnancial_indicator_Display"></span>
 		<!-- Table Data -->
-		<%-- 
-		<ul>
-		  <li><a href="#tabs">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Financial Indicator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</a></li>
-		</ul>
-
-		<table id=table-data>
-		  <tr>
-			<th bgcolor=#CD853F colspan=3><font color="#FFFFFF"><span  id="month_year_Display"></span><%  out.print(month+" 10 vs "+month+" 09");  %> </font></th>
-		  </tr>
-
-		  <!-- Data -->
-
-		  <tr>
-			<th colspan=3>
-			  Profitablity Ratio
-			</th>
-		  </tr>
-		  <tr>
-			<td>Gross Profit Margin </td>
-			<td><img src=images/up1.png> </td>
-			<td>25.50 </td>
-		  </tr>
-		  <tr>
-			<td>Net Profit Margin </td>
-			<td><img src=images/up1.png> </td>
-			<td>14.20 </td>
-		  </tr>
-		  <tr>
-			<td>EBITDA Margin </td>
-			<td><img src=images/up1.png> </td>
-			<td>00</td>
-		  </tr>
-		  <tr>
-			<td>EBIT Margin </td>
-			<td><img src=images/down1.png> </td>
-			<td>00</td>
-		  </tr>
-		  <tr>
-			<td>Return on Equity</td>
-			<td></td>
-			<td>00</td>
-		  </tr>
-
-		  <tr>
-			<th colspan=3>
-			  Operating Efficiency
-			</th>
-		  </tr>
-		  <tr>
-			<td>Return on Assets</td>
-			<td><img src=images/down1.png> </td>
-			<td>25.50 </td>
-		  </tr>
-		  <tr>
-			<td>Return on Fixed Assets </td>
-			<td><img src=images/down1.png> </td>
-			<td>14.20 </td>
-		  </tr>
-
-		  <tr>
-			<th colspan=3>
-			  Leverage Ratio
-			</th>
-		  </tr>
-		  <tr>
-			<td>Current Ratio</td>
-			<td><img src=images/up1.png> </td>
-			<td>25.50 </td>
-		  </tr>
-		  <tr>
-			<td>Quick Ratio</td>
-			<td><img src=images/down1.png> </td>
-			<td>14.20 </td>
-		  </tr>
-		  <tr>
-			<td>Debt to Equity Ratio (Times)</td>
-			<td><img src=images/up1.png> </td>
-			<td>14.20 </td>
-		  </tr>
-
-		  <tr>
-			<th colspan=3>
-			  Turnover Ratio
-			</th>
-		  </tr>
-		  <tr>
-			<td>A/R Day</td>
-			<td> </td>
-			<td>25.50 </td>
-		  </tr>
-		  <tr>
-			<td>A/P Day</td>
-			<td><img src=images/up1.png> </td>
-			<td>14.20 </td>
-		  </tr>
-		  <tr>
-			<td>Inventory Day</td>
-			<td> </td>
-			<td>14.20 </td>
-		  </tr>
-
-		  <tr>
-			<th colspan=3>
-			  Growth Rates
-			</th>
-		  </tr>
-		  <tr>
-			<td>Sales and Service Income</td>
-			<td> </td>
-			<td>25.50 </td>
-		  </tr>
-		  <tr>
-			<td>Gross Profit</td>
-			<td><img src=images/up1.png> </td>
-			<td>14.20 </td>
-		  </tr>
-		  <tr>
-			<td>Net Profit</td>
-			<td><img src=images/down1.png> </td>
-			<td>14.20 </td>
-		  </tr>
-		  <tr>
-			<td>Total Assets</td>
-			<td> </td>
-			<td>14.20 </td>
-		  </tr>
-
-		  <tr>
-			<th colspan=3>
-			  Per Share Data
-			</th>
-		  </tr>
-		  <tr>
-			<td>Book Value per Share (Bt.)</td>
-			<td><img src=images/up1.png> </td>
-			<td>25.50 </td>
-		  </tr>
-		  <tr>
-			<td>Earnings per Share (Bt.)</td>
-			<td><img src=images/up1.png> </td>
-			<td>14.20 </td>
-		  </tr>
-		  <!-- End Data -->
-		</table>
-		--%>
-
-		<!-- End Table -->
 	  </td>
 	</tr>
   </table>
 </td>
 
-<td>
-  <table id=tabs-table2 style="position:absolute; left:242px; top:45px;" bordercolor="#000000" frame="box" rules="all">
-  <tr><td align=center>
-		<table width=1070>
-			<tr bgcolor="#8B4513">
-				<td colspan="2"><div align=center><font color="#FFE742" size="3"><b>บริษัท เอส แอนด์ พี ซินดิเคท จำกัด (มหาชน)</b></font></div></td>
-			</tr>
-			<tr>
-				<td align="center"><div id="g1"></div></td>
-				<td align=left width="150"><div id="g1_legend"></div></td>
-			</tr>
-		</table>
-  </td></tr>
-  </table>
+<td><div id="snp_element">
+ </div>
 </td>
 </tr>
 </table>
-<!-- -->
 
-<!-- -->
-<div style=" position:absolute; top:365px; left:242px;">
-<table id="tabs-t1r3">
-  <tr height=300><td valign="top" width=1065>
-	<ul>
-		<li><a href="#tabs-t1r3_1">Restaurant</a></li>
-		<li><a href="#tabs-t1r3_2">Bakery</a></li>
-		<li><a href="#tabs-t1r3_3">Specialty</a></li>
-		<li><a href="#tabs-t1r3_4">Trading</a></li>
-		<li><a href="#tabs-t1r3_5">Caterman</a></li>
-		<li><a href="#tabs-t1r3_6">Other</a></li>
-	</ul>
-
-	<!-- Reataurant -->
-	<table id="tabs-t1r3_1">
-		<tr>
-		<td align="center"><div id="g1"></div></td>
-				<td align=left width="150"><div id="g1_legend"></div></td>
-				
-			<td align="center"><div id="Restaurant_tab"></div></td>
-			<td align=left width="150"><div id="Restaurant_legend"></div></td>
-		</tr>
-	</table>
-
-	<!-- Bakery -->
-	<table id="tabs-t1r3_2">
-		<tr>
-			<td align=center><div id="Bakery_tab"></div></td>
-			<td align=left width="150"><div id="Bakery_legend"></div></td>
-		</tr>
-	</table>
-
-	<!-- Specialty -->
-	<table id="tabs-t1r3_3">
-		<tr>
-			<td align=center><div id="Specialty_tab"></div></td>
-			<td align=left width="150"><div id="Specialty_legend"></div></td>
-		</tr>
-	</table>
-
-	<!-- Trading -->
-	<table id="tabs-t1r3_4">
-		<tr>
-			<td align=center><div id="Trading_tab"></div></td>
-			<td align=left width="150"><div id="Trading_legend"></div></td>
-		</tr>
-	</table>
-	
-	<!-- Caterman -->
-	<table id="tabs-t1r3_5">
-		<tr>
-			<td align=center><div id="Caterman_tab"></div></td>
-			<td align=left width="150"><div id="Caterman_legend"></div></td>
-		</tr>
-	</table>
-
-	<!-- Other -->
-	<table id="tabs-t1r3_6">
-		<tr>
-			<td align=center><div id="Other_tab"></div></td>
-			<td align=left width="150"><div id="Other_legend"></div></td>
-		</tr>
-	</table>
-
-<!--  END -->
-  </td></tr>
-  </table></div>
-
-</div> 
+<div id="snp_element2" style=" position:absolute; top:380px; left:242px;">
+  </div>
 </div>
-
 </body>
 </html>
