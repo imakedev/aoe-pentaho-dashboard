@@ -1,0 +1,35 @@
+<project>
+
+
+	<target name="jar_bsc_ajax">
+		<!-- 
+			WebBoardServices/RestletServlet/webboardservices
+	        <mkdir dir="target/jar/project"/> 
+	     -->
+		<jar destfile="../target/balanceScorecardAjax.jar">
+			<!-- common -->
+			<fileset dir="../build/classes" includes="com/moogle/lbs/ajax/BalanceScorecardAjax.class" /> 
+		</jar>
+	</target>
+	<target name="jar_od_ajax">
+		<!-- 
+				WebBoardServices/RestletServlet/webboardservices
+		        <mkdir dir="target/jar/project"/>
+		     -->
+		<jar destfile="../target/operationDashboardAjax.jar">
+			<!-- common -->
+			<fileset dir="../build/classes" includes="com/moogle/lbs/ajax/OperationDashboardAjax.class" />
+		</jar>
+	</target>
+	<target name="jar_fd_ajax">
+		<!-- 
+					WebBoardServices/RestletServlet/webboardservices
+			        <mkdir dir="target/jar/project"/>
+			     -->
+		<jar destfile="../target/financeDashboardAjax.jar">
+			<!-- common -->
+			<fileset dir="../build/classes" includes="com/moogle/lbs/ajax/FinanceDashboardAjax.class" />
+
+		</jar>
+	</target>
+</project>
