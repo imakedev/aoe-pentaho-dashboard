@@ -55,7 +55,6 @@
   </servlet-mapping>
   
   <!--  dwr financedashboard -->
-  <!-- 
   <servlet>
     <servlet-name>dwr-financedashboard-invoker</servlet-name>
     <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
@@ -93,10 +92,6 @@
     <servlet-name>dwr-financedashboard-invoker</servlet-name>
     <url-pattern>/dwrfinancedashboard/*</url-pattern>
   </servlet-mapping>
-<<<<<<< .mine
-=======
-  -->
->>>>>>> .r66
   <!--  dwr operationdashboard -->
   <!-- 
   <servlet>
