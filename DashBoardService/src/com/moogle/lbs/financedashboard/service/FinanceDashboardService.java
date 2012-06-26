@@ -27,6 +27,7 @@ public interface FinanceDashboardService {
 			int month, String tab, String sumType);
 	public List<FinancialPieDTO> getBarOfPile(int year, int month,String tab,String sumType);
 	public List test();
+	/*test*/
 	/*public List<FinancialRestaurantDTO> getFinancialRestaurant(int year,int month);
 	public List<FinancialBakeryDTO> getFinancialBakery(int year,int month);
 	public List<FinancialSpecialtyDTO> getFinancialSpecialty(int year,int month);
