@@ -497,7 +497,7 @@ do2.RevenueGroupDesc = 'Other'
 			q1=" fcs1.ItemID = 9 and ";
 			q2=" fcs2.ItemID = 9 and ";
 		} else if (graphType.equals("3")) {
-			 
+			//Test 
 			/*q1 = "   ";
 			q2 = "  ";*/
 			q1=" fcs1.ItemID = 18 and ";
