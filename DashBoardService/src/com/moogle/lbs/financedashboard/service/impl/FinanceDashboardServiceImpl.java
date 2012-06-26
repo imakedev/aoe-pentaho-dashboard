@@ -443,8 +443,8 @@ do2.RevenueGroupDesc = 'Other'
 		 
 		*/
 	
-		String q1 = "";
-		String q2 = "";
+		String q1 = " fcs1.ItemID = 17 and ";
+		String q2 = " fcs2.ItemID = 17 and "; 
 		String q1_type = "";
 		String q2_type = "";
 		String sumtype1 = "";
@@ -500,8 +500,10 @@ do2.RevenueGroupDesc = 'Other'
 			//Test 
 			/*q1 = "   ";
 			q2 = "  ";*/
-			q1=" fcs1.ItemID = 18 and ";
-			q2=" fcs2.ItemID = 18 and ";
+			/*q1=" fcs1.ItemID = 18 and ";
+			q2=" fcs2.ItemID = 18 and ";*/
+			q1=" fcs1.ItemID = 15 and ";
+			q2=" fcs2.ItemID = 15 and ";
 		} 
 		// query sumType
 	 
