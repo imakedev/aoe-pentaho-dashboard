@@ -25,21 +25,21 @@
 			p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}" p:username="${jdbc.username}"
 			p:password="${jdbc.password}"/> snp-dwh ,aoe2
 	-->
-	
-	<!-- 
-	  <bean id="dataSourceFactory" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-			p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://192.168.1.2:3306/findashboard" p:username="root"
-			p:password="password"/>
-			 -->
-			<!-- 
+	<!--  
 	<bean id="dataSourceFactory" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-			p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://192.168.1.2:3306/findashboard" p:username="root"
-			p:password="password"/>
+			p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost:3306/aoe4" p:username="root"
+			p:password=""/>
+	-->
+	<!--  
+  <bean id="dataSourceFactory" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+			p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://10.14.199.199:3306/SNP-DWH" p:username="root"
+			p:password="snp1344food"/>
 			 -->
+    <!-- -->
 	<bean id="dataSourceFactory" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-			p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost:3306/bsc" p:username="root"
-			p:password="015482543a6e"/> 
-			<!-- snp -->
+			p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost:3306/SNP-DWH" p:username="root"
+			p:password="015482543a6e"/>
+
 	<!-- JNDI DataSource for JEE environments -->
         <!--
 		<jee:jndi-lookup id="dataSource" jndi-name="java:/comp/env/jdbc/localOracle" resource-ref="true"/>
@@ -58,7 +58,7 @@
   		 <property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.generate_statistics">true</prop>		
 				<prop key="hibernate.connection.autocommit">false</prop>
 				<!--
@@ -70,7 +70,6 @@
    		 <property name="annotatedClasses">
      		<list>     		 
 				<value>com.moogle.lbs.balancescorecard.domain.Dimdate</value>  
-				<!-- 
 				<value>com.moogle.lbs.balancescorecard.domain.Kpiresult</value> 
 				<value>com.moogle.lbs.balancescorecard.domain.Kpiresultthreshold</value> 
 				<value>com.moogle.lbs.balancescorecard.domain.Ownerresult</value> 
@@ -88,7 +87,6 @@
 				<value>com.moogle.lbs.balancescorecard.domain.PerspectiveresultthresholdDTO</value>
 				<value>com.moogle.lbs.balancescorecard.domain.OwnerresultDTO</value>
 				<value>com.moogle.lbs.balancescorecard.domain.PerspectiveresultDTO</value>
-				 -->
 			</list>
    		</property>
    		<property name="eventListeners">
@@ -138,6 +136,10 @@
 	</bean>
 	 -->
 	<bean id="financeDashboardService" class="com.moogle.lbs.financedashboard.service.impl.FinanceDashboardServiceImpl">
+		<property name="sessionAnnotationFactoryOP" ref="sessionAnnotationFactory"></property>
+	</bean>
+   
+    <bean id="operationDashboardProcService" class="com.moogle.lbs.operationdashboard.service.impl.OperationDashboardProcServiceImpl">
 		<property name="sessionAnnotationFactoryOP" ref="sessionAnnotationFactory"></property>
 	</bean>
 	
