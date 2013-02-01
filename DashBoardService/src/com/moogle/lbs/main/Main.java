@@ -35,6 +35,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.moogle.lbs.balancescorecard.service.BalanceScorecardService;
 import com.moogle.lbs.financedashboard.domain.FinancialPieDTO;
 import com.moogle.lbs.financedashboard.service.FinanceDashboardService;
+import com.moogle.lbs.operationdashboard.service.OperationDashboardProcService;
 import com.moogle.lbs.operationdashboard.service.OperationDashboardService;
 
  
@@ -181,6 +182,20 @@ public class Main {
 	       System.err.println(results.size());*/
 	 
 	}
+	public void testProc(OperationDashboardProcService operationDashboardProcService ){
+		//String query="{call  proc_op_tab_summary_MTD_YTD('MTD','2011-01-01')}";
+		String query="{call proc_op_tab_summary_sales_growth('MTD','2011-01-01','DESC',10)}";
+		List<String[]> list=operationDashboardProcService.callPROC(query);
+		for (int i = 0; i < list.size(); i++) {
+			java.lang.Object[] xx = (java.lang.Object[])list.get(i);
+			System.out.println(xx[0]);
+			System.out.println(list.get(i));
+		}
+		/*for (String[] strings : list) {
+			System.out.println(strings[0]);
+		}*/
+		System.out.println(list.size());
+	}
 	public void testOP(OperationDashboardService operationDashboardService ){
 		/*List list = operationDashboardService.listDivisions();
 		
@@ -193,7 +208,7 @@ public class Main {
 		}
 		 List<SalesTrendDTO> xx= operationDashboardService.getSalesTrend(2011,3,"ALL","ALL","ALL","ALL");
 		 System.err.println(xx);*/
-	List list=	 operationDashboardService.getSalesTrend(2011,2,"ALL","ALL","ALL","ALL");
+/*	List list=	 operationDashboardService.getSalesTrend(2011,2,"ALL","ALL","ALL","ALL");
 	for (int i = 0; i < list.size();i++){
 		com.moogle.lbs.operationdashboard.domain.SalesTrendDTO sale = (com.moogle.lbs.operationdashboard.domain.SalesTrendDTO)
 		list.get(i);
@@ -224,12 +239,21 @@ public class Main {
 	operationDashboardService.getSalesTrend(2011, 1,  "ALL","ALL","ALL","ALL");
 	operationDashboardService.getSummaryMTD(2011, 1);
 	operationDashboardService.getSummaryMTDDivision("ALL", 2011, 1 );
-	operationDashboardService.getSummaryMTDDivisionSection("ALL", "ALL", 2011, 1 );
-	operationDashboardService.listAreas();
-	operationDashboardService.listBranch();
+	operationDashboardService.getSummaryMTDDivisionSection("ALL", "ALL", 2011, 1 );*/
+	/*	List list =operationDashboardService.listAreas();
+	 
+	for (int i = 0; i < list.size(); i++) {
+		System.out.println(list.get(i));
+	}*/
+		List list =operationDashboardService.listYears();
+		 
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+	/*operationDashboardService.listBranch();
 	operationDashboardService.listDivisions();
 	operationDashboardService.listSections();
-	operationDashboardService.listYears();
+	operationDashboardService.listYears();*/
 		//operationDashboardService.getAverageCheck(year, month, branch, area, section, division);
 		//operationDashboardService.getAverageCheck(2011, 02, "branch", "area", "section", "division");
 	}
@@ -331,11 +355,12 @@ public class Main {
                 		});
         BalanceScorecardService balanceScorecardService =(BalanceScorecardService) springContext.getBean("balanceScorecardService");
         OperationDashboardService operationDashboardService =(OperationDashboardService) springContext.getBean("operationDashboardService");
+        OperationDashboardProcService operationDashboardProcService =(OperationDashboardProcService) springContext.getBean("operationDashboardProcService");
         FinanceDashboardService financeDashboardService =(FinanceDashboardService) springContext.getBean("financeDashboardService");
         Main obj=new Main();
      // obj.testBSC(balanceScorecardService);
-        //obj.testOP(operationDashboardService);
-        obj.testFI(financeDashboardService);
+        obj.testProc(operationDashboardProcService);
+        //obj.testFI(financeDashboardService);
     }
 	 
 }
