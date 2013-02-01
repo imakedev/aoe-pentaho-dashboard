@@ -47,9 +47,11 @@ String.prototype.trim = function() {
 
 	function listDivision() {
 		var mySelect = document.getElementById('Division');
+		alert(mySelect);
 		OperationDashboardAjax
 				.listDivisions({
 					callback : function(data) {
+						alert(data)
 						if (data != null && data.length > 0) {
 							for ( var i = 0; i < data.length; i++) {
 								mySelect.add(new Option(data[i], data[i]));
@@ -165,8 +167,8 @@ String.prototype.trim = function() {
 									 {
 										"values" : lastNetSalesAmt,
 										 "background-color" : "#66CC00",
-								 /*"url": "<%//=request.getContextPath()%>/SNP/Finance/Operation_Bar1.jsp",
-								 "target" : "_self",*/
+								 /* "url": "<%-- //=request.getContextPath() --%>/SNP/Finance/Operation_Bar1.jsp",
+								 "target" : "_self", */
 										 "text" : "ยอดขาย Last"
 									 },
 									 {
@@ -2293,11 +2295,7 @@ ul#icons span.ui-icon {
 	}
 	
 	/* Script on load */
-	listDivision();
-	listSection();
-	listArea();
-	listBranch();
-	init();
+	
 	
 	/* Script in use for Summary Tab */
 	
@@ -2332,8 +2330,18 @@ ul#icons span.ui-icon {
 	/* Script in use for Map Tab */
 	//getRegionGrowth(2011, 3);
 	//getGoogleMap(2011, 3);
+	$(document).ready(function() {
+		    listDivision();
+		    listSection();
+			listArea();
+			listBranch();
+		    /*
+			
+			init();
+			*/
+		});
 	
-	
+    
 	
 	
 </script>
