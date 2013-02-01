@@ -1,5 +1,6 @@
 package com.moogle.lbs.ajax;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -29,16 +30,23 @@ import com.moogle.lbs.operationdashboard.domain.SalesTrendDTO;
 import com.moogle.lbs.operationdashboard.domain.SummaryMTDDTO;
 import com.moogle.lbs.operationdashboard.domain.SummaryMTDDivisionDTO;
 import com.moogle.lbs.operationdashboard.domain.SummaryMTDDivisionSectionDTO;
+import com.moogle.lbs.operationdashboard.service.OperationDashboardProcService;
 import com.moogle.lbs.operationdashboard.service.OperationDashboardService;
 
 public class OperationDashboardAjax {
 	private final OperationDashboardService operationDashboardService;
+	private final OperationDashboardProcService operationDashboardProcService;
 	public OperationDashboardAjax(){
+		//operationDashboardService=null; 
+		//System.out.println(" aoe Debug");
 		WebContext ctx = WebContextFactory.get(); 
 		ServletContext servletContext = ctx.getServletContext();
     	WebApplicationContext wac = WebApplicationContextUtils.
     	getRequiredWebApplicationContext(servletContext);
     	operationDashboardService = (OperationDashboardService)wac.getBean("operationDashboardService"); 
+    	operationDashboardProcService= (OperationDashboardProcService)wac.getBean("operationDashboardProcService");
+    	//System.out.println(" aoe Debug operationDashboardService "+operationDashboardService);
+		
 	} 
 	
 	public List<Integer> listYears(){
@@ -46,7 +54,7 @@ public class OperationDashboardAjax {
 	} 
 	public List<String>  listDivisions(){
 		List list=operationDashboardService.listDivisions();
-		System.out.println(list);
+		//System.out.println(list);
 		return list;
 	}
 	public List<String>  listSections(){
@@ -121,5 +129,27 @@ public class OperationDashboardAjax {
 	public List<GoogleMapDTO> getGoogleMap(int year,int month){
 		return operationDashboardService.getGoogleMap(year, month);
 	}
-
+	public List<String[]> callPROC(String query){
+		System.out.println(" into callPROC ");
+		List<String[]> result=null;
+		try{
+			result=operationDashboardProcService.callPROC(query);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return result;
+	}
+	public List listCriteria(String query[]){
+		System.out.println(" into listCriteria ");
+		List result=null; 
+		try{
+		  result=new ArrayList();
+		for (int i = 0; i < query.length; i++) {
+			result.add(operationDashboardProcService.callPROC(query[i]));
+		}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return result;
+	}
 }

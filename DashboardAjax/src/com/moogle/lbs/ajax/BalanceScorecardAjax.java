@@ -25,11 +25,13 @@ import com.moogle.lbs.financedashboard.domain.FinancialPopup1GroupDTO;
 import com.moogle.lbs.financedashboard.domain.FinancialSummaryDTO;
 import com.moogle.lbs.financedashboard.domain.FinancialTabDTO;
 import com.moogle.lbs.financedashboard.service.FinanceDashboardService;
+import com.moogle.lbs.operationdashboard.service.OperationDashboardProcService;
  
 
 public class BalanceScorecardAjax {
 	private final BalanceScorecardService balanceScorecardService;
 	private final FinanceDashboardService financeDashboardService;
+	private final OperationDashboardProcService operationDashboardProcService;
 	public BalanceScorecardAjax(){
 		WebContext ctx = WebContextFactory.get(); 
 		ServletContext servletContext = ctx.getServletContext();
@@ -37,6 +39,7 @@ public class BalanceScorecardAjax {
     	getRequiredWebApplicationContext(servletContext);
     	balanceScorecardService = (BalanceScorecardService)wac.getBean("balanceScorecardService");
     	financeDashboardService = (FinanceDashboardService)wac.getBean("financeDashboardService"); 
+    	operationDashboardProcService= (OperationDashboardProcService)wac.getBean("operationDashboardProcService");
 	}     
 	public String say(){
 		return "";
@@ -199,4 +202,27 @@ public class BalanceScorecardAjax {
 	 public List<FinancialPieDTO> getBarOfPile(int year, int month,String tab,String sumType){
 		 return financeDashboardService.getBarOfPile(year,month, tab, sumType);
 	 }
+	 public List<String[]> callPROC(String query){
+			System.out.println(" into callPROC ");
+			List<String[]> result=null;
+			try{
+				result=operationDashboardProcService.callPROC(query);
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+			return result;
+		}
+		public List listCriteria(String query[]){
+			System.out.println(" into listCriteria ");
+			List result=null; 
+			try{
+			  result=new ArrayList();
+			for (int i = 0; i < query.length; i++) {
+				result.add(operationDashboardProcService.callPROC(query[i]));
+			}
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+			return result;
+		}
 }
