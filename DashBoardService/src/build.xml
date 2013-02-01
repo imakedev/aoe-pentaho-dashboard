@@ -8,9 +8,9 @@
 	     -->
 		<jar destfile="../target/balanceScorecardService.jar">
 			<!-- common -->
-			<fileset dir="../build/classes" includes="com/moogle/lbs/balancescorecard/domain/*.class" />
-			<fileset dir="../build/classes" includes="com/moogle/lbs/balancescorecard/service/*.class" />
-			<fileset dir="../build/classes" includes="com/moogle/lbs/balancescorecard/service/impl/*.class" />
+			<fileset dir="../bin" includes="com/moogle/lbs/balancescorecard/domain/*.class" />
+			<fileset dir="../bin" includes="com/moogle/lbs/balancescorecard/service/*.class" />
+			<fileset dir="../bin" includes="com/moogle/lbs/balancescorecard/service/impl/*.class" />
 		</jar>
 	</target>
 	<target name="jar_od_service">
@@ -20,9 +20,10 @@
 		     -->
 		<jar destfile="../target/operationDashboardService.jar">
 			<!-- common -->
-			<fileset dir="../build/classes" includes="com/moogle/lbs/operationdashboard/domain/*.class" />
-			<fileset dir="../build/classes" includes="com/moogle/lbs/operationdashboard/service/*.class" />
-			<fileset dir="../build/classes" includes="com/moogle/lbs/operationdashboard/service/impl/*.class" />
+			
+			<fileset dir="../bin" includes="com/moogle/lbs/operationdashboard/domain/*.class" />
+			<fileset dir="../bin" includes="com/moogle/lbs/operationdashboard/service/*.class" />
+			<fileset dir="../bin" includes="com/moogle/lbs/operationdashboard/service/impl/*.class" />
 		</jar>
 	</target>
 	<target name="jar_fd_service">
