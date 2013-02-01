@@ -8,7 +8,7 @@
 	     -->
 		<jar destfile="../target/balanceScorecardAjax.jar">
 			<!-- common -->
-			<fileset dir="../build/classes" includes="com/moogle/lbs/ajax/BalanceScorecardAjax.class" /> 
+			<fileset dir="../bin" includes="com/moogle/lbs/ajax/BalanceScorecardAjax.class" /> 
 		</jar>
 	</target>
 	<target name="jar_od_ajax">
@@ -18,7 +18,10 @@
 		     -->
 		<jar destfile="../target/operationDashboardAjax.jar">
 			<!-- common -->
+			<!-- 
 			<fileset dir="../build/classes" includes="com/moogle/lbs/ajax/OperationDashboardAjax.class" />
+			-->
+			<fileset dir="../bin" includes="com/moogle/lbs/ajax/OperationDashboardAjax.class" />
 		</jar>
 	</target>
 	<target name="jar_fd_ajax">
@@ -28,7 +31,7 @@
 			     -->
 		<jar destfile="../target/financeDashboardAjax.jar">
 			<!-- common -->
-			<fileset dir="../build/classes" includes="com/moogle/lbs/ajax/FinanceDashboardAjax.class" />
+			<fileset dir="../bin" includes="com/moogle/lbs/ajax/FinanceDashboardAjax.class" />
 
 		</jar>
 	</target>
