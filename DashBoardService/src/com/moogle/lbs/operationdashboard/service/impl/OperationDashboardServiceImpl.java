@@ -68,14 +68,17 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 	public List<String> listDivisions() {
 		List result=null;
 		List list=null;
-		try{
+		try{ 
 		// TODO Auto-generated method stub
-		String sql="Select 'ALL' as division from dimbranch" +
+		/*String sql="Select 'ALL' as division from DimBranch" +
 				" Union" +
-				" Select distinct(division) as division from dimbranch order by Division ";
+				" Select distinct(division) as Division from DimBranch order by Division ";*/
+		String sql="{CALL proc_op_listDivisions(null)}";
 		System.out.println("query is  ==> "+sql);
-		SQLQuery query=	this.sessionAnnotationFactoryOP.getCurrentSession().createSQLQuery(sql);
+		
+		 SQLQuery query=	this.sessionAnnotationFactoryOP.getCurrentSession().createSQLQuery(sql); 
 		  list = query.list();
+		   
 		/*System.out.println("list opr="+list);
 		int size=list.size();
 		 result=new ArrayList(size);
@@ -96,20 +99,27 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 	@Override
 	public List<String> listSections() {
 		// TODO Auto-generated method stub
-		String sql="Select 'ALL' as section from dimbranch" +
+		/*String sql="Select 'ALL' as section from DimBranch" +
 				" Union" +
-				" Select distinct(section) from dimbranch order by Section";
-		System.out.println("query is ==> "+sql);
+				" Select distinct(section) from DimBranch order by Section";
+		System.out.println("query is ==> "+sql);*/
+		String sql="{CALL proc_op_listSections(null)}";
+		System.out.println("query is  ==> "+sql);
+		 
+		 //SQLQuery query=	this.sessionAnnotationFactoryOP.getCurrentSession().createSQLQuery(sql); 
+		 
 		return (List<String>)this.sessionAnnotationFactoryOP.getCurrentSession().createSQLQuery(sql).list();
    }
 	@Transactional(readOnly = true)
 	@Override
 	public List<String> listAreas() {
 		// TODO Auto-generated method stub
-		String sql="Select 'ALL' as Area from dimbranch" +
+		/*String sql="Select 'ALL' as Area from DimBranch" +
 				" Union" +
-				" Select distinct(Area) from dimbranch order by Area";
-		System.out.println("query is ==> "+sql);
+				" Select distinct(Area) from DimBranch order by Area";
+		System.out.println("query is ==> "+sql);*/
+		String sql="{CALL proc_op_listAreas(null)}";
+		System.out.println("query is  ==> "+sql);
 		return (List<String>)this.sessionAnnotationFactoryOP.getCurrentSession().createSQLQuery(sql).list();
 	}
 
@@ -118,10 +128,12 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 	@Override
 	public List<BranchDTO> listBranch() {
 		// TODO Auto-generated method stub
-		String sql="select 'ALL' as branchName , 'ALL' as branchCode from dimbranch" +
+		/*String sql="select 'ALL' as branchName , 'ALL' as branchCode from DimBranch" +
 				" Union" +
-				" Select distinct(branchName) as  branchName,BranchCode as branchCode from dimbranch order by branchName";
-		System.out.println("query is ==> "+sql);
+				" Select distinct(branchName) as  branchName,BranchCode as branchCode from DimBranch order by branchName";
+		System.out.println("query is ==> "+sql);*/ 
+		String sql="{CALL proc_op_listBranch(null)}";
+		System.out.println("query is  ==> "+sql);
 		SQLQuery query=	this.sessionAnnotationFactoryOP.getCurrentSession().createSQLQuery(sql);
 		List result = query.list();
 		int size = result.size();
@@ -150,7 +162,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		"   dimbranch.Division as Division "+
 		"   ,SUM(factsalestarget.SalesTargetAmt) as SalesTargetAmt "+
 		"   ,SUM(factsalestarget.NetSalesAmt) as NetSalesAmt "+
-		"  FROM factsalestarget , dimdate , dimbranch "+
+		"  FROM factsalestarget , dimdate , DimBranch "+
 		"  WHERE factsalestarget.DateKey = dimdate.DateKey "+
 		"  and factsalestarget.BranchKey =  dimbranch.BranchKey "+
 		"  and Year(dimdate.Date) =:year "+
@@ -161,7 +173,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		" ( SELECT "+
 		"    dimbranch.Division as Division "+
 		"   ,SUM(factsalestarget.NetSalesAmt) as NetSalesAmt "+
-		"  FROM factsalestarget , dimdate , dimbranch "+
+		"  FROM factsalestarget , dimdate , DimBranch "+
 		"  WHERE factsalestarget.DateKey = dimdate.DateKey "+
 		"  and factsalestarget.BranchKey = dimbranch.BranchKey "+
 		"  and Year(dimdate.Date) =:year-1 "+
@@ -169,7 +181,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		"  Group by dimbranch.Division ) as Last "+
 		""+
 		" ON This.Division = Last.Division";
-	System.out.println("query is ==> "+sql);
+	// System.out.println("query is ==> "+sql);
 	SQLQuery query=	this.sessionAnnotationFactoryOP.getCurrentSession().createSQLQuery(sql);
 	
 	query.setParameter("year", year);
@@ -204,7 +216,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		"    dimbranch.Section as Section "+
 		"   ,SUM(factsalestarget.SalesTargetAmt) as SalesTargetAmt "+
 		"   ,SUM(factsalestarget.NetSalesAmt) as NetSalesAmt "+
-		"  FROM factsalestarget , dimdate , dimbranch "+
+		"  FROM factsalestarget , dimdate , DimBranch "+
 		"  WHERE factsalestarget.DateKey = dimdate.DateKey "+
 		"  and factsalestarget.BranchKey = dimbranch.BranchKey "+
 		"  and dimbranch.Division =:division "+
@@ -216,7 +228,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		" ( SELECT "+
 		"    dimbranch.Section as Section "+
 		"   ,SUM(factsalestarget.NetSalesAmt) as NetSalesAmt "+
-		"  FROM factsalestarget , dimdate , dimbranch "+
+		"  FROM factsalestarget , dimdate , DimBranch "+
 		"  WHERE factsalestarget.DateKey = dimdate.DateKey "+
 		"  and factsalestarget.BranchKey = dimbranch.BranchKey "+
 		"  and dimbranch.Division =:division "+
@@ -262,7 +274,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		 "   dimbranch.Area as Area "+
 		 "  ,SUM(factsalestarget.SalesTargetAmt) as SalesTargetAmt "+
 		 "  ,SUM(factsalestarget.NetSalesAmt) as NetSalesAmt "+
-		 " FROM factsalestarget , dimdate , dimbranch "+
+		 " FROM factsalestarget , dimdate , DimBranch "+
 		 " WHERE factsalestarget.DateKey = dimdate.DateKey "+
 		 " and factsalestarget.BranchKey = dimbranch.BranchKey "+
 		 " and dimbranch.Division =:division "+
@@ -275,7 +287,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		" ( SELECT "+
 		"    dimbranch.Area as Area "+
 		"   ,SUM(factsalestarget.NetSalesAmt) as NetSalesAmt "+
-		"  FROM factsalestarget , dimdate , dimbranch "+
+		"  FROM factsalestarget , dimdate , DimBranch "+
 		"  WHERE factsalestarget.DateKey = dimdate.DateKey "+
 		"  and factsalestarget.BranchKey = dimbranch.BranchKey "+
 		"  and dimbranch.Division =:division "+
@@ -315,7 +327,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		" branchName as branchName "+
 		" ,(SUM(SalesAmt)-SUM(CostAmt)) as gpamt "+
 		" ,(SUM(SalesAmt)-SUM(CostAmt))/SUM(SalesAmt) as percentGP "+
-		" FROM factretailsales , dimbranch , dimdate "+
+		" FROM factretailsales , DimBranch , dimdate "+
 		" WHERE factretailsales.BranchKey = dimbranch.BranchKey "+
 		" AND factretailsales.DateKey = dimdate.DateKey "+
 		" AND YEAR(dimdate.Date) =:year "+
@@ -350,7 +362,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		" branchName as branchName "+
 		" ,(SUM(SalesAmt)-SUM(CostAmt)) as gpamt "+
 		" ,(SUM(SalesAmt)-SUM(CostAmt))/SUM(SalesAmt) as percentGP "+
-		" FROM factretailsales , dimbranch , dimdate "+
+		" FROM factretailsales , DimBranch , dimdate "+
 		" WHERE factretailsales.BranchKey = dimbranch.BranchKey "+
 		" AND factretailsales.DateKey = dimdate.DateKey "+
 		" AND YEAR(dimdate.Date) =:year "+
@@ -412,7 +424,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		"   AND YEAR(DDate.Date) =:year -1 "+
 		"   AND MONTH(DDate.Date) =:month)) AS percentGrowth "+
 		" "+
-		" FROM factretailsales , dimbranch , dimdate "+
+		" FROM factretailsales , DimBranch , dimdate "+
 		" WHERE factretailsales.BranchKey = dimbranch.BranchKey "+
 		" AND factretailsales.DateKey = dimdate.DateKey "+
 		" AND YEAR(dimdate.Date) =:year "+
@@ -475,7 +487,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		"  AND YEAR(DDate.Date) =:year "+
 		"  AND MONTH(DDate.Date) =:month -1) AS percentGrowth "+
 		"  "+
-		" FROM factretailsales , dimbranch , dimdate "+
+		" FROM factretailsales , DimBranch , dimdate "+
 		" WHERE factretailsales.BranchKey = dimbranch.BranchKey "+
 		" AND factretailsales.DateKey = dimdate.DateKey "+
 		" AND YEAR(dimdate.Date) =:year "+
@@ -633,7 +645,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 			" ,(SUM(NetSalesAmt)-SUM(SalesTargetAmt))/SUM(SalesTargetAmt) AS vsplan "+
 			" "+
 			" "+
-			" FROM factsalestarget , dimdate ,dimproductgroup ,dimbranch "+
+			" FROM factsalestarget , dimdate ,dimproductgroup ,DimBranch "+
 			" WHERE factsalestarget.DateKey = dimdate.DateKey "+
 			" AND factsalestarget.ProductGroupKey = dimproductgroup.ProductGroupKey "+
 			" AND factsalestarget.BranchKey = dimbranch.BranchKey "+
@@ -700,7 +712,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 			" AND MONTH(DDate.Date) =:month ) AS costAmtLastYear, "+
 			" '0' AS plan "+
 			" "+ 
-			" FROM factretailsales , dimdate  , dimbranch , dimproduct "+
+			" FROM factretailsales , dimdate  , DimBranch , dimproduct "+
 			" WHERE factretailsales.DateKey = dimdate.DateKey "+
 			" AND factretailsales.BranchKey = dimbranch.BranchKey "+
 			" AND factretailsales.ProductKey = dimproduct.ProductKey "+ 
@@ -846,7 +858,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 			" ,dimsalestype.SalesType As salesType "+
 			" ,SUM(factretailsales.SalesAmt) AS salesAmt "+
 			" "+
-			" FROM factretailsales , dimdate  , dimbranch , dimsalestype "+ 
+			" FROM factretailsales , dimdate  , DimBranch , dimsalestype "+ 
 			" WHERE factretailsales.DateKey = dimdate.DateKey "+
 			" AND factretailsales.BranchKey = dimbranch.BranchKey "+
 			" AND factretailsales.SalesTypeKey = dimsalestype.SalesTypeKey "+
@@ -899,7 +911,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 			" AND MONTH(DDate.Date) =:month ) DiscountLastYear , "+
 			" '0' AS plan "+
 			" "+
-			" FROM factretailsales , dimdate , dimbranch "+
+			" FROM factretailsales , dimdate , DimBranch "+
 			" WHERE factretailsales.DateKey = dimdate.DateKey "+
 			" AND factretailsales.BranchKey = dimbranch.BranchKey "+
 			" "+
@@ -961,7 +973,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 			" AND YEAR(DDate.Date) =:year -1 "+
 			" AND MONTH(DDate.Date) =:month )*100 ) AS growth "+
 			" "+
-			" FROM factbranchsnapshot , dimdate , dimbranch "+
+			" FROM factbranchsnapshot , dimdate , DimBranch "+
 			" WHERE factbranchsnapshot.DateKey = dimdate.DateKey "+
 			" AND factbranchsnapshot.BranchKey = dimbranch.BranchKey "+
 			""+ 
@@ -1026,7 +1038,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 			" AND YEAR(DDate.Date) =:year "+
 			" AND MONTH(DDate.Date) =:month )*100 ) AS growth "+
 			" "+ 
-			" FROM factbranchsnapshot , dimdate , dimbranch "+
+			" FROM factbranchsnapshot , dimdate , DimBranch "+
 			" WHERE factbranchsnapshot.DateKey = dimdate.DateKey "+
 			" AND factbranchsnapshot.BranchKey = dimbranch.BranchKey "+
 			""+ 
@@ -1091,7 +1103,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 			" AND YEAR(DDate.Date) =:year "+
 			" AND MONTH(DDate.Date) =:month )*100 ) AS growth "+
 			""+ 
-			" FROM factbranchsnapshot , dimdate , dimbranch "+
+			" FROM factbranchsnapshot , dimdate , DimBranch "+
 			" WHERE factbranchsnapshot.DateKey = dimdate.DateKey "+
 			" AND factbranchsnapshot.BranchKey = dimbranch.BranchKey "+
 			""+ 
@@ -1150,7 +1162,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 			" AND YEAR(DDate.Date) =:year -1 "+
 			" AND MONTH(DDate.Date) =:month )*100) AS growth "+
 			" "+
-			" FROM factretailsales , dimbranch , dimdate "+
+			" FROM factretailsales , DimBranch , dimdate "+
 			" WHERE factretailsales.BranchKey = dimbranch.BranchKey "+
 			" AND factretailsales.DateKey = dimdate.DateKey "+
 			" AND YEAR(dimdate.Date) =:year "+
@@ -1189,7 +1201,7 @@ public class OperationDashboardServiceImpl implements OperationDashboardService{
 		  " SUM(factsalestarget.NetSalesAmt) AS netSalesAmt, "+
 			" SUM(factsalestarget.SalesTargetAmt) AS targetAmt "+
 			" "+
-			" FROM factsalestarget , dimbranch , dimdate "+
+			" FROM factsalestarget , DimBranch , dimdate "+
 			" WHERE factsalestarget.BranchKey = dimbranch.BranchKey "+
 			" AND factsalestarget.DateKey = dimdate.DateKey "+
 			""+ 
