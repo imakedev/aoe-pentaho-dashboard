@@ -2,7 +2,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.js"></script>
 
-	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart-html5beta-min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart_op/zingchart-html5-patterns-min.js"></script>
+	<!--<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart-html5beta-min.js"></script>
+	-->
 	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/license.js"></script>
 
 	<link type="text/css" href="<%=request.getContextPath()%>/chartLib/css/jquery-ui.css" rel="stylesheet"/>	
@@ -200,7 +202,7 @@
 				 zingchart.exec('gGroup', 'destroy');
     			zingchart.render({
     				id : 'gGroup', 
-    				 width : 1000,
+    				 width : 1280,
     				height : 330,
     				data : barGroup
     			});
@@ -254,8 +256,8 @@ function callPopup2(){
 		    					"thousands-separator":",",
 								"tooltip-text":"%k:%v",
 								//"thousands-separator":",",
-								"bars-space-left":"30%",
-								"bars-space-right":"30%"
+								"bars-space-left":"20%",
+								"bars-space-right":"20%"
 							},
 							"scale-x":{
 								"values":["cate1","cate2","cate3","cate4","cate5","cate6","cate7","cate8","cate9","cate10"],
@@ -264,10 +266,12 @@ function callPopup2(){
 									"alpha": 1
 								},
 								"tick":{
-									"line-width": 3
+									"line-width": 1
 								},
 								"item":{
-									"font-color":"#000000"
+									"font-color":"#000000",
+									"font-angle":50,
+									"offset-x":0
 								}
 							},
 							"scale-y":{
@@ -280,7 +284,7 @@ function callPopup2(){
 									"alpha": 1
 								},
 								"tick":{
-									"line-width": 3
+									"line-width": 1
 								},
 								"item":{
 									"font-color":"#000000"
@@ -288,7 +292,8 @@ function callPopup2(){
 							},
 							"series" : [ {
 		                      "values" : [11,26,7,44,11,28,42,26,13,32],
-							 "background-color":"yellow", 
+							 "background-color":"#eeee00", 
+							 "line-width":1,
 							
 		                   }]
 						}
@@ -315,10 +320,10 @@ function callPopup2(){
 					
 					var subStringGroupName = new Array();
 					var subStringGroupNameV="";
-					if(data_ajax[i].groupName.length > 24){
+					if(data_ajax[i].groupName.length > 18){
 						
-						subStringGroupName[0] = data_ajax[i].groupName.substring(0,24);
-						subStringGroupName[1] = data_ajax[i].groupName.substring(24,data_ajax[i].groupName.length);
+						subStringGroupName[0] = data_ajax[i].groupName.substring(0,18);
+						subStringGroupName[1] = data_ajax[i].groupName.substring(18,data_ajax[i].groupName.length);
 
 						//alert("subStringGroupName[0]"+subStringGroupName[0]);
 						//alert("subStringGroupName[1]"+subStringGroupName[1]);
@@ -383,7 +388,8 @@ function callPopup2(){
 						//"values" : values_list,
 						//"values" : ["1000","1200","1000","1200","1100","1030","1300","1600","1400","1200"],
 						"values" : obj_cate_values,
-						"background-color":"yellow", 
+						"background-color":"blue", 
+						//"background-color":"#eeee00", 
 						//"background-color":"#"+color, 
 						
 						//"text" :  ["cate1","cate2","cate3","cate4","cate5","cate6","cate7","cate8","cate9","cate10"],
@@ -424,12 +430,14 @@ function callPopup2(){
 
 		if(data_ajax!=null && data_ajax.length>0){
 			zingchart.exec('gGroup', 'destroy');
-			zingchart.render({
+			
+	    	zingchart.render({
 				id : 'gGroup', 
-				 width : 1400,
+				 width : 1280,
 				height : 330,
 				data : barGroup
-			});
+	    	});
+				
 		}else{
 			$("#display_group").html(" No Data ");
 		}
@@ -453,7 +461,7 @@ function callPopup2(){
 
 <body>
 
-<table width="1450" height="300" border="1" align="center" style="text-decoration:none;">
+<table width="1320" height="300" border="1" align="center" style="text-decoration:none;">
     <tr>
         <th align="center" colspan="2"  height="30" >
         <div id="label_group"></div>
