@@ -7,8 +7,11 @@
 	<title>Finance Dashboard Page</title>
 
 	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery.js"></script>
-
+	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart-html5beta-min.js"></script>
+	<!--
+	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart-html5-min.js"></script>
+	-->
 	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/license.js"></script>
 
 	<link type="text/css" href="<%=request.getContextPath()%>/chartLib/css/jquery-ui.css" rel="stylesheet"/>	
@@ -40,11 +43,29 @@
 	var monthNameG=["January","February","March","April","May","June","July","August","September","October","November","December"];
 	var shortmonthNameG=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 	var tabsG=["Restaurant","Bakery","Specialty","Trading","Caterman","Other"];
-	var gTypeG=["ยอดขาย","กำไรขั้นต้น","กำไรจากการดำเนินการ","กำไรสุทธิ"];
+	var gTypeG=["ยอดขาย","กำไรขั้นต้น","กำไรจากการดำเนินการ","EBITDA"];
+	var gTypeG2=["ยอดขาย","กำไรขั้นต้น","กำไรจากการดำเนินการ","กำไรสุทธิ"];
 	var loadedG=[];
 	//var gTypeValueG=["ยอดขาย","กำไรขั้นต้น","กำไรจากการดำเนินการ","กำไรสุทธิ"];
 	var gTypeIdG=["gSales","gProfit_1","gProfit_2","gProfit_3"];
 	jQuery(document).ready(function($) {
+		/*
+		function removeLicene(){
+		$("#g2-map").next().remove();
+		setTimeout(function(){
+			removeLicene();
+		},0);
+		
+		}
+		setTimeout(function(){
+			removeLicene();
+		},5000);
+		*/
+			/*START JQUERY MANAGE EBITDA*/
+			//alert("jquery");
+			//alert($("#tabs-t1r3_1").length);
+			/*END JQUERY MANAGE EBITDA*/
+
 			// Tabs
 			$("#tabs-ratio").tabs();
 			$("#tabs-table2").tabs();
@@ -57,6 +78,7 @@
 			 initChart();
 			 zingchart.node_click = function(node){
 			   // alert("xx="+xx)
+			  
 				var text_node=node["text"];
 				var text_arr=text_node.split(": ");
 				if(text_arr[1]!='0'){
@@ -97,6 +119,8 @@
 		});
 		function loadmetergraph(ivalue ,iFrameID)
 		{
+			 //alert("jquery");
+			 
 			var objFrame=document.getElementById(iFrameID);
 			objFrame.src=  ivalue;
 		}
@@ -112,6 +136,7 @@
 		return haveIndex;
 	}
 	function renderBarOfChart(tabType){
+		
 		  // alert("tabType="+tabType)  
 		   $("#back_bt").css("display","none");
 		   $("#sales_growth").html("%Sales Growth");
@@ -214,7 +239,7 @@
  						]
  					}; 
  						
- 						var  lastPeriodActual=0;
+ 						var lastPeriodActual=0;
  						var thisActual=parseFloat(data[0].thisActual.replace(/,/g,""));
  						var lastActual=parseFloat(data[0].lastActual.replace(/,/g,""));
  						var twoLastActual=parseFloat(data[0].twoLastActual.replace(/,/g,""));
@@ -314,6 +339,7 @@
 	      
      } 
 	 function initBarChart(){
+		 
 		 var bar03_init = 
 			{
 			"graphset" : [
@@ -366,6 +392,10 @@
 	 }
      function render_financialIndication(year,month,sumby,company){  
  		
+
+		
+		
+
  		 var str="<table id=table-data1 width=220px>"+
  		        "     <tr><th class=\"ui-state-default ui-corner-top ui-tabs-selected ui-state-active\" style=\"height:35px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Financial Indicator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</th></tr>"+
  		        "</table>"+		         
@@ -382,7 +412,9 @@
  		if(true){
  		BalanceScorecardAjax.getFinancialIndication(year,month,company,{
  				callback:function(data){
- 					//alert(data)
+ 					
+			
+			
  					if(data!=null && data.length>0){
  						for(var i=0;i<data.length;i++){
  							str=str+"<tr><th colspan=3>"+data[i].ratioGroupName+"</th></tr>";
@@ -410,6 +442,7 @@
  					}
  					str=str+"</table>"; 
  					$('#fnancial_indicator_Display').html(str);
+					
  					//$("#tabs").tabs();
  					$("#tabs-ratio").tabs();
  					//$("#tabs-ratio1").tabs();
@@ -419,6 +452,7 @@
  	}
      function render_zingchart(id,data,width,height){ 
  		//alert("id="+id)
+		zingchart.exec(id, 'destroy');
  		zingchart.render({
  			id : id,
  			//output	: 'svg',
@@ -426,6 +460,12 @@
  			height 	: height,
  			data : data
  		});
+		
+		
+		//alert($("#gProfit_3-graph-id0-scale-x-item-0-t").length);
+		//$("#gProfit_3-graph-id0-scale-x-item-0-t").html("EBITDA");
+		//alert($("#gProfit_3").length);
+		//alert($("#g2").length);	
  		  
  	}
      function listYears(){
@@ -472,9 +512,9 @@
  		if(!(sumby=='6' || sumby=='7')){
  			loadedG=[0];
  			 render_financialIndication(year,month,sumby,'00100'); //for test
-     	   for(var i=0;i<gTypeG.length;i++){
+     	   for(var i=0;i<gTypeG2.length;i++){
      		  // alert(gTypeIdG[i])
-     		   render_gtype_data(year,month,gTypeIdG[i],gTypeG[i],i,sumby,null);
+     		   render_gtype_data(year,month,gTypeIdG[i],gTypeG2[i],i,sumby,null);
  	       }  			
  			 render_mix_data("g2",year,month,sumby,null); 
  			 render_pile(year,month,sumby);
@@ -505,7 +545,7 @@
      	  return !isNaN(parseInt(value)) ? value * 1 : NaN;
      	}
      function render_pile(year,month,sumby){
-     	
+     	var pie_data="" ;
      	 $("#g3").html("<img src=\""+_path+"/Dashboard/images/loading.gif\"/>");
      	BalanceScorecardAjax.getPile(year,month,sumby,{
      		   // (ค่า Period ปัจจุบัน – ค่า Period ก่อนหน้า)/ค่า Period ก่อนหน้า)*100
@@ -515,7 +555,7 @@
 สูตรการคิด PieChartRatio คือ ThisPeriodActual ของแต่ละธุรกิจ/ ThisPeriodActual ของทุกธุรกิจ เช่น ratio ของ restaurant คือ 110/690 */
      		   //((lastActual-twoLastActual)/twoLastActual)*100
 					callback:function(data){
-						var pie_data = 
+						 pie_data = 
 				     	{
 				     	"graphset" : [
 				     	{
@@ -598,9 +638,12 @@
 				     		] 
 				     	}]
 				     }; 
+							
 						if(data!=null && data.length>0){
+						
 							var sum=0;
                          for(var i=0;i<data.length;i++){
+							
                         	 var thisActual=data[i].thisActual.replace(/,/g,"");
                         	/*  alert("data[i].thisActual="+data[i].thisActual)
                          	sum=sum+Number(data[i].thisActual); */
@@ -612,7 +655,9 @@
                       //alert(data.length)
                     //  alert("sum="+sum)
                          for(var i=0;i<data.length;i++){
+							
                          	if(sum!=0){
+							
                          		var thisActual=data[i].thisActual.replace(/,/g,"");
                          	//	pie_data.graphset[0].series[i]["tooltip-text"]= "%t: "+Number(thisActual).toFixed(2);
                          		/* pie_data.graphset[0].series[i]["tooltip-text"]= "%t: "+data[i].thisActual;
@@ -629,22 +674,27 @@
                          	//alert(data[i].thisActual);
                          	//alert(data[i].revenueGroupDesc)
                          	seriesValues.push(seriesValue);
+							
                          	 //  alert((parseFloat(thisActual)/sum)*100)
                          	    //alert((Number(thisActual)/sum).toFixed(2)*100);
                          	}else{
-                         		pie_data.graphset[0].series[i]["tooltip-text"]= "%t: 0";
-                                 pie_data.graphset[0].series[i].values=[0];
-                         	} 
+								/*
+								 pie_data.graphset[0].series[i]["tooltip-text"]= "%t: 0";
+								 pie_data.graphset[0].series[i].values=[0];
+								*/
+                         	}
                          } 
                          pie_data.graphset[0].series=seriesValues;
-                         
+                   
                          $("#g3").html("");
                        render_zingchart("g3",pie_data,420,320);
                        // render_zingchart("g3",pie_data,420,400);
                         // render_zingchart("g3",pie_data,420,300);
 						}else{
 							$("#g3").html("");
+						
 						}
+
 					}
      	 });
     }
@@ -654,7 +704,6 @@
   		BalanceScorecardAjax.getFD1_2_4_percent(year,month,sumby,orgTyp,{
 					callback:function(data){	 
 						if(data!=null && data.length==3){ 
-							
 							var bar02_data = 
 							{
 							"graphset" : [
@@ -709,9 +758,13 @@
 						var percent1=[];
 						var percent2=[];
 						$("#"+id).html(""); 
-		    	  	/* $("#"+id+"_legend").html("<a href=\""+_path+"/Dashboard/FinancePopupPer.jsp?topic=%ต้นทุนและค่าใช้จ่ายเทียบยอดขาย\" rel=\"facebox\">"+
+
+		    	  	/*
+					$("#"+id+"_legend").html("<a href=\""+_path+"/Dashboard/FinancePopupPer.jsp?topic=%ต้นทุนและค่าใช้จ่ายเทียบยอดขาย\" rel=\"facebox\">"+
 		     				"<img src=\""+_path+"//Dashboard/images/Popup.jpg\" border=\"0\"/> <font color=\"blue\" size=\"1\">Drill Down</font>"+
-  			    "</a>"); */
+  					"</a>"); 
+					*/
+
   			    var tabParam=orgTyp!=null?("&tab="+orgTyp):"";
   			  
   			    $("#"+id+"_legend").html("<a onclick=showPopup(\""+_path+"/Dashboard/FinancePopupPer_new.jsp?y="+year+"&m="+month+"&sb="+sumby+tabParam+"\") rel=\"facebox\">"+
@@ -786,8 +839,14 @@
 				var ThisAct = [];// sumThisYearActualMonthly "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40,3979020.08,4399473.14,4967272.82";
 				var Target =[];// sumThisYearBudgetMONTHLY  "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29,3571298.86,3955662.91,4354784.30,4953878.04";
 				BalanceScorecardAjax.getFD1_2_4(year,month,graphIndex,sumby,orgType,{
-					callback:function(data){	 
+					callback:function(data){
+						
+						// alert($("#gProfit_3-main").length);
+						console.log(data);
 						if(data!=null && data.length>0){
+
+							//alert("jquery");
+
 							var mix_data = {
 				    				"graphset" : [
 				    				{
@@ -796,30 +855,25 @@
 				    					"chart":{
 				    						"margin":"25 25 35 50"
 				    					},
+
 				    					"labels" : [
 				    						{
-				    							"text" : "-2.31%",
+				    							//"text" : "2.31%",
+													//"text" : "-2.31%",
 				    							"hook" : "node:plot=1,index=0",
-				    							"background-color":"red",
-				    							"color": "white",
-				    							"border-width":5, 
+				    							//"background-color":"red",
+				    							"color": "black",
+				    							"border-width":1, 
 				    							"border-color":"red",
-				    							"bold": true
+				    							//"bold": true,
+												
 				    						},
-				    						{
-				    							"text" : "12.79%",
-				    							"hook" : "node:plot=2,index=0",
-				    							"background-color":"blue",
-				    							"color": "white",
-				    							"border-width":5, 
-				    							"border-color":"blue",
-				    							"bold": true
-				    						},
+				    						
 				    						{
 				    							"text" : "ล้าน (บาท)",
 				    							"bold":true,
 				    							"x": "15",
-				    							"y": "0"
+				    							"y": "20"
 				    						}
 				    					],
 				    					"plot":{
@@ -877,7 +931,9 @@
 				    							"values" : [],//["400"],
 				    							"text": "Budget",
 				    							"background-color":"#696969"
+												
 				    						}
+											
 				    					]
 				    				}
 				    			]
@@ -932,7 +988,7 @@
 		 $.facebox.settings.closeImage=_path+'/chartLib/images/closelabel.png';
 		 jQuery.facebox({ ajax: div});
      }
-       
+     
 	</script>
 	<style type="text/css">
 		body{ font: 55% "Trebuchet MS", sans-serif; margin: 50px;}
@@ -950,6 +1006,7 @@
 </head>
 
 <body bgcolor="#FFFFFF">
+
 <!-- Parameter -->
 	<!--          Drop Down List YEAR              -->
 	<span id="financeYearElement" style="position:absolute; left:15px; top:10px;">
@@ -1298,6 +1355,7 @@
 		<td valign="middle" align="center"  style="width: 190px"> 
 	            <div id="gSales_Other"></div>
 	 	        <div id="gSales_Other_legend"></div> 
+				
 		</td>
 		<td valign="middle"  style="width: 570px"><table><tr>
 			<td align="center"  style="width: 190px">  
@@ -1333,4 +1391,3 @@
 </div>
 </body>
 </html>
-
