@@ -7,8 +7,11 @@
 	<title>Finance Dashboard Page</title>
 
 	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/jquery-1.7.1.min.js"></script>
-
+	<!--
+	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart-html5-min.js"></script>
+	-->
 	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/zingchart-html5beta-min.js"></script>
+	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/chartLib/js/license.js"></script>
 
 	<link type="text/css" href="<%=request.getContextPath()%>/chartLib/css/jquery-ui.css" rel="stylesheet"/>	
@@ -222,9 +225,11 @@
 											"font-color":"#000000"
 										}
 									},
+										
 									"guide":{
 										"shared":true
 									},
+									
 									"tooltip":{
 										"visible": false
 									},
@@ -232,7 +237,8 @@
 										"format":"%v",
 										"decimals":2,
 										"decimals-separator":".",
-										"thousands-separator":","
+										"thousands-separator":",",
+										
 									},
 									"scale-x":{
 										"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], 
@@ -303,7 +309,8 @@
 											"scales":"scale-x,scale-y-2",
 											"stacked":0,
 											"line-color": "#E46C0A",
-											"aspect" : "spline",
+											"aspect" : "",
+											//"aspect" : "spline",
 											"marker":{
 												"visible":false
 											}
@@ -315,7 +322,7 @@
 											"scales":"scale-x,scale-y-2",
 											"line-color": "#4F81BD",
 											"stacked":0,
-											"aspect" : "spline",
+											"aspect" : "",
 											"marker":{
 												"visible":false
 											}
@@ -327,8 +334,10 @@
 							var sumTarget=0;
 							var sumperVariance=0;
 							var sumperperGrowth=0;
+							
 							for(var i=0;i<data.length;i++){
 								if(sumby=='6'){
+								//YTD
 								   if(data[i].sumLastYearActualMONTHLY!=null && data[i].sumLastYearActualMONTHLY.length>0)
 										sumLastAct=sumLastAct+Number(data[i].sumLastYearActualMONTHLY);
 								   if(data[i].sumThisYearActualMonthly!=null && data[i].sumThisYearActualMonthly.length>0)
@@ -525,7 +534,7 @@
 										"scales":"scale-x,scale-y-2",
 										"stacked":0,
 										"line-color": "#E46C0A",
-										"aspect" : "spline",
+										"aspect" : "",
 										"marker":{
 											"visible":false
 										}
@@ -537,7 +546,7 @@
 										"scales":"scale-x,scale-y-2",
 										"line-color": "#4F81BD",
 										"stacked":0,
-										"aspect" : "spline",
+										"aspect" : "",
 										"marker":{
 											"visible":false
 										}
@@ -655,6 +664,7 @@
 			});
 	}
 	function render_zingchart(id,data){
+		zingchart.exec(id, 'destroy');
 		zingchart.render({
 			id : id,
 			width 	: 850,
@@ -714,151 +724,22 @@
 		#tabs-ratio1 { position:absolute; left:3px; top:45px; }
 	</style>	
 	<script type="text/javascript">
-	var LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22,3138353.13,3527905.41,3889966.29,4397887.58";
-	ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40,3979020.08,4399473.14,4967272.82";
-	TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29,3571298.86,3955662.91,4354784.30,4953878.04";
-	perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43,0.24,-0.60,-1.95,0.30,5.65,10.99,5.77";
-	perGrowthV1 = "12.79,30.48,41.68,48.14,58.97,73.68,86.36,105.75,123.33,127.28,143.40,155.19";
-	var chart01 = 
-	{
-	"graphset":[
-		{
-			"type":"mixed", 
-			"background-color":"#FFFFFF",
-			"stacked":"1",
-			"chart":{
-				"margin":"30 60 30 80"
-			},
-			"labels" : [
-				{
-					"text":"พันบาท",
-					"bold":true,
-					"font-size":12,
-					"x": "60",
-					"y": "0"
-				}
-			],
-			"legend":{
-				"background-color": "#FFFFFF",
-				"border-width": "2px",
-				"border-color": "#4C77B6",
-				"margin":"70 0 0 885",
-				"layout":"x1",
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			"guide":{
-				"shared":true
-			},
-			"tooltip":{
-				"visible": false
-			},
-			"scale-x":{
-				"values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-			//	"values":["Jan","Feb"],
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				},
-				"item":{
-					"font-color":"#000000"
-				}
-			},
-			//"max-labels": 2,
-			"scale-y":{
-				"format":"%v",
-				"decimals":0,
-				"decimals-separator":".",
-				"thousands-separator":",",
-				"guide":{
-					"line-width": 1,
-					"alpha": 1
-				},
-				"tick":{
-					"line-width": 3
-				}
-			},
-			"scale-y-2":{
-				"format" : "%v%",
-				"guide":{
-					"line-width": 0,
-					"alpha": 0
-				},
-				"tick":{
-					"line-width": 3
-				}
-			}, 
-			"series":[
-				{
-					"type":"bar",
-				//	"values":[349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22,3138353.13,3527905.41,3889966.29,4397887.58],
-					"values":[349290.69,638730.14],
-					"text":"ActualYTD 09",
-					"background-color":"#66CC00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-				//	"values":[393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40,3979020.08,4399473.14,4967272.82],
-					"values":[393970.68,734613.19],
-					"text":"ActualYTD 10",
-					"background-color":"#EEEE00",
-					"stacked":0
-				},
-				{
-					"type":"bar",
-				//	"values":[403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29,3571298.86,3955662.91,4354784.30,4953878.04],
-					"values":[403274.18,747775.45],
-					"text":"Budget",
-					"background-color":"#696969",
-					"stacked":0
-				},
-				{
-					"type":"line",
-				//	"values":[-2.31,-3.43,-0.43,-0.98,-1.43,0.24,-0.60,-1.95,0.30,5.65,10.99,5.77],
-					"values":[-2.31,-3.43],
-					"text":"%Variance YTD",
-					"scales":"scale-x,scale-y-2",
-					"stacked":0,
-					"line-color": "#E46C0A",
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				},
-				{
-					"type":"line",
-				//	"values":[12.79,30.48,41.68,48.14,58.97,73.68,86.36,105.75,123.33,127.28,143.40,155.19],
-					"values":[12.79,30.48],
-					"text":"%GrowthYTD",
-					"scales":"scale-x,scale-y-2",
-					"line-color": "#4F81BD",
-					"stacked":0,
-					"aspect" : "spline",
-					"marker":{
-						"visible":false
-					}
-				}]			
-			}]
-		};
-		
+	//var LastActV1 = "349290.69,638730.14,973470.87,1298524.74,1618353.90,1947549.44,2308829.78,2677581.22,3138353.13,3527905.41,3889966.29,4397887.58";
+	//ThisActV1 = "393970.68,734613.19,1106822.22,1452892.23,1807346.37,2184968.55,2592061.53,3032309.54,3574088.40,3979020.08,4399473.14,4967272.82";
+	//TargetV1 = "403274.18,747775.45,1109148.72,1457124.09,1813205.54,2184607.28,2595162.58,3041428.29,3571298.86,3955662.91,4354784.30,4953878.04";
+	//perVarianceV1 = "-2.31,-3.43,-0.43,-0.98,-1.43,0.24,-0.60,-1.95,0.30,5.65,10.99,5.77";
+	//perGrowthV1 = "12.79,30.48,41.68,48.14,58.97,73.68,86.36,105.75,123.33,127.28,143.40,155.19";
 	</script>
-    
 </head>
-
 <body bgcolor="#FFFFFF">
 <!-- Parameter -->
-	<!--          Drop Down List YEAR              -->
+	<!--  Drop Down List YEAR  -->
 	<span id="financeYearElement" style="position:absolute; left:15px; top:10px;">
 	</span> 
-	<!--          Drop Down List MONTH              -->
+	<!--   Drop Down List MONTH  -->
 	<span id="financeMonthElement" style="position:absolute; left:125px; top:10px;">
 	</span>
-	<!--          Drop Down List             -->
+	<!--  Drop Down List  -->
 	<span style="position:absolute; left:300px; top:10px;"><font size="3"> สรุปตาม: </font>
 		<select name="SumBy" id="SumBy">
 			<option value="6">YTD</option>
