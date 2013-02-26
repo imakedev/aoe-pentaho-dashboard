@@ -141,6 +141,8 @@
 							var group2_subCategory="";
 							if(size_group2>i)
 								group2_subCategory=group2[i].subCategory;
+							if(size_group1>i)
+								group2_subCategory=group1[i].subCategory;
 							var values={
 									"type":"bar",
 									//"values":[group2[i].percentLastPeriodActual,group1[i].percentActual,group1[i].percentBudget],
