@@ -64,7 +64,7 @@
     		callback:function(data_ajax){
     			var seriesList=[];
     			var labelsList=[];
-    			var offset=110;
+    			var offset=130;
     			if(data_ajax!=null && data_ajax.length>0){
     				var barGroup = {
     						"graphset" : [
@@ -85,7 +85,7 @@
     								"width": 900 */
     								 "x": 50,
     								 "y": 240,
-    									"width": 900
+    									"width": 1000
     							},
     							"labels" : [],
     							"plot":{
@@ -167,7 +167,7 @@
     						"border-color":"blue",
     						"bold": true
     					}
-    					offset=offset+130;
+    					offset=offset+170;
     					labelsList.push(label_value);  
     				} 
     				barGroup.graphset[0].series=seriesList;
@@ -203,7 +203,7 @@
     			zingchart.render({
     				id : 'gGroup', 
     				 width : 1280,
-    				height : 330,
+    				height : 430,
     				data : barGroup
     			});
     		}
