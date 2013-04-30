@@ -496,7 +496,7 @@ do2.RevenueGroupDesc = 'Other'
 			q2 = " map2.AccountGroup    in ('SS', 'DS', 'CS', 'ES') and ";*/
 			q1=" fcs1.ItemID = 9 and ";
 			q2=" fcs2.ItemID = 9 and ";
-		} else if (graphType.equals("3")) {
+		} else if (graphType.equals("3") && orgType!=null) {
 			//Test g
 			/*q1 = "   ";
 			q2 = "  ";*/
@@ -504,6 +504,8 @@ do2.RevenueGroupDesc = 'Other'
 			q2=" fcs2.ItemID = 18 and ";*/
 			q1=" fcs1.ItemID = 15 and ";
 			q2=" fcs2.ItemID = 15 and ";
+			/* q1=" fcs1.ItemID = 17 and ";
+			q2=" fcs2.ItemID = 17 and "; */
 		} 
 		// query sumType
 	 
